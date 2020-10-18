@@ -97,7 +97,7 @@ library(lmtest)
 
 On constate que les deux paquets donnent des résultats identiques
 
-## Le paquet `estimatr`
+### Le paquet `estimatr`
 Le paquet `estimatr`, plus récent, permet d'estimer directement des modèles corrigés (sans avoir à estimer le modèle non corrigé au préalable). Il faut utiliser la commande `lm_robust()` avec l'option `se_type="HC1"` : 
 ```{r}
 library(estimatr)
