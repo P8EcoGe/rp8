@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-10-18" />
+<meta name="date" content="2020-10-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -229,7 +229,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="détection-de-lhétéroscédasticité" class="section level2">
 <h2><span class="header-section-number">6.2</span> Détection de l’hétéroscédasticité</h2>
-<p>On détecte la présence d’hétéroscédasticité à l’aide d’analyse graphique d’uen part, et de tests statistiques d’autre part.</p>
+<p>On détecte la présence d’hétéroscédasticité à l’aide d’analyse graphique d’une part, et de tests statistiques d’autre part.</p>
 <p>Commençons par charger des données, et faire une régression dont on analysera les résultats. La base de données “TableF9-2.csv” contient 100 observations sur la dépense en logement (avgexp), l’age, la statut d’occupation (ownrent) et le revenu (income) et son carré (income2). On va régresser la dépense en logement sur ces variables, et étudier la présence d’hétéroscédasticité</p>
 <div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb384-1" title="1"><span class="kw">library</span>(readr)</a>
 <a class="sourceLine" id="cb384-2" title="2">ma_base &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/ATerracol/P8Econ/master/data/TableF9-2.csv&quot;</span>)</a>

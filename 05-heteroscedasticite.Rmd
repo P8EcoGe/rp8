@@ -8,7 +8,7 @@ L'hétéroscédasticité est la violation de l'hypothèse d'homoscédasticité. 
 
 ## Détection de l'hétéroscédasticité
 
-On détecte la présence d'hétéroscédasticité à l'aide d'analyse graphique d'uen part, et de tests statistiques d'autre part.
+On détecte la présence d'hétéroscédasticité à l'aide d'analyse graphique d'une part, et de tests statistiques d'autre part.
 
 Commençons par charger des données, et faire une régression dont on analysera les résultats. La base de données "TableF9-2.csv" contient 100 observations sur la dépense en logement (avgexp), l'age, la statut d'occupation (ownrent) et le revenu (income) et son carré (income2). On va régresser la dépense en logement sur ces variables, et étudier la présence d'hétéroscédasticité   
 
