@@ -1,0 +1,350 @@
+# Travailler avec les données  {#sum}
+
+
+Dans ce chapitre, nous allons d'abord apprendre quelques concepts de base qui aident à résumer les données.
+
+## Statistiques descriptives
+
+`R` a intégré des fonctions pour un grand nombre de statistiques descriptives. Pour les variables numériques, nous pouvons résumer les données en examinant leur tendance centrale et leur étendue, par exemple, en utilisant les données de la base `mpg` déjà chargée dans `R`.
+
+```{r}
+# on chage le paquet ggplot2 qui contient la base de donnée "mpg".
+# On l'utilise pour certains graphiques:
+library(ggplot2)
+```
+
+### Tendance centrale {-}
+
+Supposons que nous voulions connaître la *moyenne* et la *médiane* de toutes les valeurs stockées dans la colonne `mpg$cty` du `data.frame` :
+
+
+| Mesure | `R`               | Résultat              |
+|:---------:|:-------------------:|:---------------------:|
+| Moyenne    | `mean(mpg$cty)`   | `r mean(mpg$cty)`   |
+| Médiane  | `median(mpg$cty)` | `r median(mpg$cty)` |
+
+### Étendue {-}
+
+Quelle est la variabilité des valeurs de cette colonne, quelle est son étendue ?
+
+| Mesure            | `R`              | Résultat             |
+|:---------:|:-------------------:|:---------------------:|
+| Variance           | `var(mpg$cty)`   | `r var(mpg$cty)`   |
+| Écart type | `sd(mpg$cty)`    | `r sd(mpg$cty)`    |
+| Écart inter quartile                | `IQR(mpg$cty)`   | `r IQR(mpg$cty)`   |
+| Minimum            | `min(mpg$cty)`   | `r min(mpg$cty)`   |
+| Maximum            | `max(mpg$cty)`   | `r max(mpg$cty)`   |
+| Étendue              | `range(mpg$cty)` | `r range(mpg$cty)` |
+
+### Variable catégorielles {-}
+
+Pour les variables catégorielles, les comptages et les pourcentages peuvent être utilisés pour la statistique descriptive.
+```{r}
+table(mpg$drv)
+table(mpg$drv) / nrow(mpg)
+```
+
+## Graphiques
+
+Maintenant que nous avons des données sur lesquelles travailler et que nous avons appris à les connaître, nos prochaines tâches seront de les visualiser. Souvent, une visualisation correcte peut mettre en évidence des caractéristiques des données qui peuvent servir à une analyse plus approfondie.
+
+Nous allons examiner quatre méthodes de visualisation des données en utilisant les fonctions de base de `plot` intégrées à  `R` :
+
+- Histogrammes
+- Diagramme en bâtons (*Barplots*)
+- Boîtes à moustaches (*Boxplots*)
+- Nuages de points (*scatterplots*)
+
+### Histograms
+
+Pour visualiser une seule variable numérique, un **histogramme** est utile. Il résume la *distribution* des valeurs dans un tableau. Dans `R` vous en créez un en utilisant la fonction `hist()` :
+
+```{r}
+hist(mpg$cty) # histogramme de la consommation en ville
+```
+
+La fonction `hist()` comporte un certain nombre de paramètres qui peuvent être modifiés pour rendre notre graphe beaucoup plus agréable. Utilisez l'opérateur `?` pour lire la documentation de la fonction `hist()` et voir la liste complète de ces paramètres.
+
+```{r}
+hist(mpg$cty,
+     xlab   = "Miles Par Gallon (en ville)",
+     main   = "Histogramme de MPG (City)", # un titre
+     breaks = 12,   # combien de morceaux ?
+     col    = "red",
+     border = "blue")
+```
+
+Il est important de toujours veiller à nommer vos axes et à donner un titre au graphique. L'argument `break` est spécifique à `hist()`. La saisie d'un entier donnera une suggestion à `R` sur le nombre de barres à utiliser pour l'histogramme. Par défaut, `R` essaiera de deviner intelligemment un bon nombre de `break`, mais comme nous pouvons le voir ici, il est parfois utile de modifier cela vous-même.
+
+### Diagrammes en bâtons
+
+Un peu comme un histogramme, un diagramme en bâtons peut fournir un résumé visuel d'une variable catégorielle, ou d'une variable numérique avec un nombre fini de valeurs, comme un classement de 1 à 10.
+
+```{r}
+barplot(table(mpg$drv)) # drv indique le type de traction (avant, arrière, 4x4)
+```
+
+```{r}
+barplot(table(mpg$drv),
+        xlab   = "Traction (f = Avant, r = Arrière, 4 = 4x4)",
+        ylab   = "Fréquence",
+        main   = "Type de traction",
+        col    = "dodgerblue",
+        border = "darkorange")
+```
+
+### Boîtes à moustaches
+
+Pour visualiser la relation entre une variable numérique et une variable catégorielle, on pourrait utiliser une **boîte à moustaches** (*boxplot*). Dans la base de données `mpg`, la variable `drv` prend un petit nombre fini de valeurs. Une voiture ne peut être qu'à traction avant, à 4 roues motrices ou à traction arrière.
+
+```{r}
+unique(mpg$drv)
+```
+
+Notez tout d'abord que nous pouvons utiliser une boîte à moustaches unique comme alternative à un histogramme pour visualiser une seule variable numérique. Pour ce faire, dans `R`, nous utilisons la fonction `boxplot()`. La boîte montre l' *l'écart interquartile*, la ligne continue au milieu est la valeur de la médiane, les moustaches indiquent 1,5 fois l'écart interquartile, et les points sont des valeurs aberrantes.
+
+```{r}
+boxplot(mpg$hwy)
+```
+
+Cependant, nous utiliserons plus souvent des boîtes à moustache pour comparer une variable numérique pour différentes valeurs d'une variable catégorielle.
+
+```{r}
+boxplot(hwy ~ drv, data = mpg)
+```
+
+Ici, on a utilisé la commande `boxplot()` pour créer des boîtes à moustache côte à côte. Cependant, comme nous avons maintenant affaire à deux variables, la syntaxe a changé. La syntaxe `R` `hwy ~ drv, data = mpg` est la suivante : "Tracez la variable `hwy` contre la variable `drv` en utilisant le jeu de données `mpg`." Nous voyons l'utilisation d'un argument `~` (qui spécifie une formule) et aussi d'un argument `data = `. Il s'agit d'une syntaxe commune à de nombreuses fonctions que nous utiliserons régulièrement. 
+
+```{r}
+boxplot(hwy ~ drv, data = mpg,
+     xlab   = "Traction (f = FWD, r = RWD, 4 = 4WD)",
+     ylab   = "Miles Par Gallon (Autoroute)",
+     main   = "MPG (Highway) vs Traction",
+     pch    = 20,
+     cex    = 2,
+     col    = "darkorange",
+     border = "dodgerblue")
+```
+
+Encore une fois, `boxplot()` a un certain nombre d'arguments supplémentaires qui ont la capacité de rendre notre graphique plus attrayant visuellement.
+
+
+### Nuages de points
+
+Enfin, pour visualiser la relation entre deux variables numériques, nous utiliserons un **nuage de points**. Cela peut être fait avec la fonction `plot()` et la syntaxe `~` que nous venons d'utiliser avec un `boxplot`. (La fonction `plot()` peut également être utilisée de manière plus générale ; voir la documentation pour plus de détails).
+
+```{r}
+plot(hwy ~ displ, data = mpg)
+```
+
+```{r}
+plot(hwy ~ displ, data = mpg,
+     xlab = "Cylindrée (en litres)",
+     ylab = "Miles Par Gallon (Autoroute)",
+     main = "MPG (Highway) vs Cylindrée",
+     pch  = 20,
+     cex  = 2,
+     col  = "dodgerblue")
+```
+
+### `ggplot` {#ggplot}
+
+Toutes les parcelles ci-dessus auraient également pu être générées en utilisant la fonction `ggplot` du paquet `ggplot2` déjà chargé. Vous avez le choix de la fonction que vous utilisez, mais parfois un graphique est plus facile à construire en base R,, parfois l'inverse.
+
+```{r}
+ggplot(data = mpg,mapping = aes(x=displ,y=hwy)) + geom_point()
+```
+
+Il est impossible de décrire `ggplot` en termes simples, alors vous pouvez consulter [le site web du paquet] (http://ggplot2.tidyverse.org) qui fournit d'excellents conseils. Nous utiliserons de temps en temps ggplot, afin que vous puissiez vous familiariser avec lui. Montrons rapidement comment on peut personnaliser davantage ce premier graphique :
+
+```{r}
+ggplot(data = mpg, mapping = aes(x=displ,y=hwy)) +   # ggplot() crée le graphe de base
+  geom_point(color="blue",size=2) +     # aspect des points
+  scale_y_continuous(name="Miles Par Gallon (Autoroute)") +  # nom de l'axe des y
+  scale_x_continuous(name="Cylindrée (in litres)") + # nom de l'axe des x
+  theme_bw() +    # changement de thème couleur
+  ggtitle("MPG (Autoroute) vs Cylindrée")   # Titre
+```
+
+Les graphiques précédents auraient peu être obtenus via `ggplot` de la façon suivante : 
+
+```{r}
+ggplot(data=mpg,mapping=aes(x=cty)) + # graphe de base
+  geom_histogram(breaks=c(seq(8,36,2))) + # ajout de l'histogramme avec des points de coupure explicites
+  labs(title = "Histogramme de mpg (cty)",  x ="Miles Par Gallon (en ville)" , y="Fréquence") # labels
+
+ggplot(data=mpg,mapping=aes(x=drv)) + # graphe de base
+  geom_bar() + # ajour des bâtons
+  scale_x_discrete("Traction", labels=c("4"="4x4","f"="avant","r"="arrière")) + # lables des x
+  labs(y="Fréquence", title="Type de traction") # autres labels
+
+ggplot(data=mpg,mapping=aes(x=drv,y=hwy)) + # graphe de base
+  geom_boxplot() + # ajout des boîtes à moustache
+  scale_x_discrete("Traction", labels=c("4"="4x4","f"="avant","r"="arrière")) + # labels de x 
+  labs(y="Consommation (mpg, autoroute",title="MPG (Highway) vs Traction") # autres labels
+
+```
+
+## Statistiques bivariées {#summarize-two}
+
+Nous nous intéressons souvent à la façon dont deux variables sont liées l'une à l'autre. Les concepts fondamentaux sont ici la *covariance* et la *corrélation*. Générons des données sur "x" et "y" et traçons les relations entre ces deux variables :
+
+```{r x-y-corr,echo=FALSE,message=FALSE,warning=FALSE,fig.cap='Quelle est la relation entre $x$ et $y$ ?',fig.align='center'}
+library(mvtnorm)
+set.seed(10)
+cor = 0.9
+sig = matrix(c(1,cor,cor,1),c(2,2))
+ndat = data.frame(rmvnorm(n=300,sigma = sig))
+x = ndat$X1
+y = ndat$X2
+par(pty="s")
+plot(x ~ y, xlab="x",ylab="y")
+```
+
+En prenant comme exemple les données de ce graphique, les concepts de *covariance* et de *corrélation* se rapportent au type de question suivante :
+
+```{block}
+Étant donné que nous observons une valeur de $x=2$, disons, pouvons-nous nous attendre à une valeur élevée ou faible de $y$, en moyenne ? Quelque chose comme $y=2$ ou plutôt quelque chose comme $y=-2$ ?
+```
+<br>
+La réponse à ce type de question peut être apportée en calculant la covariance des deux variables :
+
+```{r}
+cov(x,y)  
+```
+
+Ici, cela donne un nombre positif, `r round(cov(x,y),2)`, indiquant que, lorsqu'une variable se situe au-dessus de sa moyenne, l'autre l'est aussi. En d'autres termes, cela indique une relation **positive**. Ce qui est moins clair, cependant, c'est la façon d'interpréter la valeur de `r round(cov(x,y),2)`. S'agit-il d'une association positive *forte* ou *faible* ?
+
+En fait, nous ne pouvons pas le dire. Cela s'explique par le fait que la covariance est mesurée dans les mêmes unités que les données, et que ces unités diffèrent souvent entre les deux variables. Il existe cependant une meilleure mesure à notre disposition, la **corrélation**, qui est obtenue en *standardisant* chaque variable. En *standardisant* une variable $x$ on veut dire diviser $x$ par son écart-type $\sigma_x$ :
+$$
+z = \frac{x}{\sigma_x}
+$$
+
+Le *coefficient de corrélation* entre $x$ et $y$, communément appelé $r_{x,y}$, est alors défini comme
+
+$$
+r_{x,y} = \frac{cov(x,y)}{\sigma_x \sigma_y},
+$$
+
+et nous nous débarrassons du problème des unités. En `R`, vous pouvez taper
+
+```{r}
+cor(x,y)
+```
+
+Maintenant, c'est mieux. Étant donné que la corrélation doit se situer dans $[-1,1]$, une valeur de `r round(cor(x,y),2)` est indicative d'une relation positive assez forte pour les données de la figure \@ref(fig:x-y-corr)
+
+Notez que le fait que $x,y$ soient tirés d'une *distribution continue* (ils sont distribués selon une loi normale bivariée) n'a aucune implication sur la covariance et la corrélation : Nous pouvons également calculer ces mesures pour des variables aléatoires discrètes.
+
+
+
+
+## Le `tidyverse`
+
+[Hadley Wickham](http://hadley.nz) est l'auteur des paquets R `ggplot2` et aussi de `dplyr` (et aussi d'une myriade d'autres). Avec `ggplot2`, il a introduit ce que l'on appelle la *grammaire des graphiques* (d'où `gg`) dans `R`. Une grammaire dans le sens où il y a des **noms** et des **verbes** et une **syntaxe**, c'est-à-dire des règles sur la façon dont les noms et les verbes doivent être mis ensemble pour construire une phrase compréhensible. Il a étendu l'idée de *grammaire* à divers autres paquets. Le paquet `tidyverse` est une collection de ces paquets. 
+
+Les données `tidy` sont des données où :
+
+* Chaque variable est une colonne
+* Chaque observation est une ligne
+* Chaque valeur est une cellule
+
+On peut dire que c'est une feuille de calcul ordinaire. Et vous avez raison ! Cependant, la plupart du temps, les données nous arrivent *pas* en ordre, et nous devons d'abord les nettoyer, ou les "ranger". Une fois qu'elles sont au format "tidy", nous pouvons utiliser les outils `tidyverse` avec une grande efficacité pour analyser les données et ne plus nous soucier de savoir quel outil utiliser.
+
+### Primers de rstudio.cloud
+
+Le site [rstudio.cloud](https://rstudio.cloud/) propose un ensemble de tutoriels (*primers*) interactifs de grande qualité basés sur le `tidyverse`. Après avoir crée un compte gratuit, rendez-vous sur leur page [Primers](https://rstudio.cloud/learn/primers). Vous y trouverez les tutoriels suivants : 
+
+1. *The Basics* Pour avoir une intuition de la façon dont fonctionnent `R` et les paquets du `tidyverse` 
+1. *Work with data* vous donnera une bonne base de compréhension des `tibbles` (voir ci-dessous), du paquet `dplyr` (très utile, en particulier l'opérateur de *pipe* `%>%`, voir ci-dessous)
+1. *Visualize Data* fera de vous des maîtres du graphique avec `ggplot`
+1. *Tidy Your Data* vous initiera à la manipulation plus avancée de base de donnée
+
+Les tutoriels *Iterate* et *Write functions* seront utiles pour des programmeurs débutants, mais pas forcément nécessaires immédiatement.
+
+Au long de nos enseignements, nous sezront amenés à utiliser des commandes du `tidyverse`, en particulier de `dplyr` et `ggplot2`. Nous vous conseillons fortement de vous familiariser avec ces outils en effectuant les tutoriaux.
+
+### Importer des données `.csv` de façon *tidy* 
+
+Nous aurions pu utiliser la fonction `read_csv()` du paquet `readr` pour lire notre exemple de base de données du chapitre précédent. La fonction `readr` `read_csv()` a un certain nombre d'avantages par rapport à la fonction intégrée `read.csv`. Par exemple, elle est beaucoup plus rapide pour lire des données plus volumineuses. Elle utilise également le paquet `tibble` pour lire les données comme un [tibble.](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html) **Un `tibble` est simplement un `data.frame` qui s'imprime avec une certaine logique.** Remarquez dans la sortie ci-dessous que nous avons des informations supplémentaires telles que la dimension et le type de variable.
+
+
+```{r, message = FALSE, warning = FALSE}
+library(readr)  # vous devez `install.packages("readr")` une seule fois
+example_data_from_disk = read_csv("data/example-data.csv")
+```
+
+
+### Les `data.frames` "tidy" sont des `tibbles`
+
+Importons quelques données du paquet `ggplot2` :
+
+```{r}
+data(mpg,package = "ggplot2")  # on charge les données `mpg` depuis le paquet `ggplot2`
+head(mpg, n = 10)
+```
+
+La fonction `head()` affichera les `n` premières observations de la base de données, comme nous l'avions vu. La fonction `head()` était plus utile avant les tibbles. Remarquez que "mpg" est déjà un tibble, donc la sortie de "head" indique qu'il n'y a que 10 observations. Notez que cela s'applique à `head(mpg, n = 10)` et non à `mpg` lui-même. Notez également que les tibbles impriment un nombre limité de lignes et de colonnes par défaut. La dernière ligne de la sortie imprimée indique que les lignes et les colonnes ont été omises.
+
+
+```{r}
+mpg
+```
+
+Regardons également `str` afin de se familiariser avec le contenu de la base
+
+```{r}
+str(mpg)
+```
+
+Dans cette base de données, une observation porte sur u modèle particulièr d'une voiture une année donnée, et les variables décrivent les attributs de la voiture, par exemple son rendement énergétique sur autoroute.
+
+Pour en savoir plus sur l'ensemble de données, nous utilisons l'opérateur `?` pour extraire la documentation des données.
+```{r, eval = FALSE}
+?mpg
+```
+
+Travailler avec des tibbles est essentiellement la même chose que travailler avec des `data.frames` simples :
+
+```{r}
+names(mpg)
+mpg$year
+mpg$hwy
+```
+
+La sélection de sous-parties de la base est également similaire à la `data.frame`. Ici, nous trouvons des véhicules à faible consommation de carburant qui font plus de 35 miles par gallon et nous n'affichons que le "manufacturer", le "model" et "year".
+
+```{r}
+# mpg[condition ligne, condition colonne]
+mpg[mpg$hwy > 35, c("manufacturer", "model", "year")]
+```
+
+Une alternative serait d'utiliser la fonction `subset()` qui a une syntaxe plus lisible.
+
+```{r, eval = FALSE}
+subset(mpg, subset = hwy > 35, select = c("manufacturer", "model", "year"))
+```
+
+Enfin, et de façon plus *tidy*, nous pourrions utiliser les fonctions `filter` et `select` du paquet `dplyr` qui introduit l'opérateur *pipe* `f(x) %>% g(z)` du paquet `magrittr`. Cet opérateur prend la sortie de la première commande, par exemple `y = f(x)`, et la passe *en tant que premier argument* à la fonction suivante, c'est-à-dire que nous obtiendrions `g(y,z)` ici.^[Un *pipe* est un concept du monde Unix, où il signifie prendre la sortie d'une commande, et la passer à une autre commande. De cette façon, on peut construire une *pipeline* de commandes. Pour plus d'informations sur l'opérateur de pipe dans `R`, vous pourriez être intéressé [par ce tutoriel] (https://www.datacamp.com/community/tutorials/pipe-r-tutorial).
+
+```{r, eval = TRUE,message=FALSE,warning=FALSE}
+library(dplyr)
+mpg %>% 
+  filter(hwy > 35) %>% 
+  select(manufacturer, model, year)
+```
+Notez que la syntaxe ci-dessus est équivalente à la commande suivante sans pipe (qui est beaucoup plus difficile à lire !):
+
+```{r, eval = TRUE,message=FALSE,warning=FALSE}
+library(dplyr)
+select(filter(mpg, hwy > 35), manufacturer, model, year)
+```
+
+Ces trois approches produisent les mêmes résultats. La méthode que vous utiliserez dépendra largement de la situation donnée ainsi que de vos préférences.
+
+#### Exercice 1
+
+1. Assurez-vous que l'ensemble de données `mpg` est chargé en tapant `data(mpg)` (et `library(ggplot2)` si ce n'est pas le cas !) Utilisez la fonction `table` pour savoir combien de voitures ont été construites par *mercury* ? 
+1. Quelle est l'année moyenne de construction des voitures dans cet ensemble de données ? Utilisez la fonction `mean` sur le sous-ensemble de la colonne `year` qui correspond à "audi". (Attention : le sous-ensemble d'un "tibble" renvoie un "tibble" (et non un vecteur) !. donc récupérez la colonne `year` après avoir extrait le sous "tibble"). 
+1. Utilisez la syntaxe de pipe de `dplyr` du dessus d'abord avec `group_by` et ensuite avec `summarise(newvar=votre_expression)` pour trouver la moyenne `year` par tous les fabricants (c'est à dire la même que la tâche précédente, mais pour tous les fabricants. n'écrivez pas une boucle !)
+

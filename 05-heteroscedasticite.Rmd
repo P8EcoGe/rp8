@@ -1,0 +1,133 @@
+# Traitement de l'hétéroscédasticité {#hetero}
+
+## Introduction
+
+Les hypothèses habituelles des MCO supposent que les termes d'erreur $\epsilon_i$ sont homoscédastiques, c'est-à-dire que leur variance est constante, et ne dépend pas des caractéristiques individuelles : $Var(\epsilon_i)=\sigma^2~\forall i$. Elles supposent également que les covariances entre termes d'erreur sont nulles : $Cov(\epsilon_i,\epsilon_j)=0~\forall i\neq j$. Ces deux hypothèses (dites de "sphéricité" des termes d'erreur) assurent que l'estimateur des MCO est de variance minimale parmi les estimateurs linéaires sans biais (MCO est BLUE) ; et permet un mode de calcul simple de la matrice de variance-covariance des $\hat\beta$ : $V(\hat\beta)=\sigma^2(X'X)^{-1}$.
+
+L'hétéroscédasticité est la violation de l'hypothèse d'homoscédasticité. On parle d'hétéroscédasticité lorsque la variance des termes d'erreur n'est pas constante : $Var(\epsilon_i)=\sigma^2_i$. Dans cette section, on continue à considérer que les termes d'erreurs ne sont pas corrélés entre eux.
+
+## Détection de l'hétéroscédasticité
+
+On détecte la présence d'hétéroscédasticité à l'aide d'analyse graphique d'uen part, et de tests statistiques d'autre part.
+
+Commençons par charger des données, et faire une régression dont on analysera les résultats. La base de données "TableF9-2.csv" contient 100 observations sur la dépense en logement (avgexp), l'age, la statut d'occupation (ownrent) et le revenu (income) et son carré (income2). On va régresser la dépense en logement sur ces variables, et étudier la présence d'hétéroscédasticité   
+
+```{r message = FALSE}
+library(readr)
+ma_base <- read_csv("https://raw.githubusercontent.com/ATerracol/P8Econ/master/data/TableF9-2.csv")
+modele <- lm(data=ma_base,avgexp ~ age + ownrent + income + income2)
+smodele <- summary(modele)
+smodele
+```
+ 
+
+
+### Analyse graphique des résidus
+
+Les résidus de la régression étant des estimations des termes d'erreur, on se base sur ces résidus pour étudier la présence d'hétéroscédasticité
+
+```{r}
+# graphique des résidus contre valeurs prédites
+plot(modele,which=1 )
+# graphique des résidus contre la variable explicative "income"
+plot(ma_base$income,resid(modele))
+```
+```{r}
+# Idem, avec ggplot2
+library(ggplot2)
+ggplot(data=ma_base) + 
+  geom_point(aes(x=income,y=residuals(modele)))
+```
+
+On voit que, si le graphique des résidus contre les valeurs prédites n'est pas forcément très clair, celui contre la variable "income" semble indiquer la présence d'hétéroscédasticité : la variance des résidus semble augmenter avec les valeurs de la variable de revenu "income". Celà semble logique dans la mesure où un niveau de revenu plus élevé donnee accès à une gamme de logement de prix plus varié, et donc on s'attend à ce que la variation des dépenses de logement soit plus forte pour les revenus les plus élevés, même à âge et à statut d'occupation donné.
+
+### Test de Breusch-Pagan
+
+Le test de Breusch-Pagan est un test statistique permettant de détecter la présence d'hétéroscédasticité sous l'hypothèse que $Var(\epsilon_i)=\sigma^2(\alpha_0+\boldsymbol{\alpha z})$ où $\boldsymbol{z}$ est un vecteur de variable à la source de l'hétéroscédasticité. L'hypothèse nulle est que $\boldsymbol{\alpha}=\boldsymbol{0}$, c'est-à-dire l'absence d'hétéroscédasticité. On peut effectuer ce test à l'aide de la commande `bptest` issue du paquet `lmtest`
+
+```{r}
+library(lmtest)
+bptest(modele)
+```
+Ici, le test n'est pas très concluant (p-value >0.1)
+
+Par contre, en spécifiant qu'on se concentre sur les variables de revenu pour tester l'hétéroscédasticité (avec l'option `varformula`) : 
+
+```{r}
+bptest(modele, varformula = ~ income + income2, data=ma_base)
+```
+
+on rejette maintenant $H0$ au niveau $\alpha=5 \%$ et oon conclut à la présence d'hétéroscédasticité.
+
+## Correction de White
+
+Une façon de corriger de la présence d'hétéroscédasticité dans un modèle est non pas de chercher à rendre les termes d'erreur sphérique, mais de chercher à calculer correctement la matrice de variance-covariance des $\hat\beta$. La méthode usuelle est celle de White, dans sa variante dite "HC1".
+
+Il existe plusieurs paquets permettant d'effectuer cette correction dans `R`. nous en présentons quelques uns ici : 
+
+Commençons par estimer le modèle sans correction, sauvegardons le dans un objet nommé `modele`, et affichons son `summary` : 
+```{r}
+modele <- lm(data=ma_base,avgexp ~ age + ownrent + income + income2)
+smodele <- summary(modele)
+smodele
+```
+
+
+### Les paquets `lmtest` et `sandwich`
+
+le paquet `sandwich` fournit la commande `vcovHC`qui corrige la matrice de variance covariance, tandis que le paquet `lmtest` fournit la commande `coeftest` qui permet d'utiliser cette dernière pour construire un tableau de résultat corrigé.
+
+```{r}
+library(lmtest)
+library(sandwich)
+ modele_robust <- coeftest(modele, vcov = vcovHC(modele, type = "HC1"))
+ modele_robust
+```
+
+On constate que si les $\hat\beta$ sont identiques, les écarts-type et toute l'inférence est modifiée
+
+### Les paquets `lmtest` et `car`
+le paquet `car` fournit la commande `hccn` qui corrige la matrice de variance covariance, tandis que le paquet `lmtest` fournit la commande `coeftest` qui permet d'utiliser cette dernière pour construire un tableau de résultat corrigé.
+```{r}
+library(lmtest)
+ library(car)
+ modele_robust2 <- coeftest(modele, vcov = hccm(modele, type = "hc1"))
+ modele_robust2
+```
+
+On constate que les deux paquets donnent des résultats identiques
+
+## Le paquet `estimatr`
+Le paquet `estimatr`, plus récent, permet d'estimer directement des modèles corrigés (sans avoir à estimer le modèle non corrigé au préalable). Il faut utiliser la commande `lm_robust()` avec l'option `se_type="HC1"` : 
+```{r}
+library(estimatr)
+modele_robust3 <- lm_robust(data=ma_base,avgexp ~ age + ownrent + income + income2, se_type = "HC1")
+summary(modele_robust3)
+```
+
+Les résultats sont à nouveau identiques, mais le paquet `estimatr` fournit en plus les intervalles de confiance dans le tableau de résultat. Pour les obtenir avec les autres paquets, il aurait fallu taper 
+```{r}
+confint(modele_robust)
+confint(modele_robust2)
+```
+
+## MCQG par pondération
+La méthode des moindres carrés généralisée permet en principe de corriger l'hétéroscédasticité en pondérant les observations par l'inverse de l'écart-type du terme d'erreur.
+
+En posant pour hypothèse que $\sigma^2_i=\exp(\boldsymbol{x'_i\alpha})$, on peut estimer $\boldsymbol{\hat\alpha}$ en régressant les logs carrés des résidus sur les $x$, puis en calculant $\hat\alpha_i^2=\exp(\boldsymbol{x'_i\hat\alpha})$ et en pondérant les observations par $\hat\sigma_i$ : 
+
+```{r}
+library(dplyr)
+modele <- lm(data=ma_base,avgexp ~ age + ownrent + income + income2)
+ma_base <- ma_base  %>% mutate(logresid2=log(residuals(modele)^2)) # on ajoute la variable ln(e^2)
+modeleresid <- lm(data=ma_base,logresid2 ~ age + ownrent + income + income2) # on les régresse sur les x
+ma_base <- ma_base %>% mutate(e2chap=exp(modeleresid$fitted.values)) # on calcule la variance prédite
+modele2 <- lm(data=ma_base,avgexp ~ age + ownrent + income + income2,weight=1/e2chap) # on pondère la régression par 1/variance
+summary(modele2)
+```
+On constate que les résultats diffèrent de ceux de la correction de White.
+
+NB, l'aide de `lm()`, accessible par `?lm`, précise que 
+"*weights can be used to indicate that different observations have different variances (with the values in weights being inversely proportional to the variances)*" : on indique donc $\frac{1}{\hat\sigma^2_i}$ dans l'option `weight`
+
+Sauf si on a de bonnes raisons, il est conseillé de s'en tenir à la correction de White, pour laquelle plusieurs variantes sont accessibles (HC0, HC1, HC2 et HC3).

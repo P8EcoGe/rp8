@@ -1,0 +1,200 @@
+# Simulations de Monte-Carlo {#mcarlo}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Il est souvent utilse de faire des *simulations de Monte-Carlo* afin d'étudier les propriétés des estimateurs que nous rencontrerons, et de "visualiser" leurs comprtements. Ces propriétés (biais, convergence, efficacité etc.) sont des propriétés *statistques* qui ont trait à la *distribution* des estimateurs, vus comme une variables aléatoire. Une simulation de Monte-Carlo consiste en quelque sortes à tirer plein de valeurs de ces variables aléatoires afin d'étudier leurs distribution.
+
+## Un premier exemple 
+
+Votre cours de statistrique et de probabilité vous a (normalement) appris que la moyenne d'un échantillon de taille $n$ issu d'une loi Normale $N(\mu,\sigma^2)$ de moyenne $\mu$ et d'écart-type $\sigma$ est une variable aléatoire suivant une loi normale de moyenne $\mu$ et d'écart-type $\frac{\sigma}{\sqrt{n}}$. Utilisons `R` pour le vérifier.
+
+Commençons par calculer la moyenne d'un échantillon de 100 tirages d'une $N(0,1)$
+
+```{r simbase}
+n <- 100 
+mu <- 0
+sigma <- 1
+x <- rnorm(n,mean=mu,sd=sigma)
+mean(x)
+```
+On voit que la moyenne des 100 tirages n'est pas strictement égale à 0, et on ne voit pas bien comment juger de l'écart-type ou de la loi de probabilité de cette moyenne. Si on lance le code une seconde fois, le résultat va d'ailleurs changer : 
+
+```{r ref.label='simbase'}
+
+```
+
+La raison est que la théorie nous donne les caractéristiques de la *distribution* de cette moyenne au travers d'un grand nombre d'échantillons de 1000 tirages d'une $N(0,1)$. Nous allons donc répéter le code ci-dessous un grand nombre de fois ($K$ fois), noter à chaque fois la moyenne obtenue, et étudier la distribution de ces $K$ moyennes
+
+```{r}
+K <- 10000 # On va faire 10000 réplications, on aura donc 10000 moyennes
+n <- 100
+mu <- 0
+sigma <- 1
+moyennes <- c() # On crée un vecteur vide qui contiendra les K moyennes
+for (i in 1:K) { # on initialise la boucle
+  x <- rnorm(n,mean=mu,sd=sigma) # on tire l'ééchantillon
+  moyennes[i] <- mean(x) # on stocke la moyenne issue de la ième réplication à
+                          # la ième position du vecteur "moyennes"
+}
+moyennes[1:10] # on affiche les 10 premières moyennes
+mean(moyennes) # moyenne des moyennes (0 en théorie)
+sd(moyennes) # écart-type des moyennes (1/sqrt(n) en théorie)
+1/sqrt(n) # valeur de 1/sqrt(n)
+hist(moyennes,prob=TRUE) # on trace l'histogramme des moyennes
+lines(density(moyennes),col="red") # on y ajoute le tracé de la densité des moyennes
+```
+
+Ceux qui ont suivi le tutoriel "*Visualize Data*" peuvent utiliser les outils graphiques du package `ggplot2`
+```{r message = FALSE}
+library(ggplot2)
+ggplot(mapping=aes(x=moyennes)) +
+         geom_histogram(aes(y=..density..),fill="grey",color="black") +
+          geom_density(fill="blue",alpha=0.2)
+```
+
+NB : le `y=..density..` indique à `geom_histogram` d'utiliser la densité en ordonnées, au lieu de la fréquence.  Ça permet d'avoir l'histogramme et la courbe des densité à la même échelle.
+
+On constate que 
+1. La moyenne des K=10000 moyennes est très proche de la moyenne théorique (0)
+2. L'écart-type des K moyennes est très proche de l'écart-type théorique (0.1)
+3. La distribution est proche de celle d'une loi normale
+
+## Généralisation : le package MonteCarlo
+
+L'exemple précédent a montré que l'on pouvait assez facilement effectuer une simulation basique avec du code assez simple. Néanmoins, ce code ne permet de simuler qu'un seul scénario (valeurs de $n$, de $\mu$ et de $\sigma$) à la fois. Si on souhaite voir ce qu'il se passe lorsqu'on fait varier les paramètres de la simulation, il faudrait copier-coller le code de nombreuses fois et modifer à chaque fois les paramètres. De plus, il faudrait faire attention à sauvegarder les résultats dans des vecteurs différents à chaque fois.
+Afin de s'éviter ces désagréments, le package MonteCarlo permet d'automatiser ces tâches pour nous.
+
+On commence par charger le package `MonteCarlo` ainsi que `tidyverse` (voir les tutoriels)
+```{r message = FALSE}
+
+library(MonteCarlo) # doit avoir package Rcpp installé
+library(tidyverse) # charge plein d'outils utiles, voir les tutoriels sur rstudio.cloud
+```
+
+On définit ensuite une fonction qui va effectuer le tirage de l'échantillon aléatoire, calculer la moyenne, et retourner le résultat :
+```{r}
+simul_moyenne <- function(n,mu,sigma) { # Notre fonction s'appelle "simul_moyenne" et prend les
+                                        # arguments n, mu et sigma
+  tirages <- rnorm(n,mean=mu,sd=sigma) # on effectue le tirage aléatoire avec les valeurs données en argument
+  moy <- mean(tirages) # on calcule la moyenne
+  return(list("moyenne"=moy)) # on la retourne dans une liste nommée "moyenne"
+}
+```
+
+On définit ensuite des vecteurs qui vont définir l'ensemble des "scénarios" de simulations, c'est à dire les valeurs des paramètres que l'ont veut faire varier. Ici on veut deux valeurs pour la taille d'échantillon, deux valeurs pour l'espérance, et trois pour l'écart-type 
+```{r}
+n_grid <- c(10,100) 
+mu_grid <- c(0, 5)
+sigma_grid <- c(1, 2, 4)
+```
+
+On indique ensuite que le programme devra passer toutes les combinaisons de ces valeurs en tant qu'arguments à notre fonction "simul_moyenne"
+```{r}
+param_list=list("n"=n_grid, "mu"=mu_grid, "sigma"=sigma_grid)
+```
+
+On peut maintenant lancer `MonteCarlo` en lui indiquant quelle fonction utiliser, le nombre de réplications par scénario, et où trouver la liste des paramètres. On stocke les résultats dans un objet nommé "résultats"
+```{r results="hide",warning=FALSE}
+resultats<-MonteCarlo(func=simul_moyenne, nrep=10000, param_list=param_list) 
+```
+
+Regardons ce que l'objet "résultats" contient : 
+```{r}
+summary(resultats)
+```
+
+On va le transformer les parties pertinentes en `data frame` (voir les tutoriels) pour une manipulation plus aisée. la fonction `head()` permet ensuite de lister les premières lignes d'une `data frame`, afin de vérifier rapidement son contenu.
+```{r}
+data_resultats <-MakeFrame(resultats)
+head(data_resultats)
+```
+
+On va maintenant calculer les moyennes et écart-types des 10000 moyennes calculées pour chaque scénario de simulation. On fait appel aux outils de "pipe" (`%>%`) et de groupe (`group_by()`) expliqués dans le tutoriel "*Work With Data*". On en profite pour ajouter une variable "ecty_theor" donnant l'écart-type théorique de la distribution des moyennes
+```{r}
+data_resultats %>%
+mutate(ecty_theor=sigma/sqrt(n)) %>%  
+group_by(n,mu,sigma) %>%
+  summarise(moy=mean(moyenne),ecty=sd(moyenne),ecty_theor=mean(ecty_theor))
+```
+
+On constate que la moyenne des moyenne (colonne "moy") est très proche de la moyenne théorique ("mu"), de même que l'écart-type de la distribution des moyennes ("ecty") est très proche de l'écart-type théorique. Nos observations semblent bien coller avec la théorie.
+
+On complète l'exercice en faisant un graphique de la fonction de densité estimées de nos résultats, pour chaque valeur de $n$, $\mu$ et $\sigma$.
+```{r}
+ggplot(data=data_resultats,mapping=aes(x=moyenne,group=sigma,color=factor(sigma))) +
+  geom_density() +
+  facet_wrap(mu ~ n,labeller=label_both)
+```
+
+## Avec une régression par MCO
+
+`R` permet de faire une régression linéaire par MCO avec la commande `lm()`(voir le  [chapitre sur la répression par MCO](#MCO)) ci-dessous
+
+On va charger une base de données préinstallée avec `R` : les données "mtcars"
+
+```{r}
+data(mtcars)
+head(mtcars)
+```
+
+Effectuons une régression linaire de, par exemple, "mpg" sur "cyl" et "disp" 
+
+```{r}
+lm(data=mtcars,mpg ~ cyl + disp)
+```
+La sortie est assez minimale. Stockons cette régression dans un objet que nous appellerons "ma_regression" et faisons un `summary()` de ce dernier
+```{r}
+ma_regression <- lm(data=mtcars,mpg ~ cyl + disp)
+summary(ma_regression)
+```
+On a déjà plus de détails.
+
+On peut extraire divers éléments issus de `lm()` : 
+```{r}
+
+summary(ma_regression)$coef[,"Estimate"] # les beta chapeau
+summary(ma_regression)$coef[,"Std. Error"] # les écarts-type
+summary(ma_regression)$coef[,"Estimate"]["cyl"] # le beta chapeau de la variable "cyl"
+summary(ma_regression)$coef[,"Estimate"][["cyl"]] # la même valeur, mais sans le nom associé, notez les doubles crochets 
+
+```
+On va maintenant utiliser ces éléments pour construire une simulation de Monte-Carlo de la distribution de l'estimateur des MCO $\hat\beta_x$ dans un cadre qui respecte les hypothèses de Gauss-Markov
+```{r message = FALSE}
+library(MonteCarlo) # doit avoir package Rcpp installé
+library(tidyverse)
+
+betareg<-function(n) {
+  x <- rnorm(n,mean=0,sd=1)
+  epsilon <- rnorm(n,mean=0,sd=1) # epsilon suit une loi normale non corrélée à x
+  y <- 1+x+epsilon
+  mareg <- lm(y~x)
+  coeffs <- summary(mareg)$coef[,"Estimate"]
+  betax <- coeffs[["x"]]
+  return(list("betax"=betax))
+}
+
+n_grid<-c(10,100)
+
+param_list=list("n"=n_grid)
+```
+
+```{r results="hide", warning=FALSE}
+resultats<-MonteCarlo(func=betareg, nrep=10000, param_list=param_list)
+```
+
+```{r}
+summary(resultats)
+data_resultats <-MakeFrame(resultats)
+head(data_resultats)
+data_resultats %>%
+  group_by(n) %>%
+  summarise(moy=mean(betax),ecty=sd(betax))
+
+ggplot(data=data_resultats,mapping=aes(x=betax,group=n,color=factor(n)))+geom_density() 
+
+```
+
+Les résultats ci-dessus sont-ils ceux que l'on s'attendait à avoir ? Que nous dit la théorie ?

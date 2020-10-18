@@ -1,0 +1,255 @@
+# La régression linéaire par MCO {#MCO}
+
+Dans ce document nous passons rapidement en revue quelques commandes liées à la régression linéaire par MCO dans `R`. Ce document n'est pas exhaustif, il existe un grand nombre d'outils dans `R`, nous n'en voyons ici qu'une petite partie.
+
+## La commande de base : `lm()` et `summary()`
+Commençons par ouvrir la base de données `mtcars` préinstallée dans `R`, listons ses premières lignes et regardons les statistiques descriptives des variables qui y sont contenues
+```{r}
+data("mtcars")
+head(mtcars)
+summary(mtcars)
+```
+
+On souhaite faire une régression linéaire par MCO de, par exemple, `mpg` sur `cyl`, `disp` et `hp`. La commande correspondante est `lm(data = mtcars, mpg ~ cyl + disp + hp)` : 
+
+```{r}
+lm(data = mtcars, mpg ~ cyl + disp + hp)
+```
+
+La sortie est assez minimaliste. On a un rappel de la commande, et le vecteur des $\hat\beta$. Comme souvent dans `R`, la bonne façon de procéder est de sauvegarder le modèle dans un *objet* sur lequel on va ensuite appliquer des commandes et fonctions pour en extraire les éléments souhaités. Stockons donc ce mdoèle dans un objet nommé "ma_regression"
+
+```{r}
+ma_regression <- lm(data=mtcars , mpg ~ cyl + disp + hp)
+```
+
+Il n'y a pas de sortie particulière, mais on va maintenant pouvoir manipuler l'objet "ma_regression". Par exemple, `summary(ma_regression)` nous donnera par exemple un output bien plus complet de notre régression  
+
+```{r}
+summary(ma_regression)
+```
+
+## Extraire des éléments du modèle
+On peut obtenir la liste des éléments de l'objet "ma_regression" à l'aide de la fonction `names()`
+
+```{r}
+names(ma_regression)
+```
+On peut accéder à chacun des éléments listés ci-dessus via `ma_regression$element`  ou, dans certains cas via la fonction `element(ma_regression)` : 
+
+```{r}
+ma_regression$coefficients
+coefficients(ma_regression)
+ma_regression$df.residual
+df.residual(ma_regression)
+```
+
+On peut à nouveau extraire des éléments individuels de ces éléments. Par exemple, si on souhaite obtenir $\hat\beta_{cyl}$, on tapera 
+```{r}
+ma_regression$coefficients["cyl"]
+coefficients(ma_regression)["cyl"]
+```
+Dans les exmples ci-dessus le coefficient obtenu est un vecteur "nommé" (le label "cyl" apparaît). Si on veut extraire juste la valeur numérique, on mettra des doubles crochets : 
+```{r}
+ma_regression$coefficients[["cyl"]]
+coefficients(ma_regression)[["cyl"]]
+```
+
+### Données du modèles
+
+Il est parfois utile d'avoir accès aux données utilisées pour l'estimation. Si les données présentent des valeurs manquantes, ou que l'on a sélectionné un sous-échantillon particulier, les données utilisées pour le modèle ne seront pas strictement équivalentes aux données  de la base "complète" (il est possible que toutes les observations n'y soient pas). On peut accéder aux données via l'élément `model` :  
+```{r}
+ma_regression$model
+```
+On voit que les variables ya apparaissent dans l'ordre dans lesquelles elles ont été spécifiées. Si on veut, par exemple, récupérer le vecteur des observations de $y$ utilisées dans notre estimation, on tapera
+```{r}
+ma_regression$model[,1]
+```
+ou 
+```{r}
+ma_regression$model[,"mpg"]
+```
+
+
+
+
+
+### Manipulation plus avancée
+Certaines fonctions supplémentaires sont également disponibles. Par exemple `vcov()` permet d'obtenir la matrice de variance-covariance des $\hat\beta$
+```{r}
+vcov(ma_regression)
+```
+On peut alors facilement en extraire le vecteur des écart-types des $\hat\beta$ :  
+```{r}
+sqrt(diag(vcov(ma_regression)))
+```
+
+Parmi les autres fonctions utiles, `confint()` permet d'obtenir les intervalles de confiance des $\hat\beta$ : 
+
+```{r}
+confint(ma_regression) # tous les coeffs, à 95 %
+confint(ma_regression,"disp") # un coeff particulier
+confint(ma_regression,"cyl",level=0.90) # un coeff particulier, à 90 %
+```
+
+## Graphiques d'analyse des résidus
+La fonction `plot()` permet également de faire automatiquement un certain nombre de "graphes de  diagnostiques" de notre modèle
+
+```{r}
+plot(ma_regression)
+
+```
+
+Tous ne nous sont pas nécessairement utiles, on peut choisir lequel on souhaite avec l'option `which()`. Si on ne veut que le graphique des résidus contre les valeurs prédites, on tapera
+
+```{r}
+plot(ma_regression,which=1)
+
+```
+
+## Analyse de la variance
+La fonction `anova()` permet d'obtenir un tableau de décomposition de la variance : 
+
+```{r}
+anvar <- anova(ma_regression)
+anvar
+```
+Ce tableau d'analyse de la variance est "séquentiel" et considère chaque variable prise l'une après l'autre. On peut calculer les *RSS*, *ESS* et *TSS* de la façon suivante.
+
+La *SCT* est la somme des carrés totaux (*TSS* en anglais). C'est la somme de la seconde colonne du tableau : 
+```{r}
+SCT <- sum(anvar[,2])
+SCT
+```
+
+On peut aussi partir de la définition $SCT = \sum_{i=1}^n(y_i-\bar y)^2$
+```{r}
+sum((ma_regression$model[,1]-mean(ma_regression$model[,1]))^2)
+```
+
+
+La *SCR* est la somme des carrés des résidus (*RSS* en anglais). On peut l'obtenir de deux façons : en faisant la somme directement, ou en sélectionnant la dernière entrée de la seconde colonne du tableau d'analyse de la variance :  
+```{r}
+SCR  <- sum(ma_regression$residuals^2)
+SCR
+anvar[nrow(anvar),2]
+```
+
+Finalement, La somme des carrés expliquée (*SCE*, *ESS* en anglais)  est donnée par $SCT==SCE+SCR$ et donc $SCE=SCT-SCR$
+
+```{r}
+SCE <- SCT-SCR
+SCE
+```
+C'est aussi la somme de la seconde colonne du tableau d'anova, à l'exclusion de la dernière entrée
+
+```{r}
+sum(anvar[-nrow(anvar),2])
+```
+C'est également la somme des carrés des valeurs prédites centrées sur leur moyenne : $SCE=\sum_{i=1}^n(\hat y_i - \bar{\hat y})$
+
+```{r}
+sum((ma_regression$fitted.values-mean(ma_regression$fitted.values))^2)
+```
+
+### $R^2$ et $\hat\sigma$
+
+On voit que les éléments de l'objet issu de `lm()` ne comprennent ni le $R^2$ ni l'estimateur de la variance des résidus. On peut y accéder avec `summary()` (voir plus loin), mais on peut également les calculer à la main : 
+
+$R^2=\frac{SCR}{SCT}=1-\frac{SCR}{SCT}$
+
+```{r}
+R2 <- SCE/SCT
+R2
+1-SCR/SCT
+```
+
+$\hat\sigma=\sqrt{\frac{SCR}{n-K-1}}$. Le nombre d'observations $n$ est donné par la fonction `nobs()`, et $K+1$ est le "rank" listé dans "ma_regression$rank" 
+```{r}
+sigmachap <- sqrt(SCR/(nobs(ma_regression)-ma_regression$rank)) 
+sigmachap
+```
+
+## Retour sur `summary()`
+
+Souvenons nous que `summary(ma_regression)` nous donnait un tableau contenant pas mal d'éléments que nous venons de calculer "à la main", comme par exemple les écarts-type des $\hat\beta$
+
+```{r}
+summary(ma_regression)
+```
+On peut également sauvegarder cet objet afin d'en extraire des éléments : 
+
+```{r}
+resum_ma_regression <- summary(ma_regression)
+names(resum_ma_regression)
+```
+On peut alors utiliser ces éléments. Attention cependant, l'élément "coefficients" issu de `summary()' contient le *tableau complet* de résultats, alors que celui issu de `lm()` ne contient que le vecteur de résultats 
+
+```{r}
+resum_ma_regression$coefficients
+ma_regression$coefficients
+```
+
+On peut retrouver les valeurs du $R^2$ et de $\hat\sigma$ calculées à la main ci dessus
+```{r}
+resum_ma_regression$r.squared
+resum_ma_regression$sigma
+```
+
+## Les MCO à la main
+
+On peut bien entendu "s'amuser" à coder nous même l'estimateur des MCO, la décomposition de la variance etc. Le but est de s'entraîner et de s'assurer qu'on comprends bien d'où sortent les valeurs fournies par `lm()`.
+
+On va utiliser les formules standard des MCO : 
+
+- $\hat\beta=(X'X)^{-1}X'y$
+- $\hat y=X\hat\beta$
+- $e=y-\hat y$
+- $SCR=\sum_{i=1}^ne_i^2$
+- $\hat \sigma = \frac{SCR}{n-K-1}$
+- $SCT=\sum_{i=1}^n(y_i-\bar y)$
+- $R^2=1-\frac{SCR}{SCT}$ 
+- $\widehat{Var}(\hat\beta)=\hat\sigma^2(X'X)^{-1}$
+```{r}
+y <- ma_regression$model[,"mpg"] # on extrait y
+X <- as.matrix(ma_regression$model[,c("cyl","disp","hp")])  # On extrait la matrice X
+X <- cbind("(intercept)"=rep(1,nrow(X)),X) # On y ajoute la constante
+XpXinv <- solve(t(X) %*% X) # Clacul de (X'X)^{-1}
+Xpy <- t(X) %*% y # Calcul de X'y
+mes_betachap <- XpXinv %*% Xpy # calcul de beta chapeau
+mes_betachap
+
+# prédiction des résidus
+mes_ychap <- X %*% mes_betachap
+mes_residus <- y-mes_ychap
+
+# calcul de SCR et SCT 
+ma_SCR <- sum(mes_residus^2)
+ma_SCT <- sum((y-mean(y))^2)
+
+
+# calcul du R2
+mon_R2 <- 1-ma_SCR/ma_SCT
+
+# calcul de sigma chapeau
+mon_sigmachap <- sqrt(ma_SCR/(length(y)-ncol(X)))
+
+# affichage des résultats 
+
+c("SCR"=ma_SCR,"SCT"=ma_SCT,"R carré"=mon_R2,"sigma chapeau"=mon_sigmachap)
+
+# matrice de variance-covariance des beta chapeau
+ma_varcov <- (mon_sigmachap^2) * XpXinv
+
+# vecteur des écart-types
+mes_ecty <- sqrt(diag(ma_varcov))
+
+# vecteur des t-stats
+mes_tstats <- mes_betachap/mes_ecty
+
+# mise en forme du tableau de résultats
+mon_tableau <- cbind(mes_betachap,mes_ecty,mes_tstats)
+colnames(mon_tableau)=c("Coeff.", "Ec. ty.","t-stat")
+mon_tableau
+
+
+```

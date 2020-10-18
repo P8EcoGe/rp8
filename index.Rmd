@@ -1,0 +1,12 @@
+---
+title: "R à Paris 8"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+---
+
+# Préface
+
+Ce document est à destination des étudiants de L3, M1 et M2 en économie à l'Université Paris 8. Il a pour objectif de rassembler un ensemble de ressources vous permettant de maîtriser les éléments de base du laguage `R` utilisé dans vos enseignements de statistique et d'économétrie tout au long de la L3, du M1 et du M2 MBFA. Vos enseignants vous indiqueront les chapitres pertinents pour chaque matière concernée. 
+Ce document n'a pas pour vocation de remplacer le cours théorique de statistique ou d'économétrie que votre enseignant dispense en cours. Il vise juste à rassembler des éléments permettant de les implémenter sous `R`.
+
+Vous pouvez naviguer entre les chapitres à partir de la table des matières à la gauche de la fenêtre de votre navigateur. Sur mobile la navigation peut se faire via les $\equiv$ en haut de votre écran.
