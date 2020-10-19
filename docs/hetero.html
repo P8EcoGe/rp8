@@ -231,11 +231,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">6.2</span> Détection de l’hétéroscédasticité</h2>
 <p>On détecte la présence d’hétéroscédasticité à l’aide d’analyse graphique d’une part, et de tests statistiques d’autre part.</p>
 <p>Commençons par charger des données, et faire une régression dont on analysera les résultats. La base de données “TableF9-2.csv” contient 100 observations sur la dépense en logement (avgexp), l’age, la statut d’occupation (ownrent) et le revenu (income) et son carré (income2). On va régresser la dépense en logement sur ces variables, et étudier la présence d’hétéroscédasticité</p>
-<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb384-1" title="1"><span class="kw">library</span>(readr)</a>
-<a class="sourceLine" id="cb384-2" title="2">ma_base &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/ATerracol/P8Econ/master/data/TableF9-2.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb384-3" title="3">modele &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2)</a>
-<a class="sourceLine" id="cb384-4" title="4">smodele &lt;-<span class="st"> </span><span class="kw">summary</span>(modele)</a>
-<a class="sourceLine" id="cb384-5" title="5">smodele</a></code></pre></div>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb382-1" title="1"><span class="kw">library</span>(readr)</a>
+<a class="sourceLine" id="cb382-2" title="2">ma_base &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/ATerracol/P8Econ/master/data/TableF9-2.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb382-3" title="3">modele &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2)</a>
+<a class="sourceLine" id="cb382-4" title="4">smodele &lt;-<span class="st"> </span><span class="kw">summary</span>(modele)</a>
+<a class="sourceLine" id="cb382-5" title="5">smodele</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = avgexp ~ age + ownrent + income + income2, data = ma_base)
@@ -260,24 +260,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="analyse-graphique-des-résidus" class="section level3">
 <h3><span class="header-section-number">6.2.1</span> Analyse graphique des résidus</h3>
 <p>Les résidus de la régression étant des estimations des termes d’erreur, on se base sur ces résidus pour étudier la présence d’hétéroscédasticité</p>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb386-1" title="1"><span class="co"># graphique des résidus contre valeurs prédites</span></a>
-<a class="sourceLine" id="cb386-2" title="2"><span class="kw">plot</span>(modele,<span class="dt">which=</span><span class="dv">1</span> )</a></code></pre></div>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb384-1" title="1"><span class="co"># graphique des résidus contre valeurs prédites</span></a>
+<a class="sourceLine" id="cb384-2" title="2"><span class="kw">plot</span>(modele,<span class="dt">which=</span><span class="dv">1</span> )</a></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-146-1.png" width="672" /></p>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" title="1"><span class="co"># graphique des résidus contre la variable explicative &quot;income&quot;</span></a>
-<a class="sourceLine" id="cb387-2" title="2"><span class="kw">plot</span>(ma_base<span class="op">$</span>income,<span class="kw">resid</span>(modele))</a></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" title="1"><span class="co"># graphique des résidus contre la variable explicative &quot;income&quot;</span></a>
+<a class="sourceLine" id="cb385-2" title="2"><span class="kw">plot</span>(ma_base<span class="op">$</span>income,<span class="kw">resid</span>(modele))</a></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-146-2.png" width="672" /></p>
-<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb388-1" title="1"><span class="co"># Idem, avec ggplot2</span></a>
-<a class="sourceLine" id="cb388-2" title="2"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb388-3" title="3"><span class="kw">ggplot</span>(<span class="dt">data=</span>ma_base) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb388-4" title="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>income,<span class="dt">y=</span><span class="kw">residuals</span>(modele)))</a></code></pre></div>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb386-1" title="1"><span class="co"># Idem, avec ggplot2</span></a>
+<a class="sourceLine" id="cb386-2" title="2"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb386-3" title="3"><span class="kw">ggplot</span>(<span class="dt">data=</span>ma_base) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb386-4" title="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>income,<span class="dt">y=</span><span class="kw">residuals</span>(modele)))</a></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-147-1.png" width="672" /></p>
 <p>On voit que, si le graphique des résidus contre les valeurs prédites n’est pas forcément très clair, celui contre la variable “income” semble indiquer la présence d’hétéroscédasticité : la variance des résidus semble augmenter avec les valeurs de la variable de revenu “income”. Celà semble logique dans la mesure où un niveau de revenu plus élevé donnee accès à une gamme de logement de prix plus varié, et donc on s’attend à ce que la variation des dépenses de logement soit plus forte pour les revenus les plus élevés, même à âge et à statut d’occupation donné.</p>
 </div>
 <div id="test-de-breusch-pagan" class="section level3">
 <h3><span class="header-section-number">6.2.2</span> Test de Breusch-Pagan</h3>
 <p>Le test de Breusch-Pagan est un test statistique permettant de détecter la présence d’hétéroscédasticité sous l’hypothèse que <span class="math inline">\(Var(\epsilon_i)=\sigma^2(\alpha_0+\boldsymbol{\alpha z})\)</span> où <span class="math inline">\(\boldsymbol{z}\)</span> est un vecteur de variable à la source de l’hétéroscédasticité. L’hypothèse nulle est que <span class="math inline">\(\boldsymbol{\alpha}=\boldsymbol{0}\)</span>, c’est-à-dire l’absence d’hétéroscédasticité. On peut effectuer ce test à l’aide de la commande <code>bptest</code> issue du paquet <code>lmtest</code></p>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" title="1"><span class="kw">library</span>(lmtest)</a>
-<a class="sourceLine" id="cb389-2" title="2"><span class="kw">bptest</span>(modele)</a></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" title="1"><span class="kw">library</span>(lmtest)</a></code></pre></div>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb391-1" title="1"><span class="kw">bptest</span>(modele)</a></code></pre></div>
 <pre><code>## 
 ## 	studentized Breusch-Pagan test
 ## 
@@ -285,7 +291,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## BP = 7.2289, df = 4, p-value = 0.1243</code></pre>
 <p>Ici, le test n’est pas très concluant (p-value &gt;0.1)</p>
 <p>Par contre, en spécifiant qu’on se concentre sur les variables de revenu pour tester l’hétéroscédasticité (avec l’option <code>varformula</code>) :</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb391-1" title="1"><span class="kw">bptest</span>(modele, <span class="dt">varformula =</span> <span class="op">~</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2, <span class="dt">data=</span>ma_base)</a></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb393-1" title="1"><span class="kw">bptest</span>(modele, <span class="dt">varformula =</span> <span class="op">~</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2, <span class="dt">data=</span>ma_base)</a></code></pre></div>
 <pre><code>## 
 ## 	studentized Breusch-Pagan test
 ## 
@@ -299,9 +305,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Une façon de corriger de la présence d’hétéroscédasticité dans un modèle est non pas de chercher à rendre les termes d’erreur sphérique, mais de chercher à calculer correctement la matrice de variance-covariance des <span class="math inline">\(\hat\beta\)</span>. La méthode usuelle est celle de White, dans sa variante dite “HC1”.</p>
 <p>Il existe plusieurs paquets permettant d’effectuer cette correction dans <code>R</code>. nous en présentons quelques uns ici :</p>
 <p>Commençons par estimer le modèle sans correction, sauvegardons le dans un objet nommé <code>modele</code>, et affichons son <code>summary</code> :</p>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb393-1" title="1">modele &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2)</a>
-<a class="sourceLine" id="cb393-2" title="2">smodele &lt;-<span class="st"> </span><span class="kw">summary</span>(modele)</a>
-<a class="sourceLine" id="cb393-3" title="3">smodele</a></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb395-1" title="1">modele &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2)</a>
+<a class="sourceLine" id="cb395-2" title="2">smodele &lt;-<span class="st"> </span><span class="kw">summary</span>(modele)</a>
+<a class="sourceLine" id="cb395-3" title="3">smodele</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = avgexp ~ age + ownrent + income + income2, data = ma_base)
@@ -326,10 +332,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="les-paquets-lmtest-et-sandwich" class="section level3">
 <h3><span class="header-section-number">6.3.1</span> Les paquets <code>lmtest</code> et <code>sandwich</code></h3>
 <p>le paquet <code>sandwich</code> fournit la commande <code>vcovHC</code>qui corrige la matrice de variance covariance, tandis que le paquet <code>lmtest</code> fournit la commande <code>coeftest</code> qui permet d’utiliser cette dernière pour construire un tableau de résultat corrigé.</p>
-<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb395-1" title="1"><span class="kw">library</span>(lmtest)</a>
-<a class="sourceLine" id="cb395-2" title="2"><span class="kw">library</span>(sandwich)</a>
-<a class="sourceLine" id="cb395-3" title="3"> modele_robust &lt;-<span class="st"> </span><span class="kw">coeftest</span>(modele, <span class="dt">vcov =</span> <span class="kw">vcovHC</span>(modele, <span class="dt">type =</span> <span class="st">&quot;HC1&quot;</span>))</a>
-<a class="sourceLine" id="cb395-4" title="4"> modele_robust</a></code></pre></div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb397-1" title="1"><span class="kw">library</span>(lmtest)</a>
+<a class="sourceLine" id="cb397-2" title="2"><span class="kw">library</span>(sandwich)</a>
+<a class="sourceLine" id="cb397-3" title="3"> modele_robust &lt;-<span class="st"> </span><span class="kw">coeftest</span>(modele, <span class="dt">vcov =</span> <span class="kw">vcovHC</span>(modele, <span class="dt">type =</span> <span class="st">&quot;HC1&quot;</span>))</a>
+<a class="sourceLine" id="cb397-4" title="4"> modele_robust</a></code></pre></div>
 <pre><code>## 
 ## t test of coefficients:
 ## 
@@ -346,10 +352,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="les-paquets-lmtest-et-car" class="section level3">
 <h3><span class="header-section-number">6.3.2</span> Les paquets <code>lmtest</code> et <code>car</code></h3>
 <p>le paquet <code>car</code> fournit la commande <code>hccn</code> qui corrige la matrice de variance covariance, tandis que le paquet <code>lmtest</code> fournit la commande <code>coeftest</code> qui permet d’utiliser cette dernière pour construire un tableau de résultat corrigé.</p>
-<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb397-1" title="1"><span class="kw">library</span>(lmtest)</a>
-<a class="sourceLine" id="cb397-2" title="2"> <span class="kw">library</span>(car)</a>
-<a class="sourceLine" id="cb397-3" title="3"> modele_robust2 &lt;-<span class="st"> </span><span class="kw">coeftest</span>(modele, <span class="dt">vcov =</span> <span class="kw">hccm</span>(modele, <span class="dt">type =</span> <span class="st">&quot;hc1&quot;</span>))</a>
-<a class="sourceLine" id="cb397-4" title="4"> modele_robust2</a></code></pre></div>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb399-1" title="1"><span class="kw">library</span>(lmtest)</a>
+<a class="sourceLine" id="cb399-2" title="2"> <span class="kw">library</span>(car)</a></code></pre></div>
+<pre><code>## Loading required package: carData</code></pre>
+<pre><code>## 
+## Attaching package: &#39;car&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     some</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     recode</code></pre>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb404-1" title="1"> modele_robust2 &lt;-<span class="st"> </span><span class="kw">coeftest</span>(modele, <span class="dt">vcov =</span> <span class="kw">hccm</span>(modele, <span class="dt">type =</span> <span class="st">&quot;hc1&quot;</span>))</a>
+<a class="sourceLine" id="cb404-2" title="2"> modele_robust2</a></code></pre></div>
 <pre><code>## 
 ## t test of coefficients:
 ## 
@@ -366,9 +381,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="le-paquet-estimatr" class="section level3">
 <h3><span class="header-section-number">6.3.3</span> Le paquet <code>estimatr</code></h3>
 <p>Le paquet <code>estimatr</code>, plus récent, permet d’estimer directement des modèles corrigés (sans avoir à estimer le modèle non corrigé au préalable). Il faut utiliser la commande <code>lm_robust()</code> avec l’option <code>se_type="HC1"</code> :</p>
-<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb399-1" title="1"><span class="kw">library</span>(estimatr)</a>
-<a class="sourceLine" id="cb399-2" title="2">modele_robust3 &lt;-<span class="st"> </span><span class="kw">lm_robust</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2, <span class="dt">se_type =</span> <span class="st">&quot;HC1&quot;</span>)</a>
-<a class="sourceLine" id="cb399-3" title="3"><span class="kw">summary</span>(modele_robust3)</a></code></pre></div>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb406-1" title="1"><span class="kw">library</span>(estimatr)</a>
+<a class="sourceLine" id="cb406-2" title="2">modele_robust3 &lt;-<span class="st"> </span><span class="kw">lm_robust</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2, <span class="dt">se_type =</span> <span class="st">&quot;HC1&quot;</span>)</a>
+<a class="sourceLine" id="cb406-3" title="3"><span class="kw">summary</span>(modele_robust3)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm_robust(formula = avgexp ~ age + ownrent + income + income2, 
@@ -387,14 +402,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Multiple R-squared:  0.1788 ,	Adjusted R-squared:  0.1443 
 ## F-statistic: 6.323 on 4 and 95 DF,  p-value: 0.0001485</code></pre>
 <p>Les résultats sont à nouveau identiques, mais le paquet <code>estimatr</code> fournit en plus les intervalles de confiance dans le tableau de résultat. Pour les obtenir avec les autres paquets, il aurait fallu taper</p>
-<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb401-1" title="1"><span class="kw">confint</span>(modele_robust)</a></code></pre></div>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb408-1" title="1"><span class="kw">confint</span>(modele_robust)</a></code></pre></div>
 <pre><code>##                   2.5 %     97.5 %
 ## (Intercept) -417.735526 185.752639
 ## age           -8.510198   1.202751
 ## ownrent      -73.845951 195.608913
 ## income        11.410587 301.523775
 ## income2      -21.269821   3.117847</code></pre>
-<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb403-1" title="1"><span class="kw">confint</span>(modele_robust2)</a></code></pre></div>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb410-1" title="1"><span class="kw">confint</span>(modele_robust2)</a></code></pre></div>
 <pre><code>##                   2.5 %     97.5 %
 ## (Intercept) -417.735526 185.752639
 ## age           -8.510198   1.202751
@@ -407,13 +422,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">6.4</span> MCQG par pondération</h2>
 <p>La méthode des moindres carrés généralisée permet en principe de corriger l’hétéroscédasticité en pondérant les observations par l’inverse de l’écart-type du terme d’erreur.</p>
 <p>En posant pour hypothèse que <span class="math inline">\(\sigma^2_i=\exp(\boldsymbol{x&#39;_i\alpha})\)</span>, on peut estimer <span class="math inline">\(\boldsymbol{\hat\alpha}\)</span> en régressant les logs carrés des résidus sur les <span class="math inline">\(x\)</span>, puis en calculant <span class="math inline">\(\hat\alpha_i^2=\exp(\boldsymbol{x&#39;_i\hat\alpha})\)</span> et en pondérant les observations par <span class="math inline">\(\hat\sigma_i\)</span> :</p>
-<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb405-1" title="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb405-2" title="2">modele &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2)</a>
-<a class="sourceLine" id="cb405-3" title="3">ma_base &lt;-<span class="st"> </span>ma_base  <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">logresid2=</span><span class="kw">log</span>(<span class="kw">residuals</span>(modele)<span class="op">^</span><span class="dv">2</span>)) <span class="co"># on ajoute la variable ln(e^2)</span></a>
-<a class="sourceLine" id="cb405-4" title="4">modeleresid &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,logresid2 <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2) <span class="co"># on les régresse sur les x</span></a>
-<a class="sourceLine" id="cb405-5" title="5">ma_base &lt;-<span class="st"> </span>ma_base <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">e2chap=</span><span class="kw">exp</span>(modeleresid<span class="op">$</span>fitted.values)) <span class="co"># on calcule la variance prédite</span></a>
-<a class="sourceLine" id="cb405-6" title="6">modele2 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2,<span class="dt">weight=</span><span class="dv">1</span><span class="op">/</span>e2chap) <span class="co"># on pondère la régression par 1/variance</span></a>
-<a class="sourceLine" id="cb405-7" title="7"><span class="kw">summary</span>(modele2)</a></code></pre></div>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb412-1" title="1">modele &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2)</a>
+<a class="sourceLine" id="cb412-2" title="2">ma_base<span class="op">$</span>logresid2 &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="kw">residuals</span>(modele)<span class="op">^</span><span class="dv">2</span>) <span class="co"># on ajoute la variable ln(e^2)</span></a>
+<a class="sourceLine" id="cb412-3" title="3">modeleresid &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,logresid2 <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2) <span class="co"># on les régresse sur les x</span></a>
+<a class="sourceLine" id="cb412-4" title="4">ma_base<span class="op">$</span>e2chap &lt;-<span class="st"> </span><span class="kw">exp</span>(modeleresid<span class="op">$</span>fitted.values) <span class="co"># on calcule la variance prédite</span></a>
+<a class="sourceLine" id="cb412-5" title="5">modele2 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2,<span class="dt">weight=</span><span class="dv">1</span><span class="op">/</span>e2chap) <span class="co"># on pondère la régression par 1/variance</span></a>
+<a class="sourceLine" id="cb412-6" title="6"><span class="kw">summary</span>(modele2)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = avgexp ~ age + ownrent + income + income2, data = ma_base, 

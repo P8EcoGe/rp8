@@ -307,9 +307,9 @@ Afin de s’éviter ces désagréments, le package MonteCarlo permet d’automat
 ##   moy &lt;- mean(tirages) # on calcule la moyenne
 ##   return(list(&quot;moyenne&quot;=moy)) # on la retourne dans une liste nommée &quot;moyenne&quot;
 ## }
-## &lt;bytecode: 0x56154694d310&gt;
+## &lt;bytecode: 0x55fc64a25d48&gt;
 ## 
-## Required time: 1.9 secs for nrep = 10000  repetitions on 1 CPUs 
+## Required time: 1.68 secs for nrep = 10000  repetitions on 1 CPUs 
 ## 
 ## Parameter grid: 
 ## 
@@ -322,48 +322,47 @@ Afin de s’éviter ces désagréments, le package MonteCarlo permet d’automat
 <p>On va le transformer les parties pertinentes en <code>data frame</code> (voir les tutoriels) pour une manipulation plus aisée. la fonction <code>head()</code> permet ensuite de lister les premières lignes d’une <code>data frame</code>, afin de vérifier rapidement son contenu.</p>
 <div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb269-1" title="1">data_resultats &lt;-<span class="kw">MakeFrame</span>(resultats)</a>
 <a class="sourceLine" id="cb269-2" title="2"><span class="kw">head</span>(data_resultats)</a></code></pre></div>
-<pre><code>##     n mu sigma    moyenne
-## 1  10  0     1 0.27948975
-## 2 100  0     1 0.01071684
-## 3  10  5     1 5.00136716
-## 4 100  5     1 4.96968491
-## 5  10  0     2 1.05192122
-## 6 100  0     2 0.36621319</code></pre>
+<pre><code>##     n mu sigma     moyenne
+## 1  10  0     1 -0.14905981
+## 2 100  0     1  0.01071684
+## 3  10  5     1  5.00136716
+## 4 100  5     1  4.96968491
+## 5  10  0     2  1.05192122
+## 6 100  0     2  0.36621319</code></pre>
 <p>On va maintenant calculer les moyennes et écart-types des 10000 moyennes calculées pour chaque scénario de simulation. On fait appel aux outils de “pipe” (<code>%&gt;%</code>) et de groupe (<code>group_by()</code>) expliqués dans le tutoriel “<em>Work With Data</em>”. On en profite pour ajouter une variable “ecty_theor” donnant l’écart-type théorique de la distribution des moyennes</p>
 <div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb271-1" title="1">data_resultats <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb271-2" title="2"><span class="kw">mutate</span>(<span class="dt">ecty_theor=</span>sigma<span class="op">/</span><span class="kw">sqrt</span>(n)) <span class="op">%&gt;%</span><span class="st">  </span></a>
 <a class="sourceLine" id="cb271-3" title="3"><span class="kw">group_by</span>(n,mu,sigma) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb271-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">moy=</span><span class="kw">mean</span>(moyenne),<span class="dt">ecty=</span><span class="kw">sd</span>(moyenne),<span class="dt">ecty_theor=</span><span class="kw">mean</span>(ecty_theor))</a></code></pre></div>
-<pre><code>## `summarise()` regrouping output by &#39;n&#39;, &#39;mu&#39; (override with `.groups` argument)</code></pre>
 <pre><code>## # A tibble: 12 x 6
 ## # Groups:   n, mu [4]
-##        n    mu sigma      moy   ecty ecty_theor
-##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
-##  1    10     0     1 0.00450  0.317       0.316
-##  2    10     0     2 0.000765 0.631       0.632
-##  3    10     0     4 0.000930 1.27        1.26 
-##  4    10     5     1 5.00     0.315       0.316
-##  5    10     5     2 5.00     0.632       0.632
-##  6    10     5     4 5.00     1.25        1.26 
-##  7   100     0     1 0.000331 0.0990      0.1  
-##  8   100     0     2 0.00493  0.200       0.2  
-##  9   100     0     4 0.00267  0.403       0.4  
-## 10   100     5     1 5.00     0.0992      0.1  
-## 11   100     5     2 5.00     0.198       0.2  
-## 12   100     5     4 5.00     0.401       0.4</code></pre>
+##        n    mu sigma       moy   ecty ecty_theor
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+##  1    10     0     1 -0.00512  0.317       0.316
+##  2    10     0     2  0.000765 0.631       0.632
+##  3    10     0     4  0.000930 1.27        1.26 
+##  4    10     5     1  5.00     0.315       0.316
+##  5    10     5     2  5.00     0.632       0.632
+##  6    10     5     4  5.00     1.25        1.26 
+##  7   100     0     1  0.000331 0.0990      0.1  
+##  8   100     0     2  0.00493  0.200       0.2  
+##  9   100     0     4  0.00267  0.403       0.4  
+## 10   100     5     1  5.00     0.0992      0.1  
+## 11   100     5     2  5.00     0.198       0.2  
+## 12   100     5     4  5.00     0.401       0.4</code></pre>
 <p>On constate que la moyenne des moyenne (colonne “moy”) est très proche de la moyenne théorique (“mu”), de même que l’écart-type de la distribution des moyennes (“ecty”) est très proche de l’écart-type théorique. Nos observations semblent bien coller avec la théorie.</p>
 <p>On complète l’exercice en faisant un graphique de la fonction de densité estimées de nos résultats, pour chaque valeur de <span class="math inline">\(n\)</span>, <span class="math inline">\(\mu\)</span> et <span class="math inline">\(\sigma\)</span>.</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb274-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data=</span>data_resultats,<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>moyenne,<span class="dt">group=</span>sigma,<span class="dt">color=</span><span class="kw">factor</span>(sigma))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb274-2" title="2"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb274-3" title="3"><span class="st">  </span><span class="kw">facet_wrap</span>(mu <span class="op">~</span><span class="st"> </span>n,<span class="dt">labeller=</span>label_both)</a></code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb273-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data=</span>data_resultats,<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>moyenne,<span class="dt">group=</span>sigma,<span class="dt">color=</span><span class="kw">factor</span>(sigma))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb273-2" title="2"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb273-3" title="3"><span class="st">  </span><span class="kw">facet_wrap</span>(mu <span class="op">~</span><span class="st"> </span>n,<span class="dt">labeller=</span>label_both)</a></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-107-1.png" width="672" /></p>
 </div>
 <div id="avec-une-régression-par-mco" class="section level2">
 <h2><span class="header-section-number">4.3</span> Avec une régression par MCO</h2>
 <p><code>R</code> permet de faire une régression linéaire par MCO avec la commande <code>lm()</code>(voir le <a href="MCO.html#MCO">chapitre sur la répression par MCO</a>) ci-dessous</p>
 <p>On va charger une base de données préinstallée avec <code>R</code> : les données “mtcars”</p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb275-1" title="1"><span class="kw">data</span>(mtcars)</a>
-<a class="sourceLine" id="cb275-2" title="2"><span class="kw">head</span>(mtcars)</a></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb274-1" title="1"><span class="kw">data</span>(mtcars)</a>
+<a class="sourceLine" id="cb274-2" title="2"><span class="kw">head</span>(mtcars)</a></code></pre></div>
 <pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
 ## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
 ## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
@@ -372,7 +371,7 @@ Afin de s’éviter ces désagréments, le package MonteCarlo permet d’automat
 ## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
 ## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
 <p>Effectuons une régression linaire de, par exemple, “mpg” sur “cyl” et “disp”</p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb277-1" title="1"><span class="kw">lm</span>(<span class="dt">data=</span>mtcars,mpg <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>disp)</a></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb276-1" title="1"><span class="kw">lm</span>(<span class="dt">data=</span>mtcars,mpg <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>disp)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = mpg ~ cyl + disp, data = mtcars)
@@ -381,8 +380,8 @@ Afin de s’éviter ces désagréments, le package MonteCarlo permet d’automat
 ## (Intercept)          cyl         disp  
 ##    34.66099     -1.58728     -0.02058</code></pre>
 <p>La sortie est assez minimale. Stockons cette régression dans un objet que nous appellerons “ma_regression” et faisons un <code>summary()</code> de ce dernier</p>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb279-1" title="1">ma_regression &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>mtcars,mpg <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>disp)</a>
-<a class="sourceLine" id="cb279-2" title="2"><span class="kw">summary</span>(ma_regression)</a></code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb278-1" title="1">ma_regression &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>mtcars,mpg <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>disp)</a>
+<a class="sourceLine" id="cb278-2" title="2"><span class="kw">summary</span>(ma_regression)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = mpg ~ cyl + disp, data = mtcars)
@@ -404,36 +403,36 @@ Afin de s’éviter ces désagréments, le package MonteCarlo permet d’automat
 ## F-statistic: 45.81 on 2 and 29 DF,  p-value: 1.058e-09</code></pre>
 <p>On a déjà plus de détails.</p>
 <p>On peut extraire divers éléments issus de <code>lm()</code> :</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" title="1"><span class="kw">summary</span>(ma_regression)<span class="op">$</span>coef[,<span class="st">&quot;Estimate&quot;</span>] <span class="co"># les beta chapeau</span></a></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb280-1" title="1"><span class="kw">summary</span>(ma_regression)<span class="op">$</span>coef[,<span class="st">&quot;Estimate&quot;</span>] <span class="co"># les beta chapeau</span></a></code></pre></div>
 <pre><code>## (Intercept)         cyl        disp 
 ## 34.66099474 -1.58727681 -0.02058363</code></pre>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb283-1" title="1"><span class="kw">summary</span>(ma_regression)<span class="op">$</span>coef[,<span class="st">&quot;Std. Error&quot;</span>] <span class="co"># les écarts-type</span></a></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb282-1" title="1"><span class="kw">summary</span>(ma_regression)<span class="op">$</span>coef[,<span class="st">&quot;Std. Error&quot;</span>] <span class="co"># les écarts-type</span></a></code></pre></div>
 <pre><code>## (Intercept)         cyl        disp 
 ##  2.54700388  0.71184427  0.01025748</code></pre>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb285-1" title="1"><span class="kw">summary</span>(ma_regression)<span class="op">$</span>coef[,<span class="st">&quot;Estimate&quot;</span>][<span class="st">&quot;cyl&quot;</span>] <span class="co"># le beta chapeau de la variable &quot;cyl&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb284-1" title="1"><span class="kw">summary</span>(ma_regression)<span class="op">$</span>coef[,<span class="st">&quot;Estimate&quot;</span>][<span class="st">&quot;cyl&quot;</span>] <span class="co"># le beta chapeau de la variable &quot;cyl&quot;</span></a></code></pre></div>
 <pre><code>##       cyl 
 ## -1.587277</code></pre>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb287-1" title="1"><span class="kw">summary</span>(ma_regression)<span class="op">$</span>coef[,<span class="st">&quot;Estimate&quot;</span>][[<span class="st">&quot;cyl&quot;</span>]] <span class="co"># la même valeur, mais sans le nom associé, notez les doubles crochets </span></a></code></pre></div>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb286-1" title="1"><span class="kw">summary</span>(ma_regression)<span class="op">$</span>coef[,<span class="st">&quot;Estimate&quot;</span>][[<span class="st">&quot;cyl&quot;</span>]] <span class="co"># la même valeur, mais sans le nom associé, notez les doubles crochets </span></a></code></pre></div>
 <pre><code>## [1] -1.587277</code></pre>
 <p>On va maintenant utiliser ces éléments pour construire une simulation de Monte-Carlo de la distribution de l’estimateur des MCO <span class="math inline">\(\hat\beta_x\)</span> dans un cadre qui respecte les hypothèses de Gauss-Markov</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb289-1" title="1"><span class="kw">library</span>(MonteCarlo) <span class="co"># doit avoir package Rcpp installé</span></a>
-<a class="sourceLine" id="cb289-2" title="2"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb289-3" title="3"></a>
-<a class="sourceLine" id="cb289-4" title="4">betareg&lt;-<span class="cf">function</span>(n) {</a>
-<a class="sourceLine" id="cb289-5" title="5">  x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dt">mean=</span><span class="dv">0</span>,<span class="dt">sd=</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb289-6" title="6">  epsilon &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dt">mean=</span><span class="dv">0</span>,<span class="dt">sd=</span><span class="dv">1</span>) <span class="co"># epsilon suit une loi normale non corrélée à x</span></a>
-<a class="sourceLine" id="cb289-7" title="7">  y &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">+</span>x<span class="op">+</span>epsilon</a>
-<a class="sourceLine" id="cb289-8" title="8">  mareg &lt;-<span class="st"> </span><span class="kw">lm</span>(y<span class="op">~</span>x)</a>
-<a class="sourceLine" id="cb289-9" title="9">  coeffs &lt;-<span class="st"> </span><span class="kw">summary</span>(mareg)<span class="op">$</span>coef[,<span class="st">&quot;Estimate&quot;</span>]</a>
-<a class="sourceLine" id="cb289-10" title="10">  betax &lt;-<span class="st"> </span>coeffs[[<span class="st">&quot;x&quot;</span>]]</a>
-<a class="sourceLine" id="cb289-11" title="11">  <span class="kw">return</span>(<span class="kw">list</span>(<span class="st">&quot;betax&quot;</span>=betax))</a>
-<a class="sourceLine" id="cb289-12" title="12">}</a>
-<a class="sourceLine" id="cb289-13" title="13"></a>
-<a class="sourceLine" id="cb289-14" title="14">n_grid&lt;-<span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb289-15" title="15"></a>
-<a class="sourceLine" id="cb289-16" title="16">param_list=<span class="kw">list</span>(<span class="st">&quot;n&quot;</span>=n_grid)</a></code></pre></div>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb290-1" title="1">resultats&lt;-<span class="kw">MonteCarlo</span>(<span class="dt">func=</span>betareg, <span class="dt">nrep=</span><span class="dv">10000</span>, <span class="dt">param_list=</span>param_list)</a></code></pre></div>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb291-1" title="1"><span class="kw">summary</span>(resultats)</a></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb288-1" title="1"><span class="kw">library</span>(MonteCarlo) <span class="co"># doit avoir package Rcpp installé</span></a>
+<a class="sourceLine" id="cb288-2" title="2"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb288-3" title="3"></a>
+<a class="sourceLine" id="cb288-4" title="4">betareg&lt;-<span class="cf">function</span>(n) {</a>
+<a class="sourceLine" id="cb288-5" title="5">  x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dt">mean=</span><span class="dv">0</span>,<span class="dt">sd=</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb288-6" title="6">  epsilon &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dt">mean=</span><span class="dv">0</span>,<span class="dt">sd=</span><span class="dv">1</span>) <span class="co"># epsilon suit une loi normale non corrélée à x</span></a>
+<a class="sourceLine" id="cb288-7" title="7">  y &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">+</span>x<span class="op">+</span>epsilon</a>
+<a class="sourceLine" id="cb288-8" title="8">  mareg &lt;-<span class="st"> </span><span class="kw">lm</span>(y<span class="op">~</span>x)</a>
+<a class="sourceLine" id="cb288-9" title="9">  coeffs &lt;-<span class="st"> </span><span class="kw">summary</span>(mareg)<span class="op">$</span>coef[,<span class="st">&quot;Estimate&quot;</span>]</a>
+<a class="sourceLine" id="cb288-10" title="10">  betax &lt;-<span class="st"> </span>coeffs[[<span class="st">&quot;x&quot;</span>]]</a>
+<a class="sourceLine" id="cb288-11" title="11">  <span class="kw">return</span>(<span class="kw">list</span>(<span class="st">&quot;betax&quot;</span>=betax))</a>
+<a class="sourceLine" id="cb288-12" title="12">}</a>
+<a class="sourceLine" id="cb288-13" title="13"></a>
+<a class="sourceLine" id="cb288-14" title="14">n_grid&lt;-<span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb288-15" title="15"></a>
+<a class="sourceLine" id="cb288-16" title="16">param_list=<span class="kw">list</span>(<span class="st">&quot;n&quot;</span>=n_grid)</a></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb289-1" title="1">resultats&lt;-<span class="kw">MonteCarlo</span>(<span class="dt">func=</span>betareg, <span class="dt">nrep=</span><span class="dv">10000</span>, <span class="dt">param_list=</span>param_list)</a></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb290-1" title="1"><span class="kw">summary</span>(resultats)</a></code></pre></div>
 <pre><code>## Simulation of function: 
 ## 
 ## function(n) {
@@ -445,9 +444,9 @@ Afin de s’éviter ces désagréments, le package MonteCarlo permet d’automat
 ##   betax &lt;- coeffs[[&quot;x&quot;]]
 ##   return(list(&quot;betax&quot;=betax))
 ## }
-## &lt;bytecode: 0x5615458b6078&gt;
+## &lt;bytecode: 0x55fc6e4d9eb0&gt;
 ## 
-## Required time: 16.71 secs for nrep = 10000  repetitions on 1 CPUs 
+## Required time: 13.66 secs for nrep = 10000  repetitions on 1 CPUs 
 ## 
 ## Parameter grid: 
 ## 
@@ -455,8 +454,8 @@ Afin de s’éviter ces désagréments, le package MonteCarlo permet d’automat
 ## 
 ##  
 ## 1 output arrays of dimensions: 2 10000</code></pre>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb293-1" title="1">data_resultats &lt;-<span class="kw">MakeFrame</span>(resultats)</a>
-<a class="sourceLine" id="cb293-2" title="2"><span class="kw">head</span>(data_resultats)</a></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb292-1" title="1">data_resultats &lt;-<span class="kw">MakeFrame</span>(resultats)</a>
+<a class="sourceLine" id="cb292-2" title="2"><span class="kw">head</span>(data_resultats)</a></code></pre></div>
 <pre><code>##     n     betax
 ## 1  10 1.4697435
 ## 2 100 0.9905716
@@ -464,16 +463,15 @@ Afin de s’éviter ces désagréments, le package MonteCarlo permet d’automat
 ## 4 100 1.1352285
 ## 5  10 1.3121881
 ## 6 100 1.2713152</code></pre>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb295-1" title="1">data_resultats <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb295-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(n) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb295-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">moy=</span><span class="kw">mean</span>(betax),<span class="dt">ecty=</span><span class="kw">sd</span>(betax))</a></code></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb294-1" title="1">data_resultats <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb294-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(n) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb294-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">moy=</span><span class="kw">mean</span>(betax),<span class="dt">ecty=</span><span class="kw">sd</span>(betax))</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 3
 ##       n   moy  ecty
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1    10 0.998 0.377
 ## 2   100 0.999 0.100</code></pre>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb298-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data=</span>data_resultats,<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>betax,<span class="dt">group=</span>n,<span class="dt">color=</span><span class="kw">factor</span>(n)))<span class="op">+</span><span class="kw">geom_density</span>() </a></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb296-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data=</span>data_resultats,<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>betax,<span class="dt">group=</span>n,<span class="dt">color=</span><span class="kw">factor</span>(n)))<span class="op">+</span><span class="kw">geom_density</span>() </a></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
 <p>Les résultats ci-dessus sont-ils ceux que l’on s’attendait à avoir ? Que nous dit la théorie ?</p>
 

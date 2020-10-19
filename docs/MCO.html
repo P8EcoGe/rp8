@@ -226,8 +226,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="la-commande-de-base-lm-et-summary" class="section level2">
 <h2><span class="header-section-number">5.1</span> La commande de base : <code>lm()</code> et <code>summary()</code></h2>
 <p>Commençons par ouvrir la base de données <code>mtcars</code> préinstallée dans <code>R</code>, listons ses premières lignes et regardons les statistiques descriptives des variables qui y sont contenues</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb299-1" title="1"><span class="kw">data</span>(<span class="st">&quot;mtcars&quot;</span>)</a>
-<a class="sourceLine" id="cb299-2" title="2"><span class="kw">head</span>(mtcars)</a></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb297-1" title="1"><span class="kw">data</span>(<span class="st">&quot;mtcars&quot;</span>)</a>
+<a class="sourceLine" id="cb297-2" title="2"><span class="kw">head</span>(mtcars)</a></code></pre></div>
 <pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
 ## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
 ## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
@@ -235,7 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
 ## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
 ## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb301-1" title="1"><span class="kw">summary</span>(mtcars)</a></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb299-1" title="1"><span class="kw">summary</span>(mtcars)</a></code></pre></div>
 <pre><code>##       mpg             cyl             disp             hp       
 ##  Min.   :10.40   Min.   :4.000   Min.   : 71.1   Min.   : 52.0  
 ##  1st Qu.:15.43   1st Qu.:4.000   1st Qu.:120.8   1st Qu.: 96.5  
@@ -258,7 +258,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  3rd Qu.:1.0000   3rd Qu.:4.000   3rd Qu.:4.000  
 ##  Max.   :1.0000   Max.   :5.000   Max.   :8.000</code></pre>
 <p>On souhaite faire une régression linéaire par MCO de, par exemple, <code>mpg</code> sur <code>cyl</code>, <code>disp</code> et <code>hp</code>. La commande correspondante est <code>lm(data = mtcars, mpg ~ cyl + disp + hp)</code> :</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb303-1" title="1"><span class="kw">lm</span>(<span class="dt">data =</span> mtcars, mpg <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp)</a></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb301-1" title="1"><span class="kw">lm</span>(<span class="dt">data =</span> mtcars, mpg <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = mpg ~ cyl + disp + hp, data = mtcars)
@@ -267,9 +267,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## (Intercept)          cyl         disp           hp  
 ##    34.18492     -1.22742     -0.01884     -0.01468</code></pre>
 <p>La sortie est assez minimaliste. On a un rappel de la commande, et le vecteur des <span class="math inline">\(\hat\beta\)</span>. Comme souvent dans <code>R</code>, la bonne façon de procéder est de sauvegarder le modèle dans un <em>objet</em> sur lequel on va ensuite appliquer des commandes et fonctions pour en extraire les éléments souhaités. Stockons donc ce mdoèle dans un objet nommé “ma_regression”</p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb305-1" title="1">ma_regression &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>mtcars , mpg <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp)</a></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb303-1" title="1">ma_regression &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>mtcars , mpg <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp)</a></code></pre></div>
 <p>Il n’y a pas de sortie particulière, mais on va maintenant pouvoir manipuler l’objet “ma_regression”. Par exemple, <code>summary(ma_regression)</code> nous donnera par exemple un output bien plus complet de notre régression</p>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb306-1" title="1"><span class="kw">summary</span>(ma_regression)</a></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb304-1" title="1"><span class="kw">summary</span>(ma_regression)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = mpg ~ cyl + disp + hp, data = mtcars)
@@ -294,37 +294,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="extraire-des-éléments-du-modèle" class="section level2">
 <h2><span class="header-section-number">5.2</span> Extraire des éléments du modèle</h2>
 <p>On peut obtenir la liste des éléments de l’objet “ma_regression” à l’aide de la fonction <code>names()</code></p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb308-1" title="1"><span class="kw">names</span>(ma_regression)</a></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb306-1" title="1"><span class="kw">names</span>(ma_regression)</a></code></pre></div>
 <pre><code>##  [1] &quot;coefficients&quot;  &quot;residuals&quot;     &quot;effects&quot;       &quot;rank&quot;         
 ##  [5] &quot;fitted.values&quot; &quot;assign&quot;        &quot;qr&quot;            &quot;df.residual&quot;  
 ##  [9] &quot;xlevels&quot;       &quot;call&quot;          &quot;terms&quot;         &quot;model&quot;</code></pre>
 <p>On peut accéder à chacun des éléments listés ci-dessus via <code>ma_regression$element</code> ou, dans certains cas via la fonction <code>element(ma_regression)</code> :</p>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb310-1" title="1">ma_regression<span class="op">$</span>coefficients</a></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb308-1" title="1">ma_regression<span class="op">$</span>coefficients</a></code></pre></div>
 <pre><code>## (Intercept)         cyl        disp          hp 
 ## 34.18491917 -1.22741994 -0.01883809 -0.01467933</code></pre>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb312-1" title="1"><span class="kw">coefficients</span>(ma_regression)</a></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb310-1" title="1"><span class="kw">coefficients</span>(ma_regression)</a></code></pre></div>
 <pre><code>## (Intercept)         cyl        disp          hp 
 ## 34.18491917 -1.22741994 -0.01883809 -0.01467933</code></pre>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb314-1" title="1">ma_regression<span class="op">$</span>df.residual</a></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb312-1" title="1">ma_regression<span class="op">$</span>df.residual</a></code></pre></div>
 <pre><code>## [1] 28</code></pre>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb316-1" title="1"><span class="kw">df.residual</span>(ma_regression)</a></code></pre></div>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb314-1" title="1"><span class="kw">df.residual</span>(ma_regression)</a></code></pre></div>
 <pre><code>## [1] 28</code></pre>
 <p>On peut à nouveau extraire des éléments individuels de ces éléments. Par exemple, si on souhaite obtenir <span class="math inline">\(\hat\beta_{cyl}\)</span>, on tapera</p>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb318-1" title="1">ma_regression<span class="op">$</span>coefficients[<span class="st">&quot;cyl&quot;</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb316-1" title="1">ma_regression<span class="op">$</span>coefficients[<span class="st">&quot;cyl&quot;</span>]</a></code></pre></div>
 <pre><code>##      cyl 
 ## -1.22742</code></pre>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb320-1" title="1"><span class="kw">coefficients</span>(ma_regression)[<span class="st">&quot;cyl&quot;</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb318-1" title="1"><span class="kw">coefficients</span>(ma_regression)[<span class="st">&quot;cyl&quot;</span>]</a></code></pre></div>
 <pre><code>##      cyl 
 ## -1.22742</code></pre>
 <p>Dans les exmples ci-dessus le coefficient obtenu est un vecteur “nommé” (le label “cyl” apparaît). Si on veut extraire juste la valeur numérique, on mettra des doubles crochets :</p>
-<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb322-1" title="1">ma_regression<span class="op">$</span>coefficients[[<span class="st">&quot;cyl&quot;</span>]]</a></code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb320-1" title="1">ma_regression<span class="op">$</span>coefficients[[<span class="st">&quot;cyl&quot;</span>]]</a></code></pre></div>
 <pre><code>## [1] -1.22742</code></pre>
-<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb324-1" title="1"><span class="kw">coefficients</span>(ma_regression)[[<span class="st">&quot;cyl&quot;</span>]]</a></code></pre></div>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb322-1" title="1"><span class="kw">coefficients</span>(ma_regression)[[<span class="st">&quot;cyl&quot;</span>]]</a></code></pre></div>
 <pre><code>## [1] -1.22742</code></pre>
 <div id="données-du-modèles" class="section level3">
 <h3><span class="header-section-number">5.2.1</span> Données du modèles</h3>
 <p>Il est parfois utile d’avoir accès aux données utilisées pour l’estimation. Si les données présentent des valeurs manquantes, ou que l’on a sélectionné un sous-échantillon particulier, les données utilisées pour le modèle ne seront pas strictement équivalentes aux données de la base “complète” (il est possible que toutes les observations n’y soient pas). On peut accéder aux données via l’élément <code>model</code> :</p>
-<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb326-1" title="1">ma_regression<span class="op">$</span>model</a></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb324-1" title="1">ma_regression<span class="op">$</span>model</a></code></pre></div>
 <pre><code>##                      mpg cyl  disp  hp
 ## Mazda RX4           21.0   6 160.0 110
 ## Mazda RX4 Wag       21.0   6 160.0 110
@@ -359,12 +359,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Maserati Bora       15.0   8 301.0 335
 ## Volvo 142E          21.4   4 121.0 109</code></pre>
 <p>On voit que les variables ya apparaissent dans l’ordre dans lesquelles elles ont été spécifiées. Si on veut, par exemple, récupérer le vecteur des observations de <span class="math inline">\(y\)</span> utilisées dans notre estimation, on tapera</p>
-<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb328-1" title="1">ma_regression<span class="op">$</span>model[,<span class="dv">1</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb326-1" title="1">ma_regression<span class="op">$</span>model[,<span class="dv">1</span>]</a></code></pre></div>
 <pre><code>##  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2 10.4
 ## [16] 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3 26.0 30.4 15.8 19.7
 ## [31] 15.0 21.4</code></pre>
 <p>ou</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb330-1" title="1">ma_regression<span class="op">$</span>model[,<span class="st">&quot;mpg&quot;</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb328-1" title="1">ma_regression<span class="op">$</span>model[,<span class="st">&quot;mpg&quot;</span>]</a></code></pre></div>
 <pre><code>##  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2 10.4
 ## [16] 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3 26.0 30.4 15.8 19.7
 ## [31] 15.0 21.4</code></pre>
@@ -372,27 +372,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="manipulation-plus-avancée" class="section level3">
 <h3><span class="header-section-number">5.2.2</span> Manipulation plus avancée</h3>
 <p>Certaines fonctions supplémentaires sont également disponibles. Par exemple <code>vcov()</code> permet d’obtenir la matrice de variance-covariance des <span class="math inline">\(\hat\beta\)</span></p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb332-1" title="1"><span class="kw">vcov</span>(ma_regression)</a></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb330-1" title="1"><span class="kw">vcov</span>(ma_regression)</a></code></pre></div>
 <pre><code>##              (Intercept)          cyl          disp            hp
 ## (Intercept)  6.712128488 -1.786156956  0.0156477359  0.0069613946
 ## cyl         -1.786156956  0.635649515 -0.0059597991 -0.0052619916
 ## disp         0.015647736 -0.005959799  0.0001082368 -0.0000255242
 ## hp           0.006961395 -0.005261992 -0.0000255242  0.0002146479</code></pre>
 <p>On peut alors facilement en extraire le vecteur des écart-types des <span class="math inline">\(\hat\beta\)</span> :</p>
-<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb334-1" title="1"><span class="kw">sqrt</span>(<span class="kw">diag</span>(<span class="kw">vcov</span>(ma_regression)))</a></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb332-1" title="1"><span class="kw">sqrt</span>(<span class="kw">diag</span>(<span class="kw">vcov</span>(ma_regression)))</a></code></pre></div>
 <pre><code>## (Intercept)         cyl        disp          hp 
 ##  2.59077758  0.79727631  0.01040369  0.01465087</code></pre>
 <p>Parmi les autres fonctions utiles, <code>confint()</code> permet d’obtenir les intervalles de confiance des <span class="math inline">\(\hat\beta\)</span> :</p>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb336-1" title="1"><span class="kw">confint</span>(ma_regression) <span class="co"># tous les coeffs, à 95 %</span></a></code></pre></div>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb334-1" title="1"><span class="kw">confint</span>(ma_regression) <span class="co"># tous les coeffs, à 95 %</span></a></code></pre></div>
 <pre><code>##                   2.5 %       97.5 %
 ## (Intercept) 28.87795186 39.491886473
 ## cyl         -2.86056643  0.405726550
 ## disp        -0.04014908  0.002472913
 ## hp          -0.04469028  0.015331608</code></pre>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb338-1" title="1"><span class="kw">confint</span>(ma_regression,<span class="st">&quot;disp&quot;</span>) <span class="co"># un coeff particulier</span></a></code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb336-1" title="1"><span class="kw">confint</span>(ma_regression,<span class="st">&quot;disp&quot;</span>) <span class="co"># un coeff particulier</span></a></code></pre></div>
 <pre><code>##            2.5 %      97.5 %
 ## disp -0.04014908 0.002472913</code></pre>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb340-1" title="1"><span class="kw">confint</span>(ma_regression,<span class="st">&quot;cyl&quot;</span>,<span class="dt">level=</span><span class="fl">0.90</span>) <span class="co"># un coeff particulier, à 90 %</span></a></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb338-1" title="1"><span class="kw">confint</span>(ma_regression,<span class="st">&quot;cyl&quot;</span>,<span class="dt">level=</span><span class="fl">0.90</span>) <span class="co"># un coeff particulier, à 90 %</span></a></code></pre></div>
 <pre><code>##           5 %      95 %
 ## cyl -2.583691 0.1288515</code></pre>
 </div>
@@ -400,17 +400,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="graphiques-danalyse-des-résidus" class="section level2">
 <h2><span class="header-section-number">5.3</span> Graphiques d’analyse des résidus</h2>
 <p>La fonction <code>plot()</code> permet également de faire automatiquement un certain nombre de “graphes de diagnostiques” de notre modèle</p>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb342-1" title="1"><span class="kw">plot</span>(ma_regression)</a></code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb340-1" title="1"><span class="kw">plot</span>(ma_regression)</a></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-129-1.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-129-2.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-129-3.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-129-4.png" width="672" /></p>
 <p>Tous ne nous sont pas nécessairement utiles, on peut choisir lequel on souhaite avec l’option <code>which()</code>. Si on ne veut que le graphique des résidus contre les valeurs prédites, on tapera</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb343-1" title="1"><span class="kw">plot</span>(ma_regression,<span class="dt">which=</span><span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb341-1" title="1"><span class="kw">plot</span>(ma_regression,<span class="dt">which=</span><span class="dv">1</span>)</a></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
 </div>
 <div id="analyse-de-la-variance" class="section level2">
 <h2><span class="header-section-number">5.4</span> Analyse de la variance</h2>
 <p>La fonction <code>anova()</code> permet d’obtenir un tableau de décomposition de la variance :</p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb344-1" title="1">anvar &lt;-<span class="st"> </span><span class="kw">anova</span>(ma_regression)</a>
-<a class="sourceLine" id="cb344-2" title="2">anvar</a></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb342-1" title="1">anvar &lt;-<span class="st"> </span><span class="kw">anova</span>(ma_regression)</a>
+<a class="sourceLine" id="cb342-2" title="2">anvar</a></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: mpg
@@ -423,47 +423,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Ce tableau d’analyse de la variance est “séquentiel” et considère chaque variable prise l’une après l’autre. On peut calculer les <em>RSS</em>, <em>ESS</em> et <em>TSS</em> de la façon suivante.</p>
 <p>La <em>SCT</em> est la somme des carrés totaux (<em>TSS</em> en anglais). C’est la somme de la seconde colonne du tableau :</p>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb346-1" title="1">SCT &lt;-<span class="st"> </span><span class="kw">sum</span>(anvar[,<span class="dv">2</span>])</a>
-<a class="sourceLine" id="cb346-2" title="2">SCT</a></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb344-1" title="1">SCT &lt;-<span class="st"> </span><span class="kw">sum</span>(anvar[,<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb344-2" title="2">SCT</a></code></pre></div>
 <pre><code>## [1] 1126.047</code></pre>
 <p>On peut aussi partir de la définition <span class="math inline">\(SCT = \sum_{i=1}^n(y_i-\bar y)^2\)</span></p>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb348-1" title="1"><span class="kw">sum</span>((ma_regression<span class="op">$</span>model[,<span class="dv">1</span>]<span class="op">-</span><span class="kw">mean</span>(ma_regression<span class="op">$</span>model[,<span class="dv">1</span>]))<span class="op">^</span><span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb346-1" title="1"><span class="kw">sum</span>((ma_regression<span class="op">$</span>model[,<span class="dv">1</span>]<span class="op">-</span><span class="kw">mean</span>(ma_regression<span class="op">$</span>model[,<span class="dv">1</span>]))<span class="op">^</span><span class="dv">2</span>)</a></code></pre></div>
 <pre><code>## [1] 1126.047</code></pre>
 <p>La <em>SCR</em> est la somme des carrés des résidus (<em>RSS</em> en anglais). On peut l’obtenir de deux façons : en faisant la somme directement, ou en sélectionnant la dernière entrée de la seconde colonne du tableau d’analyse de la variance :</p>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb350-1" title="1">SCR  &lt;-<span class="st"> </span><span class="kw">sum</span>(ma_regression<span class="op">$</span>residuals<span class="op">^</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb350-2" title="2">SCR</a></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb348-1" title="1">SCR  &lt;-<span class="st"> </span><span class="kw">sum</span>(ma_regression<span class="op">$</span>residuals<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb348-2" title="2">SCR</a></code></pre></div>
 <pre><code>## [1] 261.3694</code></pre>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb352-1" title="1">anvar[<span class="kw">nrow</span>(anvar),<span class="dv">2</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb350-1" title="1">anvar[<span class="kw">nrow</span>(anvar),<span class="dv">2</span>]</a></code></pre></div>
 <pre><code>## [1] 261.3694</code></pre>
 <p>Finalement, La somme des carrés expliquée (<em>SCE</em>, <em>ESS</em> en anglais) est donnée par <span class="math inline">\(SCT==SCE+SCR\)</span> et donc <span class="math inline">\(SCE=SCT-SCR\)</span></p>
-<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb354-1" title="1">SCE &lt;-<span class="st"> </span>SCT<span class="op">-</span>SCR</a>
-<a class="sourceLine" id="cb354-2" title="2">SCE</a></code></pre></div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb352-1" title="1">SCE &lt;-<span class="st"> </span>SCT<span class="op">-</span>SCR</a>
+<a class="sourceLine" id="cb352-2" title="2">SCE</a></code></pre></div>
 <pre><code>## [1] 864.6778</code></pre>
 <p>C’est aussi la somme de la seconde colonne du tableau d’anova, à l’exclusion de la dernière entrée</p>
-<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb356-1" title="1"><span class="kw">sum</span>(anvar[<span class="op">-</span><span class="kw">nrow</span>(anvar),<span class="dv">2</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb354-1" title="1"><span class="kw">sum</span>(anvar[<span class="op">-</span><span class="kw">nrow</span>(anvar),<span class="dv">2</span>])</a></code></pre></div>
 <pre><code>## [1] 864.6778</code></pre>
 <p>C’est également la somme des carrés des valeurs prédites centrées sur leur moyenne : <span class="math inline">\(SCE=\sum_{i=1}^n(\hat y_i - \bar{\hat y})\)</span></p>
-<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb358-1" title="1"><span class="kw">sum</span>((ma_regression<span class="op">$</span>fitted.values<span class="op">-</span><span class="kw">mean</span>(ma_regression<span class="op">$</span>fitted.values))<span class="op">^</span><span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb356-1" title="1"><span class="kw">sum</span>((ma_regression<span class="op">$</span>fitted.values<span class="op">-</span><span class="kw">mean</span>(ma_regression<span class="op">$</span>fitted.values))<span class="op">^</span><span class="dv">2</span>)</a></code></pre></div>
 <pre><code>## [1] 864.6778</code></pre>
 <div id="r2-et-hatsigma" class="section level3">
 <h3><span class="header-section-number">5.4.1</span> <span class="math inline">\(R^2\)</span> et <span class="math inline">\(\hat\sigma\)</span></h3>
 <p>On voit que les éléments de l’objet issu de <code>lm()</code> ne comprennent ni le <span class="math inline">\(R^2\)</span> ni l’estimateur de la variance des résidus. On peut y accéder avec <code>summary()</code> (voir plus loin), mais on peut également les calculer à la main :</p>
 <p><span class="math inline">\(R^2=\frac{SCR}{SCT}=1-\frac{SCR}{SCT}\)</span></p>
-<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb360-1" title="1">R2 &lt;-<span class="st"> </span>SCE<span class="op">/</span>SCT</a>
-<a class="sourceLine" id="cb360-2" title="2">R2</a></code></pre></div>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb358-1" title="1">R2 &lt;-<span class="st"> </span>SCE<span class="op">/</span>SCT</a>
+<a class="sourceLine" id="cb358-2" title="2">R2</a></code></pre></div>
 <pre><code>## [1] 0.7678877</code></pre>
-<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb362-1" title="1"><span class="dv">1</span><span class="op">-</span>SCR<span class="op">/</span>SCT</a></code></pre></div>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb360-1" title="1"><span class="dv">1</span><span class="op">-</span>SCR<span class="op">/</span>SCT</a></code></pre></div>
 <pre><code>## [1] 0.7678877</code></pre>
 <p><span class="math inline">\(\hat\sigma=\sqrt{\frac{SCR}{n-K-1}}\)</span>. Le nombre d’observations <span class="math inline">\(n\)</span> est donné par la fonction <code>nobs()</code>, et <span class="math inline">\(K+1\)</span> est le “rank” listé dans “ma_regression$rank”</p>
-<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb364-1" title="1">sigmachap &lt;-<span class="st"> </span><span class="kw">sqrt</span>(SCR<span class="op">/</span>(<span class="kw">nobs</span>(ma_regression)<span class="op">-</span>ma_regression<span class="op">$</span>rank)) </a>
-<a class="sourceLine" id="cb364-2" title="2">sigmachap</a></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb362-1" title="1">sigmachap &lt;-<span class="st"> </span><span class="kw">sqrt</span>(SCR<span class="op">/</span>(<span class="kw">nobs</span>(ma_regression)<span class="op">-</span>ma_regression<span class="op">$</span>rank)) </a>
+<a class="sourceLine" id="cb362-2" title="2">sigmachap</a></code></pre></div>
 <pre><code>## [1] 3.055261</code></pre>
 </div>
 </div>
 <div id="retour-sur-summary" class="section level2">
 <h2><span class="header-section-number">5.5</span> Retour sur <code>summary()</code></h2>
 <p>Souvenons nous que <code>summary(ma_regression)</code> nous donnait un tableau contenant pas mal d’éléments que nous venons de calculer “à la main”, comme par exemple les écarts-type des <span class="math inline">\(\hat\beta\)</span></p>
-<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb366-1" title="1"><span class="kw">summary</span>(ma_regression)</a></code></pre></div>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb364-1" title="1"><span class="kw">summary</span>(ma_regression)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = mpg ~ cyl + disp + hp, data = mtcars)
@@ -485,25 +485,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Multiple R-squared:  0.7679,	Adjusted R-squared:  0.743 
 ## F-statistic: 30.88 on 3 and 28 DF,  p-value: 5.054e-09</code></pre>
 <p>On peut également sauvegarder cet objet afin d’en extraire des éléments :</p>
-<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb368-1" title="1">resum_ma_regression &lt;-<span class="st"> </span><span class="kw">summary</span>(ma_regression)</a>
-<a class="sourceLine" id="cb368-2" title="2"><span class="kw">names</span>(resum_ma_regression)</a></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb366-1" title="1">resum_ma_regression &lt;-<span class="st"> </span><span class="kw">summary</span>(ma_regression)</a>
+<a class="sourceLine" id="cb366-2" title="2"><span class="kw">names</span>(resum_ma_regression)</a></code></pre></div>
 <pre><code>##  [1] &quot;call&quot;          &quot;terms&quot;         &quot;residuals&quot;     &quot;coefficients&quot; 
 ##  [5] &quot;aliased&quot;       &quot;sigma&quot;         &quot;df&quot;            &quot;r.squared&quot;    
 ##  [9] &quot;adj.r.squared&quot; &quot;fstatistic&quot;    &quot;cov.unscaled&quot;</code></pre>
 <p>On peut alors utiliser ces éléments. Attention cependant, l’élément “coefficients” issu de <code>summary()' contient le *tableau complet* de résultats, alors que celui issu de</code>lm()` ne contient que le vecteur de résultats</p>
-<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb370-1" title="1">resum_ma_regression<span class="op">$</span>coefficients</a></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb368-1" title="1">resum_ma_regression<span class="op">$</span>coefficients</a></code></pre></div>
 <pre><code>##                Estimate Std. Error   t value     Pr(&gt;|t|)
 ## (Intercept) 34.18491917 2.59077758 13.194849 1.537198e-13
 ## cyl         -1.22741994 0.79727631 -1.539516 1.349044e-01
 ## disp        -0.01883809 0.01040369 -1.810711 8.092901e-02
 ## hp          -0.01467933 0.01465087 -1.001943 3.249519e-01</code></pre>
-<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb372-1" title="1">ma_regression<span class="op">$</span>coefficients</a></code></pre></div>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb370-1" title="1">ma_regression<span class="op">$</span>coefficients</a></code></pre></div>
 <pre><code>## (Intercept)         cyl        disp          hp 
 ## 34.18491917 -1.22741994 -0.01883809 -0.01467933</code></pre>
 <p>On peut retrouver les valeurs du <span class="math inline">\(R^2\)</span> et de <span class="math inline">\(\hat\sigma\)</span> calculées à la main ci dessus</p>
-<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb374-1" title="1">resum_ma_regression<span class="op">$</span>r.squared</a></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb372-1" title="1">resum_ma_regression<span class="op">$</span>r.squared</a></code></pre></div>
 <pre><code>## [1] 0.7678877</code></pre>
-<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb376-1" title="1">resum_ma_regression<span class="op">$</span>sigma</a></code></pre></div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb374-1" title="1">resum_ma_regression<span class="op">$</span>sigma</a></code></pre></div>
 <pre><code>## [1] 3.055261</code></pre>
 </div>
 <div id="les-mco-à-la-main" class="section level2">
@@ -520,51 +520,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><span class="math inline">\(R^2=1-\frac{SCR}{SCT}\)</span></li>
 <li><span class="math inline">\(\widehat{Var}(\hat\beta)=\hat\sigma^2(X&#39;X)^{-1}\)</span></li>
 </ul>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb378-1" title="1">y &lt;-<span class="st"> </span>ma_regression<span class="op">$</span>model[,<span class="st">&quot;mpg&quot;</span>] <span class="co"># on extrait y</span></a>
-<a class="sourceLine" id="cb378-2" title="2">X &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(ma_regression<span class="op">$</span>model[,<span class="kw">c</span>(<span class="st">&quot;cyl&quot;</span>,<span class="st">&quot;disp&quot;</span>,<span class="st">&quot;hp&quot;</span>)])  <span class="co"># On extrait la matrice X</span></a>
-<a class="sourceLine" id="cb378-3" title="3">X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;(intercept)&quot;</span>=<span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">nrow</span>(X)),X) <span class="co"># On y ajoute la constante</span></a>
-<a class="sourceLine" id="cb378-4" title="4">XpXinv &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X) <span class="co"># Clacul de (X&#39;X)^{-1}</span></a>
-<a class="sourceLine" id="cb378-5" title="5">Xpy &lt;-<span class="st"> </span><span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>y <span class="co"># Calcul de X&#39;y</span></a>
-<a class="sourceLine" id="cb378-6" title="6">mes_betachap &lt;-<span class="st"> </span>XpXinv <span class="op">%*%</span><span class="st"> </span>Xpy <span class="co"># calcul de beta chapeau</span></a>
-<a class="sourceLine" id="cb378-7" title="7">mes_betachap</a></code></pre></div>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb376-1" title="1">y &lt;-<span class="st"> </span>ma_regression<span class="op">$</span>model[,<span class="st">&quot;mpg&quot;</span>] <span class="co"># on extrait y</span></a>
+<a class="sourceLine" id="cb376-2" title="2">X &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(ma_regression<span class="op">$</span>model[,<span class="kw">c</span>(<span class="st">&quot;cyl&quot;</span>,<span class="st">&quot;disp&quot;</span>,<span class="st">&quot;hp&quot;</span>)])  <span class="co"># On extrait la matrice X</span></a>
+<a class="sourceLine" id="cb376-3" title="3">X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;(intercept)&quot;</span>=<span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">nrow</span>(X)),X) <span class="co"># On y ajoute la constante</span></a>
+<a class="sourceLine" id="cb376-4" title="4">XpXinv &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X) <span class="co"># Clacul de (X&#39;X)^{-1}</span></a>
+<a class="sourceLine" id="cb376-5" title="5">Xpy &lt;-<span class="st"> </span><span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>y <span class="co"># Calcul de X&#39;y</span></a>
+<a class="sourceLine" id="cb376-6" title="6">mes_betachap &lt;-<span class="st"> </span>XpXinv <span class="op">%*%</span><span class="st"> </span>Xpy <span class="co"># calcul de beta chapeau</span></a>
+<a class="sourceLine" id="cb376-7" title="7">mes_betachap</a></code></pre></div>
 <pre><code>##                    [,1]
 ## (intercept) 34.18491917
 ## cyl         -1.22741994
 ## disp        -0.01883809
 ## hp          -0.01467933</code></pre>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb380-1" title="1"><span class="co"># prédiction des résidus</span></a>
-<a class="sourceLine" id="cb380-2" title="2">mes_ychap &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>mes_betachap</a>
-<a class="sourceLine" id="cb380-3" title="3">mes_residus &lt;-<span class="st"> </span>y<span class="op">-</span>mes_ychap</a>
-<a class="sourceLine" id="cb380-4" title="4"></a>
-<a class="sourceLine" id="cb380-5" title="5"><span class="co"># calcul de SCR et SCT </span></a>
-<a class="sourceLine" id="cb380-6" title="6">ma_SCR &lt;-<span class="st"> </span><span class="kw">sum</span>(mes_residus<span class="op">^</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb380-7" title="7">ma_SCT &lt;-<span class="st"> </span><span class="kw">sum</span>((y<span class="op">-</span><span class="kw">mean</span>(y))<span class="op">^</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb380-8" title="8"></a>
-<a class="sourceLine" id="cb380-9" title="9"></a>
-<a class="sourceLine" id="cb380-10" title="10"><span class="co"># calcul du R2</span></a>
-<a class="sourceLine" id="cb380-11" title="11">mon_R2 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">-</span>ma_SCR<span class="op">/</span>ma_SCT</a>
-<a class="sourceLine" id="cb380-12" title="12"></a>
-<a class="sourceLine" id="cb380-13" title="13"><span class="co"># calcul de sigma chapeau</span></a>
-<a class="sourceLine" id="cb380-14" title="14">mon_sigmachap &lt;-<span class="st"> </span><span class="kw">sqrt</span>(ma_SCR<span class="op">/</span>(<span class="kw">length</span>(y)<span class="op">-</span><span class="kw">ncol</span>(X)))</a>
-<a class="sourceLine" id="cb380-15" title="15"></a>
-<a class="sourceLine" id="cb380-16" title="16"><span class="co"># affichage des résultats </span></a>
-<a class="sourceLine" id="cb380-17" title="17"></a>
-<a class="sourceLine" id="cb380-18" title="18"><span class="kw">c</span>(<span class="st">&quot;SCR&quot;</span>=ma_SCR,<span class="st">&quot;SCT&quot;</span>=ma_SCT,<span class="st">&quot;R carré&quot;</span>=mon_R2,<span class="st">&quot;sigma chapeau&quot;</span>=mon_sigmachap)</a></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb378-1" title="1"><span class="co"># prédiction des résidus</span></a>
+<a class="sourceLine" id="cb378-2" title="2">mes_ychap &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>mes_betachap</a>
+<a class="sourceLine" id="cb378-3" title="3">mes_residus &lt;-<span class="st"> </span>y<span class="op">-</span>mes_ychap</a>
+<a class="sourceLine" id="cb378-4" title="4"></a>
+<a class="sourceLine" id="cb378-5" title="5"><span class="co"># calcul de SCR et SCT </span></a>
+<a class="sourceLine" id="cb378-6" title="6">ma_SCR &lt;-<span class="st"> </span><span class="kw">sum</span>(mes_residus<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb378-7" title="7">ma_SCT &lt;-<span class="st"> </span><span class="kw">sum</span>((y<span class="op">-</span><span class="kw">mean</span>(y))<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb378-8" title="8"></a>
+<a class="sourceLine" id="cb378-9" title="9"></a>
+<a class="sourceLine" id="cb378-10" title="10"><span class="co"># calcul du R2</span></a>
+<a class="sourceLine" id="cb378-11" title="11">mon_R2 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">-</span>ma_SCR<span class="op">/</span>ma_SCT</a>
+<a class="sourceLine" id="cb378-12" title="12"></a>
+<a class="sourceLine" id="cb378-13" title="13"><span class="co"># calcul de sigma chapeau</span></a>
+<a class="sourceLine" id="cb378-14" title="14">mon_sigmachap &lt;-<span class="st"> </span><span class="kw">sqrt</span>(ma_SCR<span class="op">/</span>(<span class="kw">length</span>(y)<span class="op">-</span><span class="kw">ncol</span>(X)))</a>
+<a class="sourceLine" id="cb378-15" title="15"></a>
+<a class="sourceLine" id="cb378-16" title="16"><span class="co"># affichage des résultats </span></a>
+<a class="sourceLine" id="cb378-17" title="17"></a>
+<a class="sourceLine" id="cb378-18" title="18"><span class="kw">c</span>(<span class="st">&quot;SCR&quot;</span>=ma_SCR,<span class="st">&quot;SCT&quot;</span>=ma_SCT,<span class="st">&quot;R carré&quot;</span>=mon_R2,<span class="st">&quot;sigma chapeau&quot;</span>=mon_sigmachap)</a></code></pre></div>
 <pre><code>##           SCR           SCT       R carré sigma chapeau 
 ##   261.3693529  1126.0471875     0.7678877     3.0552610</code></pre>
-<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb382-1" title="1"><span class="co"># matrice de variance-covariance des beta chapeau</span></a>
-<a class="sourceLine" id="cb382-2" title="2">ma_varcov &lt;-<span class="st"> </span>(mon_sigmachap<span class="op">^</span><span class="dv">2</span>) <span class="op">*</span><span class="st"> </span>XpXinv</a>
-<a class="sourceLine" id="cb382-3" title="3"></a>
-<a class="sourceLine" id="cb382-4" title="4"><span class="co"># vecteur des écart-types</span></a>
-<a class="sourceLine" id="cb382-5" title="5">mes_ecty &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">diag</span>(ma_varcov))</a>
-<a class="sourceLine" id="cb382-6" title="6"></a>
-<a class="sourceLine" id="cb382-7" title="7"><span class="co"># vecteur des t-stats</span></a>
-<a class="sourceLine" id="cb382-8" title="8">mes_tstats &lt;-<span class="st"> </span>mes_betachap<span class="op">/</span>mes_ecty</a>
-<a class="sourceLine" id="cb382-9" title="9"></a>
-<a class="sourceLine" id="cb382-10" title="10"><span class="co"># mise en forme du tableau de résultats</span></a>
-<a class="sourceLine" id="cb382-11" title="11">mon_tableau &lt;-<span class="st"> </span><span class="kw">cbind</span>(mes_betachap,mes_ecty,mes_tstats)</a>
-<a class="sourceLine" id="cb382-12" title="12"><span class="kw">colnames</span>(mon_tableau)=<span class="kw">c</span>(<span class="st">&quot;Coeff.&quot;</span>, <span class="st">&quot;Ec. ty.&quot;</span>,<span class="st">&quot;t-stat&quot;</span>)</a>
-<a class="sourceLine" id="cb382-13" title="13">mon_tableau</a></code></pre></div>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb380-1" title="1"><span class="co"># matrice de variance-covariance des beta chapeau</span></a>
+<a class="sourceLine" id="cb380-2" title="2">ma_varcov &lt;-<span class="st"> </span>(mon_sigmachap<span class="op">^</span><span class="dv">2</span>) <span class="op">*</span><span class="st"> </span>XpXinv</a>
+<a class="sourceLine" id="cb380-3" title="3"></a>
+<a class="sourceLine" id="cb380-4" title="4"><span class="co"># vecteur des écart-types</span></a>
+<a class="sourceLine" id="cb380-5" title="5">mes_ecty &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">diag</span>(ma_varcov))</a>
+<a class="sourceLine" id="cb380-6" title="6"></a>
+<a class="sourceLine" id="cb380-7" title="7"><span class="co"># vecteur des t-stats</span></a>
+<a class="sourceLine" id="cb380-8" title="8">mes_tstats &lt;-<span class="st"> </span>mes_betachap<span class="op">/</span>mes_ecty</a>
+<a class="sourceLine" id="cb380-9" title="9"></a>
+<a class="sourceLine" id="cb380-10" title="10"><span class="co"># mise en forme du tableau de résultats</span></a>
+<a class="sourceLine" id="cb380-11" title="11">mon_tableau &lt;-<span class="st"> </span><span class="kw">cbind</span>(mes_betachap,mes_ecty,mes_tstats)</a>
+<a class="sourceLine" id="cb380-12" title="12"><span class="kw">colnames</span>(mon_tableau)=<span class="kw">c</span>(<span class="st">&quot;Coeff.&quot;</span>, <span class="st">&quot;Ec. ty.&quot;</span>,<span class="st">&quot;t-stat&quot;</span>)</a>
+<a class="sourceLine" id="cb380-13" title="13">mon_tableau</a></code></pre></div>
 <pre><code>##                  Coeff.    Ec. ty.    t-stat
 ## (intercept) 34.18491917 2.59077758 13.194849
 ## cyl         -1.22741994 0.79727631 -1.539516

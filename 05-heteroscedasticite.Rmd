@@ -117,11 +117,10 @@ La méthode des moindres carrés généralisée permet en principe de corriger l
 En posant pour hypothèse que $\sigma^2_i=\exp(\boldsymbol{x'_i\alpha})$, on peut estimer $\boldsymbol{\hat\alpha}$ en régressant les logs carrés des résidus sur les $x$, puis en calculant $\hat\alpha_i^2=\exp(\boldsymbol{x'_i\hat\alpha})$ et en pondérant les observations par $\hat\sigma_i$ : 
 
 ```{r}
-library(dplyr)
 modele <- lm(data=ma_base,avgexp ~ age + ownrent + income + income2)
-ma_base <- ma_base  %>% mutate(logresid2=log(residuals(modele)^2)) # on ajoute la variable ln(e^2)
+ma_base$logresid2 <- log(residuals(modele)^2) # on ajoute la variable ln(e^2)
 modeleresid <- lm(data=ma_base,logresid2 ~ age + ownrent + income + income2) # on les régresse sur les x
-ma_base <- ma_base %>% mutate(e2chap=exp(modeleresid$fitted.values)) # on calcule la variance prédite
+ma_base$e2chap <- exp(modeleresid$fitted.values) # on calcule la variance prédite
 modele2 <- lm(data=ma_base,avgexp ~ age + ownrent + income + income2,weight=1/e2chap) # on pondère la régression par 1/variance
 summary(modele2)
 ```
