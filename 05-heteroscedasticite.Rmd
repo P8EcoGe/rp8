@@ -121,12 +121,26 @@ modele <- lm(data=ma_base,avgexp ~ age + ownrent + income + income2)
 ma_base$logresid2 <- log(residuals(modele)^2) # on ajoute la variable ln(e^2)
 modeleresid <- lm(data=ma_base,logresid2 ~ age + ownrent + income + income2) # on les régresse sur les x
 ma_base$e2chap <- exp(modeleresid$fitted.values) # on calcule la variance prédite
-modele2 <- lm(data=ma_base,avgexp ~ age + ownrent + income + income2,weight=1/e2chap) # on pondère la régression par 1/variance
-summary(modele2)
+modele_mcqg <- lm(data=ma_base,avgexp ~ age + ownrent + income + income2,weight=1/e2chap) # on pondère la régression par 1/variance
+summary(modele_mcqg)
 ```
 On constate que les résultats diffèrent de ceux de la correction de White.
 
 NB, l'aide de `lm()`, accessible par `?lm`, précise que 
 "*weights can be used to indicate that different observations have different variances (with the values in weights being inversely proportional to the variances)*" : on indique donc $\frac{1}{\hat\sigma^2_i}$ dans l'option `weight`
+
+
+On peut aussi pondérer "à la main" les variables pour implémenter les MCQG. à l'aide de la variable `e2chap` crée ci dessus, on peut diviser toutes les variables par $\hat\sigma_i$
+```{r}
+ma_base$avgexp_corr <- ma_base$avgexp/sqrt(ma_base$e2chap)
+ma_base$age_corr <- ma_base$age/sqrt(ma_base$e2chap)
+ma_base$ownrent_corr <- ma_base$ownrent/sqrt(ma_base$e2chap)
+ma_base$income_corr <- ma_base$income/sqrt(ma_base$e2chap)
+ma_base$income2_corr <- ma_base$income2/sqrt(ma_base$e2chap)
+ma_base$newcons=1/sqrt(ma_base$e2chap) # On pondère aussi la constante
+modele_mcqg2 <- lm(data=ma_base,avgexp_corr ~ newcons + age_corr + ownrent_corr + income_corr + income2_corr +0) # le +0 supprime la constante
+summary(modele_mcqg2)
+```
+Les deux méthodes donnent bien entendu des résultats identiques.
 
 Sauf si on a de bonnes raisons, il est conseillé de s'en tenir à la correction de White, pour laquelle plusieurs variantes sont accessibles (HC0, HC1, HC2 et HC3).

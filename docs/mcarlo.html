@@ -307,9 +307,9 @@ Afin de s’éviter ces désagréments, le package MonteCarlo permet d’automat
 ##   moy &lt;- mean(tirages) # on calcule la moyenne
 ##   return(list(&quot;moyenne&quot;=moy)) # on la retourne dans une liste nommée &quot;moyenne&quot;
 ## }
-## &lt;bytecode: 0x55fc64a25d48&gt;
+## &lt;bytecode: 0x55fc6ee7d2b8&gt;
 ## 
-## Required time: 1.68 secs for nrep = 10000  repetitions on 1 CPUs 
+## Required time: 1.74 secs for nrep = 10000  repetitions on 1 CPUs 
 ## 
 ## Parameter grid: 
 ## 
@@ -322,13 +322,13 @@ Afin de s’éviter ces désagréments, le package MonteCarlo permet d’automat
 <p>On va le transformer les parties pertinentes en <code>data frame</code> (voir les tutoriels) pour une manipulation plus aisée. la fonction <code>head()</code> permet ensuite de lister les premières lignes d’une <code>data frame</code>, afin de vérifier rapidement son contenu.</p>
 <div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb269-1" title="1">data_resultats &lt;-<span class="kw">MakeFrame</span>(resultats)</a>
 <a class="sourceLine" id="cb269-2" title="2"><span class="kw">head</span>(data_resultats)</a></code></pre></div>
-<pre><code>##     n mu sigma     moyenne
-## 1  10  0     1 -0.14905981
-## 2 100  0     1  0.01071684
-## 3  10  5     1  5.00136716
-## 4 100  5     1  4.96968491
-## 5  10  0     2  1.05192122
-## 6 100  0     2  0.36621319</code></pre>
+<pre><code>##     n mu sigma    moyenne
+## 1  10  0     1 0.27948975
+## 2 100  0     1 0.01071684
+## 3  10  5     1 5.00136716
+## 4 100  5     1 4.96968491
+## 5  10  0     2 1.05192122
+## 6 100  0     2 0.36621319</code></pre>
 <p>On va maintenant calculer les moyennes et écart-types des 10000 moyennes calculées pour chaque scénario de simulation. On fait appel aux outils de “pipe” (<code>%&gt;%</code>) et de groupe (<code>group_by()</code>) expliqués dans le tutoriel “<em>Work With Data</em>”. On en profite pour ajouter une variable “ecty_theor” donnant l’écart-type théorique de la distribution des moyennes</p>
 <div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb271-1" title="1">data_resultats <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb271-2" title="2"><span class="kw">mutate</span>(<span class="dt">ecty_theor=</span>sigma<span class="op">/</span><span class="kw">sqrt</span>(n)) <span class="op">%&gt;%</span><span class="st">  </span></a>
@@ -336,20 +336,20 @@ Afin de s’éviter ces désagréments, le package MonteCarlo permet d’automat
 <a class="sourceLine" id="cb271-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">moy=</span><span class="kw">mean</span>(moyenne),<span class="dt">ecty=</span><span class="kw">sd</span>(moyenne),<span class="dt">ecty_theor=</span><span class="kw">mean</span>(ecty_theor))</a></code></pre></div>
 <pre><code>## # A tibble: 12 x 6
 ## # Groups:   n, mu [4]
-##        n    mu sigma       moy   ecty ecty_theor
-##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
-##  1    10     0     1 -0.00512  0.317       0.316
-##  2    10     0     2  0.000765 0.631       0.632
-##  3    10     0     4  0.000930 1.27        1.26 
-##  4    10     5     1  5.00     0.315       0.316
-##  5    10     5     2  5.00     0.632       0.632
-##  6    10     5     4  5.00     1.25        1.26 
-##  7   100     0     1  0.000331 0.0990      0.1  
-##  8   100     0     2  0.00493  0.200       0.2  
-##  9   100     0     4  0.00267  0.403       0.4  
-## 10   100     5     1  5.00     0.0992      0.1  
-## 11   100     5     2  5.00     0.198       0.2  
-## 12   100     5     4  5.00     0.401       0.4</code></pre>
+##        n    mu sigma      moy   ecty ecty_theor
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+##  1    10     0     1 0.00450  0.317       0.316
+##  2    10     0     2 0.000765 0.631       0.632
+##  3    10     0     4 0.000930 1.27        1.26 
+##  4    10     5     1 5.00     0.315       0.316
+##  5    10     5     2 5.00     0.632       0.632
+##  6    10     5     4 5.00     1.25        1.26 
+##  7   100     0     1 0.000331 0.0990      0.1  
+##  8   100     0     2 0.00493  0.200       0.2  
+##  9   100     0     4 0.00267  0.403       0.4  
+## 10   100     5     1 5.00     0.0992      0.1  
+## 11   100     5     2 5.00     0.198       0.2  
+## 12   100     5     4 5.00     0.401       0.4</code></pre>
 <p>On constate que la moyenne des moyenne (colonne “moy”) est très proche de la moyenne théorique (“mu”), de même que l’écart-type de la distribution des moyennes (“ecty”) est très proche de l’écart-type théorique. Nos observations semblent bien coller avec la théorie.</p>
 <p>On complète l’exercice en faisant un graphique de la fonction de densité estimées de nos résultats, pour chaque valeur de <span class="math inline">\(n\)</span>, <span class="math inline">\(\mu\)</span> et <span class="math inline">\(\sigma\)</span>.</p>
 <div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb273-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data=</span>data_resultats,<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>moyenne,<span class="dt">group=</span>sigma,<span class="dt">color=</span><span class="kw">factor</span>(sigma))) <span class="op">+</span></a>
@@ -444,9 +444,9 @@ Afin de s’éviter ces désagréments, le package MonteCarlo permet d’automat
 ##   betax &lt;- coeffs[[&quot;x&quot;]]
 ##   return(list(&quot;betax&quot;=betax))
 ## }
-## &lt;bytecode: 0x55fc6e4d9eb0&gt;
+## &lt;bytecode: 0x55fc6e3cfb78&gt;
 ## 
-## Required time: 13.66 secs for nrep = 10000  repetitions on 1 CPUs 
+## Required time: 14.46 secs for nrep = 10000  repetitions on 1 CPUs 
 ## 
 ## Parameter grid: 
 ## 
