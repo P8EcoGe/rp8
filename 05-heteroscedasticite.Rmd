@@ -45,7 +45,7 @@ On voit que, si le graphique des résidus contre les valeurs prédites n'est pas
 
 Le test de Breusch-Pagan est un test statistique permettant de détecter la présence d'hétéroscédasticité sous l'hypothèse que $Var(\epsilon_i)=\sigma^2(\alpha_0+\boldsymbol{\alpha z})$ où $\boldsymbol{z}$ est un vecteur de variable à la source de l'hétéroscédasticité. L'hypothèse nulle est que $\boldsymbol{\alpha}=\boldsymbol{0}$, c'est-à-dire l'absence d'hétéroscédasticité. On peut effectuer ce test à l'aide de la commande `bptest` issue du paquet `lmtest`
 
-```{r}
+```{r message = FALSE}
 library(lmtest)
 bptest(modele)
 ```
@@ -57,7 +57,7 @@ Par contre, en spécifiant qu'on se concentre sur les variables de revenu pour t
 bptest(modele, varformula = ~ income + income2, data=ma_base)
 ```
 
-on rejette maintenant $H0$ au niveau $\alpha=5 \%$ et oon conclut à la présence d'hétéroscédasticité.
+on rejette maintenant $H0$ au niveau $\alpha=5 \%$ et on conclut à la présence d'hétéroscédasticité.
 
 ## Correction de White
 
@@ -88,7 +88,7 @@ On constate que si les $\hat\beta$ sont identiques, les écarts-type et toute l'
 
 ### Les paquets `lmtest` et `car`
 le paquet `car` fournit la commande `hccn` qui corrige la matrice de variance covariance, tandis que le paquet `lmtest` fournit la commande `coeftest` qui permet d'utiliser cette dernière pour construire un tableau de résultat corrigé.
-```{r}
+```{r message=FALSE}
 library(lmtest)
  library(car)
  modele_robust2 <- coeftest(modele, vcov = hccm(modele, type = "hc1"))
