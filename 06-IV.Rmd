@@ -1,0 +1,115 @@
+# Variables instrumentales et doubles moindres carrés {#dsls}
+
+## Introduction
+
+Une hypothèse centrale des MCO dans le modèle $y=X\beta+\epsilon$ est celle de l'exogénéité des variables explicatives : $E(\boldsymbol{\epsilon}|\boldsymbol{X})=\boldsymbol{0}$. Cette hypothèse assure que l'estimateur des MCO est sans biais, et que l'on peut donc l'interpréter comme l'effet causal de la variable explicative sur $y$.
+
+Si cette hypothèse n'est pas valide, alors l'estimateur des MCO est biaisé, et son interprétation ne peut plus être causale.
+
+Un solution potentielle à ce problème d'endogénéité est d'utiliser des variables externes au modèles, dites *variables instrumentales* afin de "filtrer" l'endogénéité des variables problématique et de ne conserver que la partie qui est non corrélée aux termes d'erreur $\epsilon$.
+
+Pour être valide, les variables instrumentales $Z$ doivent respecter deux conditions : 
+
+1. Une condition d'orthogonalité qui stipule qu'elles sont non corrélées aux termes d'erreur : $\mathrm{plim} Z'\epsilon=0$
+
+2. Une condition de pertinence (ou de rang) qui stiplule qu'elles sont corrélées aux variables explicatives $X$ (exogènes comme endogènes) : $\mathrm{plim} \frac{1}{n}Z'X =Q$ où $Q$ est une matrice inversible.
+
+Intuitivement, une variable instrumentale ne doit pas avoir d'influence directe sur $y$, sauf via son effet sur la variable explicative endogène.
+
+
+## La méthode des variables instrumentales/doubles moindres carrés
+
+Supposons un modèle de la forme $y=X\beta + \epsilon$ où $X$ peut se décomposer en $X=[D \quad G]$ où $D$ contient des variables explicatives exogènes, et $G$ des variables explicatives endogènes. Soit $I$ une matrice contenant les instruments externes. Notons $Z =[X\quad I]$ la matrice contenant les explicatives exogène et les instruments externes. Le modèle sera dit "juste identifié" si le nombre de variables dans $I$ est égal au nombre de variables dans $G$ (le nombre d'instruments externe est égal au nombre de variables explicatives endogènes). Il sera dit "sur-identifié" si le nombre de variables dans $I$ est supérieur au nombre de variables dans $G$ (le nombre d'instruments externe est supérieur au nombre de variables explicatives endogènes). Il est possible de tester la validité des instruments dans un modèle sur identifié, mais pas dans un modèle juste identifié.
+
+Afin de "purger" les variables explicatives endogène de leur corrélation avec le terme d'erreur, on effectue la régressions la régression des variables explicatives $X$ sur $Z$ les instruments externes **et** les explicatives exogènes. On en dire ensuite les valeurs prédites $\hat X$. Les variables dans $\hat X$ sont orthogonales aux termes d'erreur $\epsilon$ car elles sont des combinaisons linéaires de variables indépendantes des termes d'erreur par hypothèse (que ça soit les explicatives exogènes ou les instruments externes) ; et leurs corrélation avec $X$ est maximisée par la procédure de régression. Les variables $\hat X$ sont donc des versions "filtrées" de $X$, où on a retiré toutle la partie corrélée avec $\epsilon$
+
+En remplaçant ensuite $X$ par $\hat X$ dans le modèle d'intérêt, on obtient des coefficients non biaisés. La matrice de variance-covariance doit par contre être calculée avec une formule adaptée, celle issue des MCO ne prenant pas en compte l'étape d'instrumentation.
+
+## Implémentation sous `R` : la commande `ivreg`
+
+En pratique on va utiliser la commande `ivreg()` issue du paquet `AER` ou du paquet `ivreg`
+
+On commence par importer des données
+```{r message = FALSE}
+library(readr) # Pour importer des données
+
+educwages <- read_csv("https://raw.githubusercontent.com/ATerracol/P8Econ/master/data/educwages.csv")
+```
+
+Cette base contient  1000 observations, et 5 variables : 
+
+- wages : salaire
+- union : affiliation à un syndicat
+- education : niveau d'éducation
+- meducation : niveau d'éducation de la mère (mother's education)
+- feducation : niveau d'éducation du père (father's education)
+
+Le but est d'estimer l'effet causal de l'éducation sur le salaire, en contrôlant pour l'appartenance syndicale
+
+On commence par un modèle naïf en régressant le niveau de salaire sur le niveau d'éducation et l'appartenance syndicale
+
+```{r}
+modele_naif <- lm(data=educwages, wages ~ education + union)
+summary(modele_naif)
+```
+
+On pense que le niveau d'éducation est sans doute endogène dans ce modèle. Il est en effet sans doute corrélé à des caractéristiques inobservées qui influencent le salaire (et qui sont donc dans le terme d'erreur) : capacité de travail, intelligence, etc. 
+
+ On veut donc corriger l'endogénéité par la techniques des variables instrumentales/2SLS. Les instruments externes potentiels sont les niveaux éducation des parents (meducation et feducation)
+ 
+Idée : 
+
+1. Hypothèse de pertinence (hypothèse de rang) : L'éducation des parents est corrélée à l'éducation des enfants (via une meilleure connaissance du système scolaire, une aide aux devoirs, etc.) 
+2. Hypothèse d'orthogonalité : l'éducation des parents ne joue pas directement sur le niveau de salaire des enfants (on exclut la possibilité de faire jouer le "piston" pour que ses enfants obtiennent un meilleur poste et donc un meilleur salaire)
+
+
+On effectue donc la régression 2SLS à l'aide la commande `ivreg()` issu du paquet `AER`
+
+```{r message=FALSE}
+library(AER)
+# commande ivreg
+# syntaxe : ivreg(y ~ les variables dans X | variables dans Z)
+# ivreg(y ~ liste des explicatives, exogènes et endogène | liste des explicatives exogènes et des instruments externes)
+
+modele_iv <- ivreg(data=educwages, wages ~ education + union | union + meducation + feducation) 
+# NB : modèle sur-identifié : 1 explicative endogène (education) et 2 instruments externes (meducation et feducation)
+summary(modele_iv)
+```
+
+On constate une baisse sensible de l'effet estimé de l'éducation par rapport à l'estimation "naïve" par MCO
+
+## Tests de diagnostics
+
+Plusieurs tests de disgnostic sont disponibles après `ivreg()` (présence d'instruments faibles, test d'endogénéité, test de suridentification). On les obtient avec l'option `diagnostics=TRUE` du `summary()` du modèle issu de `ivreg()`
+
+```{r}
+summary(modele_iv, diagnostics = TRUE)
+```
+
+Les tests présentés sont les suivants : 
+
+- Weak instruments  : test d'instruments faibles. $H0$ : les instruments sont faibles (on veut $F>10$)
+- Wu-Hausman        : test d'endogénéité : $H0$ : mon explicative est exogène (inutile d'instrumenter)
+- Sargan            : test de suridentification : $H0$ mes instruments sont exogènes
+
+##  2SLS à la main
+
+On peut effectuer les doubles moindres carrés "à la main" afin de vérifier notre compréhension de la procédure, et également dans le but d'examiner la régression de première étape
+
+ 
+```{r}
+#Première étape : régresser l'explicative endogène sur les explicatives exogènes et les instruments externes
+first_stage <- lm(data=educwages, education ~ union + meducation + feducation )
+summary(first_stage)
+# On calcule l'endogène prédite, on l'intègre à la base de donnée
+educwages$educ_chapeau <- first_stage$fitted.values
+# seconde étape : remplace education par education prédite dans le modèle principal
+second_stage <- lm(data=educwages, wages ~ educ_chapeau + union)
+summary(second_stage)
+# On compare avec ivreg
+summary(modele_iv)
+```
+ 
+On constate que les coefficients estimés "à la main" sont identiques aux coefficients issus de `ivreg()`. Les écart-types sont par contre différents, tout comme les statistiques de tests, les p-values etc. L'inférence correcte doit se faire à partir des calculs fournis par `ivreg()`
+
+

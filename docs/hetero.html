@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6 Traitement de l’hétéroscédasticité | R à Paris 8</title>
   <meta name="description" content="6 Traitement de l’hétéroscédasticité | R à Paris 8" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6 Traitement de l’hétéroscédasticité | R à Paris 8" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-11-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,8 @@
   
   
 <link rel="prev" href="MCO.html"/>
-
+<link rel="next" href="dsls.html"/>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -49,28 +50,32 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -79,9 +84,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -127,9 +132,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Préface</a></li>
-<li class="chapter" data-level="2" data-path="R-intro.html"><a href="R-intro.html"><i class="fa fa-check"></i><b>2</b> Introduction à <code>R</code></a><ul>
+<li class="chapter" data-level="2" data-path="R-intro.html"><a href="R-intro.html"><i class="fa fa-check"></i><b>2</b> Introduction à <code>R</code></a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="R-intro.html"><a href="R-intro.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
-<li class="chapter" data-level="2.2" data-path="R-intro.html"><a href="R-intro.html#démarrer-r-et-r-studio"><i class="fa fa-check"></i><b>2.2</b> Démarrer R et R Studio</a><ul>
+<li class="chapter" data-level="2.2" data-path="R-intro.html"><a href="R-intro.html#démarrer-r-et-r-studio"><i class="fa fa-check"></i><b>2.2</b> Démarrer R et R Studio</a>
+<ul>
 <li class="chapter" data-level="2.2.1" data-path="R-intro.html"><a href="R-intro.html#un-premier-glossaire"><i class="fa fa-check"></i><b>2.2.1</b> Un premier glossaire</a></li>
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="R-intro.html"><a href="R-intro.html#calculs-de-base"><i class="fa fa-check"></i><b>2.3</b> Calculs de base</a></li>
@@ -137,28 +144,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.5" data-path="R-intro.html"><a href="R-intro.html#installation-de-packages"><i class="fa fa-check"></i><b>2.5</b> Installation de packages</a></li>
 <li class="chapter" data-level="2.6" data-path="R-intro.html"><a href="R-intro.html#code-output"><i class="fa fa-check"></i><b>2.6</b> <code>Code</code> et sortie dans ce document</a></li>
 <li class="chapter" data-level="2.7" data-path="R-intro.html"><a href="R-intro.html#data-types"><i class="fa fa-check"></i><b>2.7</b> Types de données</a></li>
-<li class="chapter" data-level="2.8" data-path="R-intro.html"><a href="R-intro.html#structures-de-données"><i class="fa fa-check"></i><b>2.8</b> Structures de données</a><ul>
+<li class="chapter" data-level="2.8" data-path="R-intro.html"><a href="R-intro.html#structures-de-données"><i class="fa fa-check"></i><b>2.8</b> Structures de données</a>
+<ul>
 <li class="chapter" data-level="2.8.1" data-path="R-intro.html"><a href="R-intro.html#vecteurs"><i class="fa fa-check"></i><b>2.8.1</b> Vecteurs</a></li>
 <li class="chapter" data-level="2.8.2" data-path="R-intro.html"><a href="R-intro.html#opérateurs-logiques"><i class="fa fa-check"></i><b>2.8.2</b> Opérateurs logiques</a></li>
 <li class="chapter" data-level="2.8.3" data-path="R-intro.html"><a href="R-intro.html#matrices"><i class="fa fa-check"></i><b>2.8.3</b> Matrices</a></li>
 </ul></li>
-<li class="chapter" data-level="2.9" data-path="R-intro.html"><a href="R-intro.html#dataframes"><i class="fa fa-check"></i><b>2.9</b> Data Frames</a><ul>
+<li class="chapter" data-level="2.9" data-path="R-intro.html"><a href="R-intro.html#dataframes"><i class="fa fa-check"></i><b>2.9</b> Data Frames</a>
+<ul>
 <li class="chapter" data-level="2.9.1" data-path="R-intro.html"><a href="R-intro.html#travailler-sur-des-data.frames"><i class="fa fa-check"></i><b>2.9.1</b> Travailler sur des <code>data.frames</code></a></li>
 </ul></li>
-<li class="chapter" data-level="2.10" data-path="R-intro.html"><a href="R-intro.html#les-bases-de-la-programmation-en-r"><i class="fa fa-check"></i><b>2.10</b> Les bases de la programmation en <code>R</code></a><ul>
+<li class="chapter" data-level="2.10" data-path="R-intro.html"><a href="R-intro.html#les-bases-de-la-programmation-en-r"><i class="fa fa-check"></i><b>2.10</b> Les bases de la programmation en <code>R</code></a>
+<ul>
 <li class="chapter" data-level="2.10.1" data-path="R-intro.html"><a href="R-intro.html#variables"><i class="fa fa-check"></i><b>2.10.1</b> Variables</a></li>
 <li class="chapter" data-level="2.10.2" data-path="R-intro.html"><a href="R-intro.html#contrôle-du-flux-conditions-si-alors"><i class="fa fa-check"></i><b>2.10.2</b> Contrôle du flux, conditions “si, alors”</a></li>
 <li class="chapter" data-level="2.10.3" data-path="R-intro.html"><a href="R-intro.html#boucles"><i class="fa fa-check"></i><b>2.10.3</b> Boucles</a></li>
 <li class="chapter" data-level="2.10.4" data-path="R-intro.html"><a href="R-intro.html#fonctions"><i class="fa fa-check"></i><b>2.10.4</b> Fonctions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="sum.html"><a href="sum.html"><i class="fa fa-check"></i><b>3</b> Travailler avec les données</a><ul>
-<li class="chapter" data-level="3.1" data-path="sum.html"><a href="sum.html#statistiques-descriptives"><i class="fa fa-check"></i><b>3.1</b> Statistiques descriptives</a><ul>
+<li class="chapter" data-level="3" data-path="sum.html"><a href="sum.html"><i class="fa fa-check"></i><b>3</b> Travailler avec les données</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="sum.html"><a href="sum.html#statistiques-descriptives"><i class="fa fa-check"></i><b>3.1</b> Statistiques descriptives</a>
+<ul>
 <li class="chapter" data-level="" data-path="sum.html"><a href="sum.html#tendance-centrale"><i class="fa fa-check"></i>Tendance centrale</a></li>
 <li class="chapter" data-level="" data-path="sum.html"><a href="sum.html#étendue"><i class="fa fa-check"></i>Étendue</a></li>
 <li class="chapter" data-level="" data-path="sum.html"><a href="sum.html#variable-catégorielles"><i class="fa fa-check"></i>Variable catégorielles</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="sum.html"><a href="sum.html#graphiques"><i class="fa fa-check"></i><b>3.2</b> Graphiques</a><ul>
+<li class="chapter" data-level="3.2" data-path="sum.html"><a href="sum.html#graphiques"><i class="fa fa-check"></i><b>3.2</b> Graphiques</a>
+<ul>
 <li class="chapter" data-level="3.2.1" data-path="sum.html"><a href="sum.html#histograms"><i class="fa fa-check"></i><b>3.2.1</b> Histograms</a></li>
 <li class="chapter" data-level="3.2.2" data-path="sum.html"><a href="sum.html#diagrammes-en-bâtons"><i class="fa fa-check"></i><b>3.2.2</b> Diagrammes en bâtons</a></li>
 <li class="chapter" data-level="3.2.3" data-path="sum.html"><a href="sum.html#boîtes-à-moustaches"><i class="fa fa-check"></i><b>3.2.3</b> Boîtes à moustaches</a></li>
@@ -166,42 +179,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.5" data-path="sum.html"><a href="sum.html#ggplot"><i class="fa fa-check"></i><b>3.2.5</b> <code>ggplot</code></a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="sum.html"><a href="sum.html#summarize-two"><i class="fa fa-check"></i><b>3.3</b> Statistiques bivariées</a></li>
-<li class="chapter" data-level="3.4" data-path="sum.html"><a href="sum.html#le-tidyverse"><i class="fa fa-check"></i><b>3.4</b> Le <code>tidyverse</code></a><ul>
+<li class="chapter" data-level="3.4" data-path="sum.html"><a href="sum.html#le-tidyverse"><i class="fa fa-check"></i><b>3.4</b> Le <code>tidyverse</code></a>
+<ul>
 <li class="chapter" data-level="3.4.1" data-path="sum.html"><a href="sum.html#primers-de-rstudio.cloud"><i class="fa fa-check"></i><b>3.4.1</b> Primers de rstudio.cloud</a></li>
 <li class="chapter" data-level="3.4.2" data-path="sum.html"><a href="sum.html#importer-des-données-.csv-de-façon-tidy"><i class="fa fa-check"></i><b>3.4.2</b> Importer des données <code>.csv</code> de façon <em>tidy</em></a></li>
 <li class="chapter" data-level="3.4.3" data-path="sum.html"><a href="sum.html#les-data.frames-tidy-sont-des-tibbles"><i class="fa fa-check"></i><b>3.4.3</b> Les <code>data.frames</code> “tidy” sont des <code>tibbles</code></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="mcarlo.html"><a href="mcarlo.html"><i class="fa fa-check"></i><b>4</b> Simulations de Monte-Carlo</a><ul>
+<li class="chapter" data-level="4" data-path="mcarlo.html"><a href="mcarlo.html"><i class="fa fa-check"></i><b>4</b> Simulations de Monte-Carlo</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="mcarlo.html"><a href="mcarlo.html#un-premier-exemple"><i class="fa fa-check"></i><b>4.1</b> Un premier exemple</a></li>
 <li class="chapter" data-level="4.2" data-path="mcarlo.html"><a href="mcarlo.html#généralisation-le-package-montecarlo"><i class="fa fa-check"></i><b>4.2</b> Généralisation : le package MonteCarlo</a></li>
 <li class="chapter" data-level="4.3" data-path="mcarlo.html"><a href="mcarlo.html#avec-une-régression-par-mco"><i class="fa fa-check"></i><b>4.3</b> Avec une régression par MCO</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="MCO.html"><a href="MCO.html"><i class="fa fa-check"></i><b>5</b> La régression linéaire par MCO</a><ul>
+<li class="chapter" data-level="5" data-path="MCO.html"><a href="MCO.html"><i class="fa fa-check"></i><b>5</b> La régression linéaire par MCO</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="MCO.html"><a href="MCO.html#la-commande-de-base-lm-et-summary"><i class="fa fa-check"></i><b>5.1</b> La commande de base : <code>lm()</code> et <code>summary()</code></a></li>
-<li class="chapter" data-level="5.2" data-path="MCO.html"><a href="MCO.html#extraire-des-éléments-du-modèle"><i class="fa fa-check"></i><b>5.2</b> Extraire des éléments du modèle</a><ul>
+<li class="chapter" data-level="5.2" data-path="MCO.html"><a href="MCO.html#extraire-des-éléments-du-modèle"><i class="fa fa-check"></i><b>5.2</b> Extraire des éléments du modèle</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="MCO.html"><a href="MCO.html#données-du-modèles"><i class="fa fa-check"></i><b>5.2.1</b> Données du modèles</a></li>
 <li class="chapter" data-level="5.2.2" data-path="MCO.html"><a href="MCO.html#manipulation-plus-avancée"><i class="fa fa-check"></i><b>5.2.2</b> Manipulation plus avancée</a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="MCO.html"><a href="MCO.html#graphiques-danalyse-des-résidus"><i class="fa fa-check"></i><b>5.3</b> Graphiques d’analyse des résidus</a></li>
-<li class="chapter" data-level="5.4" data-path="MCO.html"><a href="MCO.html#analyse-de-la-variance"><i class="fa fa-check"></i><b>5.4</b> Analyse de la variance</a><ul>
+<li class="chapter" data-level="5.4" data-path="MCO.html"><a href="MCO.html#analyse-de-la-variance"><i class="fa fa-check"></i><b>5.4</b> Analyse de la variance</a>
+<ul>
 <li class="chapter" data-level="5.4.1" data-path="MCO.html"><a href="MCO.html#r2-et-hatsigma"><i class="fa fa-check"></i><b>5.4.1</b> <span class="math inline">\(R^2\)</span> et <span class="math inline">\(\hat\sigma\)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="5.5" data-path="MCO.html"><a href="MCO.html#retour-sur-summary"><i class="fa fa-check"></i><b>5.5</b> Retour sur <code>summary()</code></a></li>
 <li class="chapter" data-level="5.6" data-path="MCO.html"><a href="MCO.html#les-mco-à-la-main"><i class="fa fa-check"></i><b>5.6</b> Les MCO à la main</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="hetero.html"><a href="hetero.html"><i class="fa fa-check"></i><b>6</b> Traitement de l’hétéroscédasticité</a><ul>
-<li class="chapter" data-level="6.1" data-path="R-intro.html"><a href="R-intro.html#introduction"><i class="fa fa-check"></i><b>6.1</b> Introduction</a></li>
-<li class="chapter" data-level="6.2" data-path="hetero.html"><a href="hetero.html#détection-de-lhétéroscédasticité"><i class="fa fa-check"></i><b>6.2</b> Détection de l’hétéroscédasticité</a><ul>
+<li class="chapter" data-level="6" data-path="hetero.html"><a href="hetero.html"><i class="fa fa-check"></i><b>6</b> Traitement de l’hétéroscédasticité</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="hetero.html"><a href="hetero.html#introduction-1"><i class="fa fa-check"></i><b>6.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.2" data-path="hetero.html"><a href="hetero.html#détection-de-lhétéroscédasticité"><i class="fa fa-check"></i><b>6.2</b> Détection de l’hétéroscédasticité</a>
+<ul>
 <li class="chapter" data-level="6.2.1" data-path="hetero.html"><a href="hetero.html#analyse-graphique-des-résidus"><i class="fa fa-check"></i><b>6.2.1</b> Analyse graphique des résidus</a></li>
 <li class="chapter" data-level="6.2.2" data-path="hetero.html"><a href="hetero.html#test-de-breusch-pagan"><i class="fa fa-check"></i><b>6.2.2</b> Test de Breusch-Pagan</a></li>
 </ul></li>
-<li class="chapter" data-level="6.3" data-path="hetero.html"><a href="hetero.html#correction-de-white"><i class="fa fa-check"></i><b>6.3</b> Correction de White</a><ul>
+<li class="chapter" data-level="6.3" data-path="hetero.html"><a href="hetero.html#correction-de-white"><i class="fa fa-check"></i><b>6.3</b> Correction de White</a>
+<ul>
 <li class="chapter" data-level="6.3.1" data-path="hetero.html"><a href="hetero.html#les-paquets-lmtest-et-sandwich"><i class="fa fa-check"></i><b>6.3.1</b> Les paquets <code>lmtest</code> et <code>sandwich</code></a></li>
 <li class="chapter" data-level="6.3.2" data-path="hetero.html"><a href="hetero.html#les-paquets-lmtest-et-car"><i class="fa fa-check"></i><b>6.3.2</b> Les paquets <code>lmtest</code> et <code>car</code></a></li>
 <li class="chapter" data-level="6.3.3" data-path="hetero.html"><a href="hetero.html#le-paquet-estimatr"><i class="fa fa-check"></i><b>6.3.3</b> Le paquet <code>estimatr</code></a></li>
 </ul></li>
 <li class="chapter" data-level="6.4" data-path="hetero.html"><a href="hetero.html#mcqg-par-pondération"><i class="fa fa-check"></i><b>6.4</b> MCQG par pondération</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="dsls.html"><a href="dsls.html"><i class="fa fa-check"></i><b>7</b> Variables instrumentales et doubles moindres carrés</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="dsls.html"><a href="dsls.html#introduction-2"><i class="fa fa-check"></i><b>7.1</b> Introduction</a></li>
+<li class="chapter" data-level="7.2" data-path="dsls.html"><a href="dsls.html#la-méthode-des-variables-instrumentalesdoubles-moindres-carrés"><i class="fa fa-check"></i><b>7.2</b> La méthode des variables instrumentales/doubles moindres carrés</a></li>
+<li class="chapter" data-level="7.3" data-path="dsls.html"><a href="dsls.html#implémentation-sous-r-la-commande-ivreg"><i class="fa fa-check"></i><b>7.3</b> Implémentation sous <code>R</code> : la commande <code>ivreg</code></a></li>
+<li class="chapter" data-level="7.4" data-path="dsls.html"><a href="dsls.html#tests-de-diagnostics"><i class="fa fa-check"></i><b>7.4</b> Tests de diagnostics</a></li>
+<li class="chapter" data-level="7.5" data-path="dsls.html"><a href="dsls.html#sls-à-la-main"><i class="fa fa-check"></i><b>7.5</b> 2SLS à la main</a></li>
 </ul></li>
 </ul>
 
@@ -220,22 +249,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="hetero" class="section level1">
+<div id="hetero" class="section level1" number="6">
 <h1><span class="header-section-number">6</span> Traitement de l’hétéroscédasticité</h1>
-<div id="introduction" class="section level2">
+<div id="introduction-1" class="section level2" number="6.1">
 <h2><span class="header-section-number">6.1</span> Introduction</h2>
 <p>Les hypothèses habituelles des MCO supposent que les termes d’erreur <span class="math inline">\(\epsilon_i\)</span> sont homoscédastiques, c’est-à-dire que leur variance est constante, et ne dépend pas des caractéristiques individuelles : <span class="math inline">\(Var(\epsilon_i)=\sigma^2~\forall i\)</span>. Elles supposent également que les covariances entre termes d’erreur sont nulles : <span class="math inline">\(Cov(\epsilon_i,\epsilon_j)=0~\forall i\neq j\)</span>. Ces deux hypothèses (dites de “sphéricité” des termes d’erreur) assurent que l’estimateur des MCO est de variance minimale parmi les estimateurs linéaires sans biais (MCO est BLUE) ; et permet un mode de calcul simple de la matrice de variance-covariance des <span class="math inline">\(\hat\beta\)</span> : <span class="math inline">\(V(\hat\beta)=\sigma^2(X&#39;X)^{-1}\)</span>.</p>
 <p>L’hétéroscédasticité est la violation de l’hypothèse d’homoscédasticité. On parle d’hétéroscédasticité lorsque la variance des termes d’erreur n’est pas constante : <span class="math inline">\(Var(\epsilon_i)=\sigma^2_i\)</span>. Dans cette section, on continue à considérer que les termes d’erreurs ne sont pas corrélés entre eux.</p>
 </div>
-<div id="détection-de-lhétéroscédasticité" class="section level2">
+<div id="détection-de-lhétéroscédasticité" class="section level2" number="6.2">
 <h2><span class="header-section-number">6.2</span> Détection de l’hétéroscédasticité</h2>
 <p>On détecte la présence d’hétéroscédasticité à l’aide d’analyse graphique d’une part, et de tests statistiques d’autre part.</p>
 <p>Commençons par charger des données, et faire une régression dont on analysera les résultats. La base de données “TableF9-2.csv” contient 100 observations sur la dépense en logement (avgexp), l’age, la statut d’occupation (ownrent) et le revenu (income) et son carré (income2). On va régresser la dépense en logement sur ces variables, et étudier la présence d’hétéroscédasticité</p>
-<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb382-1" title="1"><span class="kw">library</span>(readr)</a>
-<a class="sourceLine" id="cb382-2" title="2">ma_base &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/ATerracol/P8Econ/master/data/TableF9-2.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb382-3" title="3">modele &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2)</a>
-<a class="sourceLine" id="cb382-4" title="4">smodele &lt;-<span class="st"> </span><span class="kw">summary</span>(modele)</a>
-<a class="sourceLine" id="cb382-5" title="5">smodele</a></code></pre></div>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="hetero.html#cb384-1" aria-hidden="true"></a><span class="kw">library</span>(readr)</span>
+<span id="cb384-2"><a href="hetero.html#cb384-2" aria-hidden="true"></a>ma_base &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/ATerracol/P8Econ/master/data/TableF9-2.csv&quot;</span>)</span>
+<span id="cb384-3"><a href="hetero.html#cb384-3" aria-hidden="true"></a>modele &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2)</span>
+<span id="cb384-4"><a href="hetero.html#cb384-4" aria-hidden="true"></a>smodele &lt;-<span class="st"> </span><span class="kw">summary</span>(modele)</span>
+<span id="cb384-5"><a href="hetero.html#cb384-5" aria-hidden="true"></a>smodele</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = avgexp ~ age + ownrent + income + income2, data = ma_base)
@@ -255,53 +284,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 272.2 on 95 degrees of freedom
-## Multiple R-squared:  0.1788,	Adjusted R-squared:  0.1443 
+## Multiple R-squared:  0.1788, Adjusted R-squared:  0.1443 
 ## F-statistic: 5.173 on 4 and 95 DF,  p-value: 0.0008179</code></pre>
-<div id="analyse-graphique-des-résidus" class="section level3">
+<div id="analyse-graphique-des-résidus" class="section level3" number="6.2.1">
 <h3><span class="header-section-number">6.2.1</span> Analyse graphique des résidus</h3>
 <p>Les résidus de la régression étant des estimations des termes d’erreur, on se base sur ces résidus pour étudier la présence d’hétéroscédasticité</p>
-<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb384-1" title="1"><span class="co"># graphique des résidus contre valeurs prédites</span></a>
-<a class="sourceLine" id="cb384-2" title="2"><span class="kw">plot</span>(modele,<span class="dt">which=</span><span class="dv">1</span> )</a></code></pre></div>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="hetero.html#cb386-1" aria-hidden="true"></a><span class="co"># graphique des résidus contre valeurs prédites</span></span>
+<span id="cb386-2"><a href="hetero.html#cb386-2" aria-hidden="true"></a><span class="kw">plot</span>(modele,<span class="dt">which=</span><span class="dv">1</span> )</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-146-1.png" width="672" /></p>
-<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" title="1"><span class="co"># graphique des résidus contre la variable explicative &quot;income&quot;</span></a>
-<a class="sourceLine" id="cb385-2" title="2"><span class="kw">plot</span>(ma_base<span class="op">$</span>income,<span class="kw">resid</span>(modele))</a></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="hetero.html#cb387-1" aria-hidden="true"></a><span class="co"># graphique des résidus contre la variable explicative &quot;income&quot;</span></span>
+<span id="cb387-2"><a href="hetero.html#cb387-2" aria-hidden="true"></a><span class="kw">plot</span>(ma_base<span class="op">$</span>income,<span class="kw">resid</span>(modele))</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-146-2.png" width="672" /></p>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb386-1" title="1"><span class="co"># Idem, avec ggplot2</span></a>
-<a class="sourceLine" id="cb386-2" title="2"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb386-3" title="3"><span class="kw">ggplot</span>(<span class="dt">data=</span>ma_base) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb386-4" title="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>income,<span class="dt">y=</span><span class="kw">residuals</span>(modele)))</a></code></pre></div>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="hetero.html#cb388-1" aria-hidden="true"></a><span class="co"># Idem, avec ggplot2</span></span>
+<span id="cb388-2"><a href="hetero.html#cb388-2" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb388-3"><a href="hetero.html#cb388-3" aria-hidden="true"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>ma_base) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb388-4"><a href="hetero.html#cb388-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>income,<span class="dt">y=</span><span class="kw">residuals</span>(modele)))</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-147-1.png" width="672" /></p>
 <p>On voit que, si le graphique des résidus contre les valeurs prédites n’est pas forcément très clair, celui contre la variable “income” semble indiquer la présence d’hétéroscédasticité : la variance des résidus semble augmenter avec les valeurs de la variable de revenu “income”. Celà semble logique dans la mesure où un niveau de revenu plus élevé donnee accès à une gamme de logement de prix plus varié, et donc on s’attend à ce que la variation des dépenses de logement soit plus forte pour les revenus les plus élevés, même à âge et à statut d’occupation donné.</p>
 </div>
-<div id="test-de-breusch-pagan" class="section level3">
+<div id="test-de-breusch-pagan" class="section level3" number="6.2.2">
 <h3><span class="header-section-number">6.2.2</span> Test de Breusch-Pagan</h3>
 <p>Le test de Breusch-Pagan est un test statistique permettant de détecter la présence d’hétéroscédasticité sous l’hypothèse que <span class="math inline">\(Var(\epsilon_i)=\sigma^2(\alpha_0+\boldsymbol{\alpha z})\)</span> où <span class="math inline">\(\boldsymbol{z}\)</span> est un vecteur de variable à la source de l’hétéroscédasticité. L’hypothèse nulle est que <span class="math inline">\(\boldsymbol{\alpha}=\boldsymbol{0}\)</span>, c’est-à-dire l’absence d’hétéroscédasticité. On peut effectuer ce test à l’aide de la commande <code>bptest</code> issue du paquet <code>lmtest</code></p>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" title="1"><span class="kw">library</span>(lmtest)</a>
-<a class="sourceLine" id="cb387-2" title="2"><span class="kw">bptest</span>(modele)</a></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="hetero.html#cb389-1" aria-hidden="true"></a><span class="kw">library</span>(lmtest)</span>
+<span id="cb389-2"><a href="hetero.html#cb389-2" aria-hidden="true"></a><span class="kw">bptest</span>(modele)</span></code></pre></div>
 <pre><code>## 
-## 	studentized Breusch-Pagan test
+##  studentized Breusch-Pagan test
 ## 
 ## data:  modele
 ## BP = 7.2289, df = 4, p-value = 0.1243</code></pre>
 <p>Ici, le test n’est pas très concluant (p-value &gt;0.1)</p>
 <p>Par contre, en spécifiant qu’on se concentre sur les variables de revenu pour tester l’hétéroscédasticité (avec l’option <code>varformula</code>) :</p>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" title="1"><span class="kw">bptest</span>(modele, <span class="dt">varformula =</span> <span class="op">~</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2, <span class="dt">data=</span>ma_base)</a></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="hetero.html#cb391-1" aria-hidden="true"></a><span class="kw">bptest</span>(modele, <span class="dt">varformula =</span> <span class="op">~</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2, <span class="dt">data=</span>ma_base)</span></code></pre></div>
 <pre><code>## 
-## 	studentized Breusch-Pagan test
+##  studentized Breusch-Pagan test
 ## 
 ## data:  modele
 ## BP = 6.813, df = 2, p-value = 0.03316</code></pre>
-<p>on rejette maintenant <span class="math inline">\(H0\)</span> au niveau <span class="math inline">\(\alpha=5 \%\)</span> et oon conclut à la présence d’hétéroscédasticité.</p>
+<p>on rejette maintenant <span class="math inline">\(H0\)</span> au niveau <span class="math inline">\(\alpha=5 \%\)</span> et on conclut à la présence d’hétéroscédasticité.</p>
 </div>
 </div>
-<div id="correction-de-white" class="section level2">
+<div id="correction-de-white" class="section level2" number="6.3">
 <h2><span class="header-section-number">6.3</span> Correction de White</h2>
 <p>Une façon de corriger de la présence d’hétéroscédasticité dans un modèle est non pas de chercher à rendre les termes d’erreur sphérique, mais de chercher à calculer correctement la matrice de variance-covariance des <span class="math inline">\(\hat\beta\)</span>. La méthode usuelle est celle de White, dans sa variante dite “HC1”.</p>
 <p>Il existe plusieurs paquets permettant d’effectuer cette correction dans <code>R</code>. nous en présentons quelques uns ici :</p>
 <p>Commençons par estimer le modèle sans correction, sauvegardons le dans un objet nommé <code>modele</code>, et affichons son <code>summary</code> :</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb391-1" title="1">modele &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2)</a>
-<a class="sourceLine" id="cb391-2" title="2">smodele &lt;-<span class="st"> </span><span class="kw">summary</span>(modele)</a>
-<a class="sourceLine" id="cb391-3" title="3">smodele</a></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="hetero.html#cb393-1" aria-hidden="true"></a>modele &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2)</span>
+<span id="cb393-2"><a href="hetero.html#cb393-2" aria-hidden="true"></a>smodele &lt;-<span class="st"> </span><span class="kw">summary</span>(modele)</span>
+<span id="cb393-3"><a href="hetero.html#cb393-3" aria-hidden="true"></a>smodele</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = avgexp ~ age + ownrent + income + income2, data = ma_base)
@@ -321,15 +350,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 272.2 on 95 degrees of freedom
-## Multiple R-squared:  0.1788,	Adjusted R-squared:  0.1443 
+## Multiple R-squared:  0.1788, Adjusted R-squared:  0.1443 
 ## F-statistic: 5.173 on 4 and 95 DF,  p-value: 0.0008179</code></pre>
-<div id="les-paquets-lmtest-et-sandwich" class="section level3">
+<div id="les-paquets-lmtest-et-sandwich" class="section level3" number="6.3.1">
 <h3><span class="header-section-number">6.3.1</span> Les paquets <code>lmtest</code> et <code>sandwich</code></h3>
 <p>le paquet <code>sandwich</code> fournit la commande <code>vcovHC</code>qui corrige la matrice de variance covariance, tandis que le paquet <code>lmtest</code> fournit la commande <code>coeftest</code> qui permet d’utiliser cette dernière pour construire un tableau de résultat corrigé.</p>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb393-1" title="1"><span class="kw">library</span>(lmtest)</a>
-<a class="sourceLine" id="cb393-2" title="2"><span class="kw">library</span>(sandwich)</a>
-<a class="sourceLine" id="cb393-3" title="3"> modele_robust &lt;-<span class="st"> </span><span class="kw">coeftest</span>(modele, <span class="dt">vcov =</span> <span class="kw">vcovHC</span>(modele, <span class="dt">type =</span> <span class="st">&quot;HC1&quot;</span>))</a>
-<a class="sourceLine" id="cb393-4" title="4"> modele_robust</a></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="hetero.html#cb395-1" aria-hidden="true"></a><span class="kw">library</span>(lmtest)</span>
+<span id="cb395-2"><a href="hetero.html#cb395-2" aria-hidden="true"></a><span class="kw">library</span>(sandwich)</span>
+<span id="cb395-3"><a href="hetero.html#cb395-3" aria-hidden="true"></a> modele_robust &lt;-<span class="st"> </span><span class="kw">coeftest</span>(modele, <span class="dt">vcov =</span> <span class="kw">vcovHC</span>(modele, <span class="dt">type =</span> <span class="st">&quot;HC1&quot;</span>))</span>
+<span id="cb395-4"><a href="hetero.html#cb395-4" aria-hidden="true"></a> modele_robust</span></code></pre></div>
 <pre><code>## 
 ## t test of coefficients:
 ## 
@@ -343,13 +372,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>On constate que si les <span class="math inline">\(\hat\beta\)</span> sont identiques, les écarts-type et toute l’inférence est modifiée</p>
 </div>
-<div id="les-paquets-lmtest-et-car" class="section level3">
+<div id="les-paquets-lmtest-et-car" class="section level3" number="6.3.2">
 <h3><span class="header-section-number">6.3.2</span> Les paquets <code>lmtest</code> et <code>car</code></h3>
 <p>le paquet <code>car</code> fournit la commande <code>hccn</code> qui corrige la matrice de variance covariance, tandis que le paquet <code>lmtest</code> fournit la commande <code>coeftest</code> qui permet d’utiliser cette dernière pour construire un tableau de résultat corrigé.</p>
-<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb395-1" title="1"><span class="kw">library</span>(lmtest)</a>
-<a class="sourceLine" id="cb395-2" title="2"> <span class="kw">library</span>(car)</a>
-<a class="sourceLine" id="cb395-3" title="3"> modele_robust2 &lt;-<span class="st"> </span><span class="kw">coeftest</span>(modele, <span class="dt">vcov =</span> <span class="kw">hccm</span>(modele, <span class="dt">type =</span> <span class="st">&quot;hc1&quot;</span>))</a>
-<a class="sourceLine" id="cb395-4" title="4"> modele_robust2</a></code></pre></div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="hetero.html#cb397-1" aria-hidden="true"></a><span class="kw">library</span>(lmtest)</span>
+<span id="cb397-2"><a href="hetero.html#cb397-2" aria-hidden="true"></a> <span class="kw">library</span>(car)</span>
+<span id="cb397-3"><a href="hetero.html#cb397-3" aria-hidden="true"></a> modele_robust2 &lt;-<span class="st"> </span><span class="kw">coeftest</span>(modele, <span class="dt">vcov =</span> <span class="kw">hccm</span>(modele, <span class="dt">type =</span> <span class="st">&quot;hc1&quot;</span>))</span>
+<span id="cb397-4"><a href="hetero.html#cb397-4" aria-hidden="true"></a> modele_robust2</span></code></pre></div>
 <pre><code>## 
 ## t test of coefficients:
 ## 
@@ -363,12 +392,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>On constate que les deux paquets donnent des résultats identiques</p>
 </div>
-<div id="le-paquet-estimatr" class="section level3">
+<div id="le-paquet-estimatr" class="section level3" number="6.3.3">
 <h3><span class="header-section-number">6.3.3</span> Le paquet <code>estimatr</code></h3>
 <p>Le paquet <code>estimatr</code>, plus récent, permet d’estimer directement des modèles corrigés (sans avoir à estimer le modèle non corrigé au préalable). Il faut utiliser la commande <code>lm_robust()</code> avec l’option <code>se_type="HC1"</code> :</p>
-<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb397-1" title="1"><span class="kw">library</span>(estimatr)</a>
-<a class="sourceLine" id="cb397-2" title="2">modele_robust3 &lt;-<span class="st"> </span><span class="kw">lm_robust</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2, <span class="dt">se_type =</span> <span class="st">&quot;HC1&quot;</span>)</a>
-<a class="sourceLine" id="cb397-3" title="3"><span class="kw">summary</span>(modele_robust3)</a></code></pre></div>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="hetero.html#cb399-1" aria-hidden="true"></a><span class="kw">library</span>(estimatr)</span>
+<span id="cb399-2"><a href="hetero.html#cb399-2" aria-hidden="true"></a>modele_robust3 &lt;-<span class="st"> </span><span class="kw">lm_robust</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2, <span class="dt">se_type =</span> <span class="st">&quot;HC1&quot;</span>)</span>
+<span id="cb399-3"><a href="hetero.html#cb399-3" aria-hidden="true"></a><span class="kw">summary</span>(modele_robust3)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm_robust(formula = avgexp ~ age + ownrent + income + income2, 
@@ -384,17 +413,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## income       156.467     73.067  2.1414   0.0348    11.41  301.524 95
 ## income2       -9.076      6.142 -1.4776   0.1428   -21.27    3.118 95
 ## 
-## Multiple R-squared:  0.1788 ,	Adjusted R-squared:  0.1443 
+## Multiple R-squared:  0.1788 ,    Adjusted R-squared:  0.1443 
 ## F-statistic: 6.323 on 4 and 95 DF,  p-value: 0.0001485</code></pre>
 <p>Les résultats sont à nouveau identiques, mais le paquet <code>estimatr</code> fournit en plus les intervalles de confiance dans le tableau de résultat. Pour les obtenir avec les autres paquets, il aurait fallu taper</p>
-<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb399-1" title="1"><span class="kw">confint</span>(modele_robust)</a></code></pre></div>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="hetero.html#cb401-1" aria-hidden="true"></a><span class="kw">confint</span>(modele_robust)</span></code></pre></div>
 <pre><code>##                   2.5 %     97.5 %
 ## (Intercept) -417.735526 185.752639
 ## age           -8.510198   1.202751
 ## ownrent      -73.845951 195.608913
 ## income        11.410587 301.523775
 ## income2      -21.269821   3.117847</code></pre>
-<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb401-1" title="1"><span class="kw">confint</span>(modele_robust2)</a></code></pre></div>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="hetero.html#cb403-1" aria-hidden="true"></a><span class="kw">confint</span>(modele_robust2)</span></code></pre></div>
 <pre><code>##                   2.5 %     97.5 %
 ## (Intercept) -417.735526 185.752639
 ## age           -8.510198   1.202751
@@ -403,16 +432,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## income2      -21.269821   3.117847</code></pre>
 </div>
 </div>
-<div id="mcqg-par-pondération" class="section level2">
+<div id="mcqg-par-pondération" class="section level2" number="6.4">
 <h2><span class="header-section-number">6.4</span> MCQG par pondération</h2>
 <p>La méthode des moindres carrés généralisée permet en principe de corriger l’hétéroscédasticité en pondérant les observations par l’inverse de l’écart-type du terme d’erreur.</p>
 <p>En posant pour hypothèse que <span class="math inline">\(\sigma^2_i=\exp(\boldsymbol{x&#39;_i\alpha})\)</span>, on peut estimer <span class="math inline">\(\boldsymbol{\hat\alpha}\)</span> en régressant les logs carrés des résidus sur les <span class="math inline">\(x\)</span>, puis en calculant <span class="math inline">\(\hat\alpha_i^2=\exp(\boldsymbol{x&#39;_i\hat\alpha})\)</span> et en pondérant les observations par <span class="math inline">\(\hat\sigma_i\)</span> :</p>
-<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb403-1" title="1">modele &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2)</a>
-<a class="sourceLine" id="cb403-2" title="2">ma_base<span class="op">$</span>logresid2 &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="kw">residuals</span>(modele)<span class="op">^</span><span class="dv">2</span>) <span class="co"># on ajoute la variable ln(e^2)</span></a>
-<a class="sourceLine" id="cb403-3" title="3">modeleresid &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,logresid2 <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2) <span class="co"># on les régresse sur les x</span></a>
-<a class="sourceLine" id="cb403-4" title="4">ma_base<span class="op">$</span>e2chap &lt;-<span class="st"> </span><span class="kw">exp</span>(modeleresid<span class="op">$</span>fitted.values) <span class="co"># on calcule la variance prédite</span></a>
-<a class="sourceLine" id="cb403-5" title="5">modele_mcqg &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2,<span class="dt">weight=</span><span class="dv">1</span><span class="op">/</span>e2chap) <span class="co"># on pondère la régression par 1/variance</span></a>
-<a class="sourceLine" id="cb403-6" title="6"><span class="kw">summary</span>(modele_mcqg)</a></code></pre></div>
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="hetero.html#cb405-1" aria-hidden="true"></a>modele &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2)</span>
+<span id="cb405-2"><a href="hetero.html#cb405-2" aria-hidden="true"></a>ma_base<span class="op">$</span>logresid2 &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="kw">residuals</span>(modele)<span class="op">^</span><span class="dv">2</span>) <span class="co"># on ajoute la variable ln(e^2)</span></span>
+<span id="cb405-3"><a href="hetero.html#cb405-3" aria-hidden="true"></a>modeleresid &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,logresid2 <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2) <span class="co"># on les régresse sur les x</span></span>
+<span id="cb405-4"><a href="hetero.html#cb405-4" aria-hidden="true"></a>ma_base<span class="op">$</span>e2chap &lt;-<span class="st"> </span><span class="kw">exp</span>(modeleresid<span class="op">$</span>fitted.values) <span class="co"># on calcule la variance prédite</span></span>
+<span id="cb405-5"><a href="hetero.html#cb405-5" aria-hidden="true"></a>modele_mcqg &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ownrent <span class="op">+</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>income2,<span class="dt">weight=</span><span class="dv">1</span><span class="op">/</span>e2chap) <span class="co"># on pondère la régression par 1/variance</span></span>
+<span id="cb405-6"><a href="hetero.html#cb405-6" aria-hidden="true"></a><span class="kw">summary</span>(modele_mcqg)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = avgexp ~ age + ownrent + income + income2, data = ma_base, 
@@ -433,20 +462,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 2.138 on 95 degrees of freedom
-## Multiple R-squared:  0.2432,	Adjusted R-squared:  0.2113 
+## Multiple R-squared:  0.2432, Adjusted R-squared:  0.2113 
 ## F-statistic: 7.632 on 4 and 95 DF,  p-value: 2.242e-05</code></pre>
 <p>On constate que les résultats diffèrent de ceux de la correction de White.</p>
 <p>NB, l’aide de <code>lm()</code>, accessible par <code>?lm</code>, précise que
 “<em>weights can be used to indicate that different observations have different variances (with the values in weights being inversely proportional to the variances)</em>” : on indique donc <span class="math inline">\(\frac{1}{\hat\sigma^2_i}\)</span> dans l’option <code>weight</code></p>
 <p>On peut aussi pondérer “à la main” les variables pour implémenter les MCQG. à l’aide de la variable <code>e2chap</code> crée ci dessus, on peut diviser toutes les variables par <span class="math inline">\(\hat\sigma_i\)</span></p>
-<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb405-1" title="1">ma_base<span class="op">$</span>avgexp_corr &lt;-<span class="st"> </span>ma_base<span class="op">$</span>avgexp<span class="op">/</span><span class="kw">sqrt</span>(ma_base<span class="op">$</span>e2chap)</a>
-<a class="sourceLine" id="cb405-2" title="2">ma_base<span class="op">$</span>age_corr &lt;-<span class="st"> </span>ma_base<span class="op">$</span>age<span class="op">/</span><span class="kw">sqrt</span>(ma_base<span class="op">$</span>e2chap)</a>
-<a class="sourceLine" id="cb405-3" title="3">ma_base<span class="op">$</span>ownrent_corr &lt;-<span class="st"> </span>ma_base<span class="op">$</span>ownrent<span class="op">/</span><span class="kw">sqrt</span>(ma_base<span class="op">$</span>e2chap)</a>
-<a class="sourceLine" id="cb405-4" title="4">ma_base<span class="op">$</span>income_corr &lt;-<span class="st"> </span>ma_base<span class="op">$</span>income<span class="op">/</span><span class="kw">sqrt</span>(ma_base<span class="op">$</span>e2chap)</a>
-<a class="sourceLine" id="cb405-5" title="5">ma_base<span class="op">$</span>income2_corr &lt;-<span class="st"> </span>ma_base<span class="op">$</span>income2<span class="op">/</span><span class="kw">sqrt</span>(ma_base<span class="op">$</span>e2chap)</a>
-<a class="sourceLine" id="cb405-6" title="6">ma_base<span class="op">$</span>newcons=<span class="dv">1</span><span class="op">/</span><span class="kw">sqrt</span>(ma_base<span class="op">$</span>e2chap) <span class="co"># On pondère aussi la constante</span></a>
-<a class="sourceLine" id="cb405-7" title="7">modele_mcqg2 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp_corr <span class="op">~</span><span class="st"> </span>newcons <span class="op">+</span><span class="st"> </span>age_corr <span class="op">+</span><span class="st"> </span>ownrent_corr <span class="op">+</span><span class="st"> </span>income_corr <span class="op">+</span><span class="st"> </span>income2_corr <span class="op">+</span><span class="dv">0</span>) <span class="co"># le +0 supprime la constante</span></a>
-<a class="sourceLine" id="cb405-8" title="8"><span class="kw">summary</span>(modele_mcqg2)</a></code></pre></div>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="hetero.html#cb407-1" aria-hidden="true"></a>ma_base<span class="op">$</span>avgexp_corr &lt;-<span class="st"> </span>ma_base<span class="op">$</span>avgexp<span class="op">/</span><span class="kw">sqrt</span>(ma_base<span class="op">$</span>e2chap)</span>
+<span id="cb407-2"><a href="hetero.html#cb407-2" aria-hidden="true"></a>ma_base<span class="op">$</span>age_corr &lt;-<span class="st"> </span>ma_base<span class="op">$</span>age<span class="op">/</span><span class="kw">sqrt</span>(ma_base<span class="op">$</span>e2chap)</span>
+<span id="cb407-3"><a href="hetero.html#cb407-3" aria-hidden="true"></a>ma_base<span class="op">$</span>ownrent_corr &lt;-<span class="st"> </span>ma_base<span class="op">$</span>ownrent<span class="op">/</span><span class="kw">sqrt</span>(ma_base<span class="op">$</span>e2chap)</span>
+<span id="cb407-4"><a href="hetero.html#cb407-4" aria-hidden="true"></a>ma_base<span class="op">$</span>income_corr &lt;-<span class="st"> </span>ma_base<span class="op">$</span>income<span class="op">/</span><span class="kw">sqrt</span>(ma_base<span class="op">$</span>e2chap)</span>
+<span id="cb407-5"><a href="hetero.html#cb407-5" aria-hidden="true"></a>ma_base<span class="op">$</span>income2_corr &lt;-<span class="st"> </span>ma_base<span class="op">$</span>income2<span class="op">/</span><span class="kw">sqrt</span>(ma_base<span class="op">$</span>e2chap)</span>
+<span id="cb407-6"><a href="hetero.html#cb407-6" aria-hidden="true"></a>ma_base<span class="op">$</span>newcons=<span class="dv">1</span><span class="op">/</span><span class="kw">sqrt</span>(ma_base<span class="op">$</span>e2chap) <span class="co"># On pondère aussi la constante</span></span>
+<span id="cb407-7"><a href="hetero.html#cb407-7" aria-hidden="true"></a>modele_mcqg2 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>ma_base,avgexp_corr <span class="op">~</span><span class="st"> </span>newcons <span class="op">+</span><span class="st"> </span>age_corr <span class="op">+</span><span class="st"> </span>ownrent_corr <span class="op">+</span><span class="st"> </span>income_corr <span class="op">+</span><span class="st"> </span>income2_corr <span class="op">+</span><span class="dv">0</span>) <span class="co"># le +0 supprime la constante</span></span>
+<span id="cb407-8"><a href="hetero.html#cb407-8" aria-hidden="true"></a><span class="kw">summary</span>(modele_mcqg2)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = avgexp_corr ~ newcons + age_corr + ownrent_corr + 
@@ -467,7 +496,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 2.138 on 95 degrees of freedom
-## Multiple R-squared:  0.4559,	Adjusted R-squared:  0.4273 
+## Multiple R-squared:  0.4559, Adjusted R-squared:  0.4273 
 ## F-statistic: 15.92 on 5 and 95 DF,  p-value: 2.267e-11</code></pre>
 <p>Les deux méthodes donnent bien entendu des résultats identiques.</p>
 <p>Sauf si on a de bonnes raisons, il est conseillé de s’en tenir à la correction de White, pour laquelle plusieurs variantes sont accessibles (HC0, HC1, HC2 et HC3).</p>
@@ -479,8 +508,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="MCO.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="MCO.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="dsls.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

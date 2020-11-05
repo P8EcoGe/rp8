@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Travailler avec les données | R à Paris 8</title>
   <meta name="description" content="3 Travailler avec les données | R à Paris 8" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Travailler avec les données | R à Paris 8" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-11-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,6 +32,7 @@
   
 <link rel="prev" href="R-intro.html"/>
 <link rel="next" href="mcarlo.html"/>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -49,28 +50,32 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -79,9 +84,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -127,9 +132,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Préface</a></li>
-<li class="chapter" data-level="2" data-path="R-intro.html"><a href="R-intro.html"><i class="fa fa-check"></i><b>2</b> Introduction à <code>R</code></a><ul>
+<li class="chapter" data-level="2" data-path="R-intro.html"><a href="R-intro.html"><i class="fa fa-check"></i><b>2</b> Introduction à <code>R</code></a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="R-intro.html"><a href="R-intro.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
-<li class="chapter" data-level="2.2" data-path="R-intro.html"><a href="R-intro.html#démarrer-r-et-r-studio"><i class="fa fa-check"></i><b>2.2</b> Démarrer R et R Studio</a><ul>
+<li class="chapter" data-level="2.2" data-path="R-intro.html"><a href="R-intro.html#démarrer-r-et-r-studio"><i class="fa fa-check"></i><b>2.2</b> Démarrer R et R Studio</a>
+<ul>
 <li class="chapter" data-level="2.2.1" data-path="R-intro.html"><a href="R-intro.html#un-premier-glossaire"><i class="fa fa-check"></i><b>2.2.1</b> Un premier glossaire</a></li>
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="R-intro.html"><a href="R-intro.html#calculs-de-base"><i class="fa fa-check"></i><b>2.3</b> Calculs de base</a></li>
@@ -137,28 +144,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.5" data-path="R-intro.html"><a href="R-intro.html#installation-de-packages"><i class="fa fa-check"></i><b>2.5</b> Installation de packages</a></li>
 <li class="chapter" data-level="2.6" data-path="R-intro.html"><a href="R-intro.html#code-output"><i class="fa fa-check"></i><b>2.6</b> <code>Code</code> et sortie dans ce document</a></li>
 <li class="chapter" data-level="2.7" data-path="R-intro.html"><a href="R-intro.html#data-types"><i class="fa fa-check"></i><b>2.7</b> Types de données</a></li>
-<li class="chapter" data-level="2.8" data-path="R-intro.html"><a href="R-intro.html#structures-de-données"><i class="fa fa-check"></i><b>2.8</b> Structures de données</a><ul>
+<li class="chapter" data-level="2.8" data-path="R-intro.html"><a href="R-intro.html#structures-de-données"><i class="fa fa-check"></i><b>2.8</b> Structures de données</a>
+<ul>
 <li class="chapter" data-level="2.8.1" data-path="R-intro.html"><a href="R-intro.html#vecteurs"><i class="fa fa-check"></i><b>2.8.1</b> Vecteurs</a></li>
 <li class="chapter" data-level="2.8.2" data-path="R-intro.html"><a href="R-intro.html#opérateurs-logiques"><i class="fa fa-check"></i><b>2.8.2</b> Opérateurs logiques</a></li>
 <li class="chapter" data-level="2.8.3" data-path="R-intro.html"><a href="R-intro.html#matrices"><i class="fa fa-check"></i><b>2.8.3</b> Matrices</a></li>
 </ul></li>
-<li class="chapter" data-level="2.9" data-path="R-intro.html"><a href="R-intro.html#dataframes"><i class="fa fa-check"></i><b>2.9</b> Data Frames</a><ul>
+<li class="chapter" data-level="2.9" data-path="R-intro.html"><a href="R-intro.html#dataframes"><i class="fa fa-check"></i><b>2.9</b> Data Frames</a>
+<ul>
 <li class="chapter" data-level="2.9.1" data-path="R-intro.html"><a href="R-intro.html#travailler-sur-des-data.frames"><i class="fa fa-check"></i><b>2.9.1</b> Travailler sur des <code>data.frames</code></a></li>
 </ul></li>
-<li class="chapter" data-level="2.10" data-path="R-intro.html"><a href="R-intro.html#les-bases-de-la-programmation-en-r"><i class="fa fa-check"></i><b>2.10</b> Les bases de la programmation en <code>R</code></a><ul>
+<li class="chapter" data-level="2.10" data-path="R-intro.html"><a href="R-intro.html#les-bases-de-la-programmation-en-r"><i class="fa fa-check"></i><b>2.10</b> Les bases de la programmation en <code>R</code></a>
+<ul>
 <li class="chapter" data-level="2.10.1" data-path="R-intro.html"><a href="R-intro.html#variables"><i class="fa fa-check"></i><b>2.10.1</b> Variables</a></li>
 <li class="chapter" data-level="2.10.2" data-path="R-intro.html"><a href="R-intro.html#contrôle-du-flux-conditions-si-alors"><i class="fa fa-check"></i><b>2.10.2</b> Contrôle du flux, conditions “si, alors”</a></li>
 <li class="chapter" data-level="2.10.3" data-path="R-intro.html"><a href="R-intro.html#boucles"><i class="fa fa-check"></i><b>2.10.3</b> Boucles</a></li>
 <li class="chapter" data-level="2.10.4" data-path="R-intro.html"><a href="R-intro.html#fonctions"><i class="fa fa-check"></i><b>2.10.4</b> Fonctions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="sum.html"><a href="sum.html"><i class="fa fa-check"></i><b>3</b> Travailler avec les données</a><ul>
-<li class="chapter" data-level="3.1" data-path="sum.html"><a href="sum.html#statistiques-descriptives"><i class="fa fa-check"></i><b>3.1</b> Statistiques descriptives</a><ul>
+<li class="chapter" data-level="3" data-path="sum.html"><a href="sum.html"><i class="fa fa-check"></i><b>3</b> Travailler avec les données</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="sum.html"><a href="sum.html#statistiques-descriptives"><i class="fa fa-check"></i><b>3.1</b> Statistiques descriptives</a>
+<ul>
 <li class="chapter" data-level="" data-path="sum.html"><a href="sum.html#tendance-centrale"><i class="fa fa-check"></i>Tendance centrale</a></li>
 <li class="chapter" data-level="" data-path="sum.html"><a href="sum.html#étendue"><i class="fa fa-check"></i>Étendue</a></li>
 <li class="chapter" data-level="" data-path="sum.html"><a href="sum.html#variable-catégorielles"><i class="fa fa-check"></i>Variable catégorielles</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="sum.html"><a href="sum.html#graphiques"><i class="fa fa-check"></i><b>3.2</b> Graphiques</a><ul>
+<li class="chapter" data-level="3.2" data-path="sum.html"><a href="sum.html#graphiques"><i class="fa fa-check"></i><b>3.2</b> Graphiques</a>
+<ul>
 <li class="chapter" data-level="3.2.1" data-path="sum.html"><a href="sum.html#histograms"><i class="fa fa-check"></i><b>3.2.1</b> Histograms</a></li>
 <li class="chapter" data-level="3.2.2" data-path="sum.html"><a href="sum.html#diagrammes-en-bâtons"><i class="fa fa-check"></i><b>3.2.2</b> Diagrammes en bâtons</a></li>
 <li class="chapter" data-level="3.2.3" data-path="sum.html"><a href="sum.html#boîtes-à-moustaches"><i class="fa fa-check"></i><b>3.2.3</b> Boîtes à moustaches</a></li>
@@ -166,42 +179,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.5" data-path="sum.html"><a href="sum.html#ggplot"><i class="fa fa-check"></i><b>3.2.5</b> <code>ggplot</code></a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="sum.html"><a href="sum.html#summarize-two"><i class="fa fa-check"></i><b>3.3</b> Statistiques bivariées</a></li>
-<li class="chapter" data-level="3.4" data-path="sum.html"><a href="sum.html#le-tidyverse"><i class="fa fa-check"></i><b>3.4</b> Le <code>tidyverse</code></a><ul>
+<li class="chapter" data-level="3.4" data-path="sum.html"><a href="sum.html#le-tidyverse"><i class="fa fa-check"></i><b>3.4</b> Le <code>tidyverse</code></a>
+<ul>
 <li class="chapter" data-level="3.4.1" data-path="sum.html"><a href="sum.html#primers-de-rstudio.cloud"><i class="fa fa-check"></i><b>3.4.1</b> Primers de rstudio.cloud</a></li>
 <li class="chapter" data-level="3.4.2" data-path="sum.html"><a href="sum.html#importer-des-données-.csv-de-façon-tidy"><i class="fa fa-check"></i><b>3.4.2</b> Importer des données <code>.csv</code> de façon <em>tidy</em></a></li>
 <li class="chapter" data-level="3.4.3" data-path="sum.html"><a href="sum.html#les-data.frames-tidy-sont-des-tibbles"><i class="fa fa-check"></i><b>3.4.3</b> Les <code>data.frames</code> “tidy” sont des <code>tibbles</code></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="mcarlo.html"><a href="mcarlo.html"><i class="fa fa-check"></i><b>4</b> Simulations de Monte-Carlo</a><ul>
+<li class="chapter" data-level="4" data-path="mcarlo.html"><a href="mcarlo.html"><i class="fa fa-check"></i><b>4</b> Simulations de Monte-Carlo</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="mcarlo.html"><a href="mcarlo.html#un-premier-exemple"><i class="fa fa-check"></i><b>4.1</b> Un premier exemple</a></li>
 <li class="chapter" data-level="4.2" data-path="mcarlo.html"><a href="mcarlo.html#généralisation-le-package-montecarlo"><i class="fa fa-check"></i><b>4.2</b> Généralisation : le package MonteCarlo</a></li>
 <li class="chapter" data-level="4.3" data-path="mcarlo.html"><a href="mcarlo.html#avec-une-régression-par-mco"><i class="fa fa-check"></i><b>4.3</b> Avec une régression par MCO</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="MCO.html"><a href="MCO.html"><i class="fa fa-check"></i><b>5</b> La régression linéaire par MCO</a><ul>
+<li class="chapter" data-level="5" data-path="MCO.html"><a href="MCO.html"><i class="fa fa-check"></i><b>5</b> La régression linéaire par MCO</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="MCO.html"><a href="MCO.html#la-commande-de-base-lm-et-summary"><i class="fa fa-check"></i><b>5.1</b> La commande de base : <code>lm()</code> et <code>summary()</code></a></li>
-<li class="chapter" data-level="5.2" data-path="MCO.html"><a href="MCO.html#extraire-des-éléments-du-modèle"><i class="fa fa-check"></i><b>5.2</b> Extraire des éléments du modèle</a><ul>
+<li class="chapter" data-level="5.2" data-path="MCO.html"><a href="MCO.html#extraire-des-éléments-du-modèle"><i class="fa fa-check"></i><b>5.2</b> Extraire des éléments du modèle</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="MCO.html"><a href="MCO.html#données-du-modèles"><i class="fa fa-check"></i><b>5.2.1</b> Données du modèles</a></li>
 <li class="chapter" data-level="5.2.2" data-path="MCO.html"><a href="MCO.html#manipulation-plus-avancée"><i class="fa fa-check"></i><b>5.2.2</b> Manipulation plus avancée</a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="MCO.html"><a href="MCO.html#graphiques-danalyse-des-résidus"><i class="fa fa-check"></i><b>5.3</b> Graphiques d’analyse des résidus</a></li>
-<li class="chapter" data-level="5.4" data-path="MCO.html"><a href="MCO.html#analyse-de-la-variance"><i class="fa fa-check"></i><b>5.4</b> Analyse de la variance</a><ul>
+<li class="chapter" data-level="5.4" data-path="MCO.html"><a href="MCO.html#analyse-de-la-variance"><i class="fa fa-check"></i><b>5.4</b> Analyse de la variance</a>
+<ul>
 <li class="chapter" data-level="5.4.1" data-path="MCO.html"><a href="MCO.html#r2-et-hatsigma"><i class="fa fa-check"></i><b>5.4.1</b> <span class="math inline">\(R^2\)</span> et <span class="math inline">\(\hat\sigma\)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="5.5" data-path="MCO.html"><a href="MCO.html#retour-sur-summary"><i class="fa fa-check"></i><b>5.5</b> Retour sur <code>summary()</code></a></li>
 <li class="chapter" data-level="5.6" data-path="MCO.html"><a href="MCO.html#les-mco-à-la-main"><i class="fa fa-check"></i><b>5.6</b> Les MCO à la main</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="hetero.html"><a href="hetero.html"><i class="fa fa-check"></i><b>6</b> Traitement de l’hétéroscédasticité</a><ul>
-<li class="chapter" data-level="6.1" data-path="R-intro.html"><a href="R-intro.html#introduction"><i class="fa fa-check"></i><b>6.1</b> Introduction</a></li>
-<li class="chapter" data-level="6.2" data-path="hetero.html"><a href="hetero.html#détection-de-lhétéroscédasticité"><i class="fa fa-check"></i><b>6.2</b> Détection de l’hétéroscédasticité</a><ul>
+<li class="chapter" data-level="6" data-path="hetero.html"><a href="hetero.html"><i class="fa fa-check"></i><b>6</b> Traitement de l’hétéroscédasticité</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="hetero.html"><a href="hetero.html#introduction-1"><i class="fa fa-check"></i><b>6.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.2" data-path="hetero.html"><a href="hetero.html#détection-de-lhétéroscédasticité"><i class="fa fa-check"></i><b>6.2</b> Détection de l’hétéroscédasticité</a>
+<ul>
 <li class="chapter" data-level="6.2.1" data-path="hetero.html"><a href="hetero.html#analyse-graphique-des-résidus"><i class="fa fa-check"></i><b>6.2.1</b> Analyse graphique des résidus</a></li>
 <li class="chapter" data-level="6.2.2" data-path="hetero.html"><a href="hetero.html#test-de-breusch-pagan"><i class="fa fa-check"></i><b>6.2.2</b> Test de Breusch-Pagan</a></li>
 </ul></li>
-<li class="chapter" data-level="6.3" data-path="hetero.html"><a href="hetero.html#correction-de-white"><i class="fa fa-check"></i><b>6.3</b> Correction de White</a><ul>
+<li class="chapter" data-level="6.3" data-path="hetero.html"><a href="hetero.html#correction-de-white"><i class="fa fa-check"></i><b>6.3</b> Correction de White</a>
+<ul>
 <li class="chapter" data-level="6.3.1" data-path="hetero.html"><a href="hetero.html#les-paquets-lmtest-et-sandwich"><i class="fa fa-check"></i><b>6.3.1</b> Les paquets <code>lmtest</code> et <code>sandwich</code></a></li>
 <li class="chapter" data-level="6.3.2" data-path="hetero.html"><a href="hetero.html#les-paquets-lmtest-et-car"><i class="fa fa-check"></i><b>6.3.2</b> Les paquets <code>lmtest</code> et <code>car</code></a></li>
 <li class="chapter" data-level="6.3.3" data-path="hetero.html"><a href="hetero.html#le-paquet-estimatr"><i class="fa fa-check"></i><b>6.3.3</b> Le paquet <code>estimatr</code></a></li>
 </ul></li>
 <li class="chapter" data-level="6.4" data-path="hetero.html"><a href="hetero.html#mcqg-par-pondération"><i class="fa fa-check"></i><b>6.4</b> MCQG par pondération</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="dsls.html"><a href="dsls.html"><i class="fa fa-check"></i><b>7</b> Variables instrumentales et doubles moindres carrés</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="dsls.html"><a href="dsls.html#introduction-2"><i class="fa fa-check"></i><b>7.1</b> Introduction</a></li>
+<li class="chapter" data-level="7.2" data-path="dsls.html"><a href="dsls.html#la-méthode-des-variables-instrumentalesdoubles-moindres-carrés"><i class="fa fa-check"></i><b>7.2</b> La méthode des variables instrumentales/doubles moindres carrés</a></li>
+<li class="chapter" data-level="7.3" data-path="dsls.html"><a href="dsls.html#implémentation-sous-r-la-commande-ivreg"><i class="fa fa-check"></i><b>7.3</b> Implémentation sous <code>R</code> : la commande <code>ivreg</code></a></li>
+<li class="chapter" data-level="7.4" data-path="dsls.html"><a href="dsls.html#tests-de-diagnostics"><i class="fa fa-check"></i><b>7.4</b> Tests de diagnostics</a></li>
+<li class="chapter" data-level="7.5" data-path="dsls.html"><a href="dsls.html#sls-à-la-main"><i class="fa fa-check"></i><b>7.5</b> 2SLS à la main</a></li>
 </ul></li>
 </ul>
 
@@ -220,16 +249,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="sum" class="section level1">
+<div id="sum" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Travailler avec les données</h1>
 <p>Dans ce chapitre, nous allons d’abord apprendre quelques concepts de base qui aident à résumer les données.</p>
-<div id="statistiques-descriptives" class="section level2">
+<div id="statistiques-descriptives" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Statistiques descriptives</h2>
 <p><code>R</code> a intégré des fonctions pour un grand nombre de statistiques descriptives. Pour les variables numériques, nous pouvons résumer les données en examinant leur tendance centrale et leur étendue, par exemple, en utilisant les données de la base <code>mpg</code> déjà chargée dans <code>R</code>.</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" title="1"><span class="co"># on chage le paquet ggplot2 qui contient la base de donnée &quot;mpg&quot;.</span></a>
-<a class="sourceLine" id="cb202-2" title="2"><span class="co"># On l&#39;utilise pour certains graphiques:</span></a>
-<a class="sourceLine" id="cb202-3" title="3"><span class="kw">library</span>(ggplot2)</a></code></pre></div>
-<div id="tendance-centrale" class="section level3 unnumbered">
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="sum.html#cb202-1" aria-hidden="true"></a><span class="co"># on chage le paquet ggplot2 qui contient la base de donnée &quot;mpg&quot;.</span></span>
+<span id="cb202-2"><a href="sum.html#cb202-2" aria-hidden="true"></a><span class="co"># On l&#39;utilise pour certains graphiques:</span></span>
+<span id="cb202-3"><a href="sum.html#cb202-3" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
+<div id="tendance-centrale" class="section level3 unnumbered" number="">
 <h3>Tendance centrale</h3>
 <p>Supposons que nous voulions connaître la <em>moyenne</em> et la <em>médiane</em> de toutes les valeurs stockées dans la colonne <code>mpg$cty</code> du <code>data.frame</code> :</p>
 <table>
@@ -254,7 +283,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 </div>
-<div id="étendue" class="section level3 unnumbered">
+<div id="étendue" class="section level3 unnumbered" number="">
 <h3>Étendue</h3>
 <p>Quelle est la variabilité des valeurs de cette colonne, quelle est son étendue ?</p>
 <table>
@@ -299,20 +328,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 </div>
-<div id="variable-catégorielles" class="section level3 unnumbered">
+<div id="variable-catégorielles" class="section level3 unnumbered" number="">
 <h3>Variable catégorielles</h3>
 <p>Pour les variables catégorielles, les comptages et les pourcentages peuvent être utilisés pour la statistique descriptive.</p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" title="1"><span class="kw">table</span>(mpg<span class="op">$</span>drv)</a></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="sum.html#cb203-1" aria-hidden="true"></a><span class="kw">table</span>(mpg<span class="op">$</span>drv)</span></code></pre></div>
 <pre><code>## 
 ##   4   f   r 
 ## 103 106  25</code></pre>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" title="1"><span class="kw">table</span>(mpg<span class="op">$</span>drv) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(mpg)</a></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="sum.html#cb205-1" aria-hidden="true"></a><span class="kw">table</span>(mpg<span class="op">$</span>drv) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(mpg)</span></code></pre></div>
 <pre><code>## 
 ##         4         f         r 
 ## 0.4401709 0.4529915 0.1068376</code></pre>
 </div>
 </div>
-<div id="graphiques" class="section level2">
+<div id="graphiques" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Graphiques</h2>
 <p>Maintenant que nous avons des données sur lesquelles travailler et que nous avons appris à les connaître, nos prochaines tâches seront de les visualiser. Souvent, une visualisation correcte peut mettre en évidence des caractéristiques des données qui peuvent servir à une analyse plus approfondie.</p>
 <p>Nous allons examiner quatre méthodes de visualisation des données en utilisant les fonctions de base de <code>plot</code> intégrées à <code>R</code> :</p>
@@ -322,102 +351,102 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Boîtes à moustaches (<em>Boxplots</em>)</li>
 <li>Nuages de points (<em>scatterplots</em>)</li>
 </ul>
-<div id="histograms" class="section level3">
+<div id="histograms" class="section level3" number="3.2.1">
 <h3><span class="header-section-number">3.2.1</span> Histograms</h3>
 <p>Pour visualiser une seule variable numérique, un <strong>histogramme</strong> est utile. Il résume la <em>distribution</em> des valeurs dans un tableau. Dans <code>R</code> vous en créez un en utilisant la fonction <code>hist()</code> :</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" title="1"><span class="kw">hist</span>(mpg<span class="op">$</span>cty) <span class="co"># histogramme de la consommation en ville</span></a></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="sum.html#cb207-1" aria-hidden="true"></a><span class="kw">hist</span>(mpg<span class="op">$</span>cty) <span class="co"># histogramme de la consommation en ville</span></span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
 <p>La fonction <code>hist()</code> comporte un certain nombre de paramètres qui peuvent être modifiés pour rendre notre graphe beaucoup plus agréable. Utilisez l’opérateur <code>?</code> pour lire la documentation de la fonction <code>hist()</code> et voir la liste complète de ces paramètres.</p>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb208-1" title="1"><span class="kw">hist</span>(mpg<span class="op">$</span>cty,</a>
-<a class="sourceLine" id="cb208-2" title="2">     <span class="dt">xlab   =</span> <span class="st">&quot;Miles Par Gallon (en ville)&quot;</span>,</a>
-<a class="sourceLine" id="cb208-3" title="3">     <span class="dt">main   =</span> <span class="st">&quot;Histogramme de MPG (City)&quot;</span>, <span class="co"># un titre</span></a>
-<a class="sourceLine" id="cb208-4" title="4">     <span class="dt">breaks =</span> <span class="dv">12</span>,   <span class="co"># combien de morceaux ?</span></a>
-<a class="sourceLine" id="cb208-5" title="5">     <span class="dt">col    =</span> <span class="st">&quot;red&quot;</span>,</a>
-<a class="sourceLine" id="cb208-6" title="6">     <span class="dt">border =</span> <span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="sum.html#cb208-1" aria-hidden="true"></a><span class="kw">hist</span>(mpg<span class="op">$</span>cty,</span>
+<span id="cb208-2"><a href="sum.html#cb208-2" aria-hidden="true"></a>     <span class="dt">xlab   =</span> <span class="st">&quot;Miles Par Gallon (en ville)&quot;</span>,</span>
+<span id="cb208-3"><a href="sum.html#cb208-3" aria-hidden="true"></a>     <span class="dt">main   =</span> <span class="st">&quot;Histogramme de MPG (City)&quot;</span>, <span class="co"># un titre</span></span>
+<span id="cb208-4"><a href="sum.html#cb208-4" aria-hidden="true"></a>     <span class="dt">breaks =</span> <span class="dv">12</span>,   <span class="co"># combien de morceaux ?</span></span>
+<span id="cb208-5"><a href="sum.html#cb208-5" aria-hidden="true"></a>     <span class="dt">col    =</span> <span class="st">&quot;red&quot;</span>,</span>
+<span id="cb208-6"><a href="sum.html#cb208-6" aria-hidden="true"></a>     <span class="dt">border =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
 <p>Il est important de toujours veiller à nommer vos axes et à donner un titre au graphique. L’argument <code>break</code> est spécifique à <code>hist()</code>. La saisie d’un entier donnera une suggestion à <code>R</code> sur le nombre de barres à utiliser pour l’histogramme. Par défaut, <code>R</code> essaiera de deviner intelligemment un bon nombre de <code>break</code>, mais comme nous pouvons le voir ici, il est parfois utile de modifier cela vous-même.</p>
 </div>
-<div id="diagrammes-en-bâtons" class="section level3">
+<div id="diagrammes-en-bâtons" class="section level3" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> Diagrammes en bâtons</h3>
 <p>Un peu comme un histogramme, un diagramme en bâtons peut fournir un résumé visuel d’une variable catégorielle, ou d’une variable numérique avec un nombre fini de valeurs, comme un classement de 1 à 10.</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" title="1"><span class="kw">barplot</span>(<span class="kw">table</span>(mpg<span class="op">$</span>drv)) <span class="co"># drv indique le type de traction (avant, arrière, 4x4)</span></a></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="sum.html#cb209-1" aria-hidden="true"></a><span class="kw">barplot</span>(<span class="kw">table</span>(mpg<span class="op">$</span>drv)) <span class="co"># drv indique le type de traction (avant, arrière, 4x4)</span></span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb210-1" title="1"><span class="kw">barplot</span>(<span class="kw">table</span>(mpg<span class="op">$</span>drv),</a>
-<a class="sourceLine" id="cb210-2" title="2">        <span class="dt">xlab   =</span> <span class="st">&quot;Traction (f = Avant, r = Arrière, 4 = 4x4)&quot;</span>,</a>
-<a class="sourceLine" id="cb210-3" title="3">        <span class="dt">ylab   =</span> <span class="st">&quot;Fréquence&quot;</span>,</a>
-<a class="sourceLine" id="cb210-4" title="4">        <span class="dt">main   =</span> <span class="st">&quot;Type de traction&quot;</span>,</a>
-<a class="sourceLine" id="cb210-5" title="5">        <span class="dt">col    =</span> <span class="st">&quot;dodgerblue&quot;</span>,</a>
-<a class="sourceLine" id="cb210-6" title="6">        <span class="dt">border =</span> <span class="st">&quot;darkorange&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="sum.html#cb210-1" aria-hidden="true"></a><span class="kw">barplot</span>(<span class="kw">table</span>(mpg<span class="op">$</span>drv),</span>
+<span id="cb210-2"><a href="sum.html#cb210-2" aria-hidden="true"></a>        <span class="dt">xlab   =</span> <span class="st">&quot;Traction (f = Avant, r = Arrière, 4 = 4x4)&quot;</span>,</span>
+<span id="cb210-3"><a href="sum.html#cb210-3" aria-hidden="true"></a>        <span class="dt">ylab   =</span> <span class="st">&quot;Fréquence&quot;</span>,</span>
+<span id="cb210-4"><a href="sum.html#cb210-4" aria-hidden="true"></a>        <span class="dt">main   =</span> <span class="st">&quot;Type de traction&quot;</span>,</span>
+<span id="cb210-5"><a href="sum.html#cb210-5" aria-hidden="true"></a>        <span class="dt">col    =</span> <span class="st">&quot;dodgerblue&quot;</span>,</span>
+<span id="cb210-6"><a href="sum.html#cb210-6" aria-hidden="true"></a>        <span class="dt">border =</span> <span class="st">&quot;darkorange&quot;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-73-1.png" width="672" /></p>
 </div>
-<div id="boîtes-à-moustaches" class="section level3">
+<div id="boîtes-à-moustaches" class="section level3" number="3.2.3">
 <h3><span class="header-section-number">3.2.3</span> Boîtes à moustaches</h3>
 <p>Pour visualiser la relation entre une variable numérique et une variable catégorielle, on pourrait utiliser une <strong>boîte à moustaches</strong> (<em>boxplot</em>). Dans la base de données <code>mpg</code>, la variable <code>drv</code> prend un petit nombre fini de valeurs. Une voiture ne peut être qu’à traction avant, à 4 roues motrices ou à traction arrière.</p>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" title="1"><span class="kw">unique</span>(mpg<span class="op">$</span>drv)</a></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="sum.html#cb211-1" aria-hidden="true"></a><span class="kw">unique</span>(mpg<span class="op">$</span>drv)</span></code></pre></div>
 <pre><code>## [1] &quot;f&quot; &quot;4&quot; &quot;r&quot;</code></pre>
 <p>Notez tout d’abord que nous pouvons utiliser une boîte à moustaches unique comme alternative à un histogramme pour visualiser une seule variable numérique. Pour ce faire, dans <code>R</code>, nous utilisons la fonction <code>boxplot()</code>. La boîte montre l’ <em>l’écart interquartile</em>, la ligne continue au milieu est la valeur de la médiane, les moustaches indiquent 1,5 fois l’écart interquartile, et les points sont des valeurs aberrantes.</p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" title="1"><span class="kw">boxplot</span>(mpg<span class="op">$</span>hwy)</a></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="sum.html#cb213-1" aria-hidden="true"></a><span class="kw">boxplot</span>(mpg<span class="op">$</span>hwy)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
 <p>Cependant, nous utiliserons plus souvent des boîtes à moustache pour comparer une variable numérique pour différentes valeurs d’une variable catégorielle.</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb214-1" title="1"><span class="kw">boxplot</span>(hwy <span class="op">~</span><span class="st"> </span>drv, <span class="dt">data =</span> mpg)</a></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="sum.html#cb214-1" aria-hidden="true"></a><span class="kw">boxplot</span>(hwy <span class="op">~</span><span class="st"> </span>drv, <span class="dt">data =</span> mpg)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
 <p>Ici, on a utilisé la commande <code>boxplot()</code> pour créer des boîtes à moustache côte à côte. Cependant, comme nous avons maintenant affaire à deux variables, la syntaxe a changé. La syntaxe <code>R</code> <code>hwy ~ drv, data = mpg</code> est la suivante : “Tracez la variable <code>hwy</code> contre la variable <code>drv</code> en utilisant le jeu de données <code>mpg</code>.” Nous voyons l’utilisation d’un argument <code>~</code> (qui spécifie une formule) et aussi d’un argument <code>data =</code>. Il s’agit d’une syntaxe commune à de nombreuses fonctions que nous utiliserons régulièrement.</p>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" title="1"><span class="kw">boxplot</span>(hwy <span class="op">~</span><span class="st"> </span>drv, <span class="dt">data =</span> mpg,</a>
-<a class="sourceLine" id="cb215-2" title="2">     <span class="dt">xlab   =</span> <span class="st">&quot;Traction (f = FWD, r = RWD, 4 = 4WD)&quot;</span>,</a>
-<a class="sourceLine" id="cb215-3" title="3">     <span class="dt">ylab   =</span> <span class="st">&quot;Miles Par Gallon (Autoroute)&quot;</span>,</a>
-<a class="sourceLine" id="cb215-4" title="4">     <span class="dt">main   =</span> <span class="st">&quot;MPG (Highway) vs Traction&quot;</span>,</a>
-<a class="sourceLine" id="cb215-5" title="5">     <span class="dt">pch    =</span> <span class="dv">20</span>,</a>
-<a class="sourceLine" id="cb215-6" title="6">     <span class="dt">cex    =</span> <span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb215-7" title="7">     <span class="dt">col    =</span> <span class="st">&quot;darkorange&quot;</span>,</a>
-<a class="sourceLine" id="cb215-8" title="8">     <span class="dt">border =</span> <span class="st">&quot;dodgerblue&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="sum.html#cb215-1" aria-hidden="true"></a><span class="kw">boxplot</span>(hwy <span class="op">~</span><span class="st"> </span>drv, <span class="dt">data =</span> mpg,</span>
+<span id="cb215-2"><a href="sum.html#cb215-2" aria-hidden="true"></a>     <span class="dt">xlab   =</span> <span class="st">&quot;Traction (f = FWD, r = RWD, 4 = 4WD)&quot;</span>,</span>
+<span id="cb215-3"><a href="sum.html#cb215-3" aria-hidden="true"></a>     <span class="dt">ylab   =</span> <span class="st">&quot;Miles Par Gallon (Autoroute)&quot;</span>,</span>
+<span id="cb215-4"><a href="sum.html#cb215-4" aria-hidden="true"></a>     <span class="dt">main   =</span> <span class="st">&quot;MPG (Highway) vs Traction&quot;</span>,</span>
+<span id="cb215-5"><a href="sum.html#cb215-5" aria-hidden="true"></a>     <span class="dt">pch    =</span> <span class="dv">20</span>,</span>
+<span id="cb215-6"><a href="sum.html#cb215-6" aria-hidden="true"></a>     <span class="dt">cex    =</span> <span class="dv">2</span>,</span>
+<span id="cb215-7"><a href="sum.html#cb215-7" aria-hidden="true"></a>     <span class="dt">col    =</span> <span class="st">&quot;darkorange&quot;</span>,</span>
+<span id="cb215-8"><a href="sum.html#cb215-8" aria-hidden="true"></a>     <span class="dt">border =</span> <span class="st">&quot;dodgerblue&quot;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-77-1.png" width="672" /></p>
 <p>Encore une fois, <code>boxplot()</code> a un certain nombre d’arguments supplémentaires qui ont la capacité de rendre notre graphique plus attrayant visuellement.</p>
 </div>
-<div id="nuages-de-points" class="section level3">
+<div id="nuages-de-points" class="section level3" number="3.2.4">
 <h3><span class="header-section-number">3.2.4</span> Nuages de points</h3>
 <p>Enfin, pour visualiser la relation entre deux variables numériques, nous utiliserons un <strong>nuage de points</strong>. Cela peut être fait avec la fonction <code>plot()</code> et la syntaxe <code>~</code> que nous venons d’utiliser avec un <code>boxplot</code>. (La fonction <code>plot()</code> peut également être utilisée de manière plus générale ; voir la documentation pour plus de détails).</p>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb216-1" title="1"><span class="kw">plot</span>(hwy <span class="op">~</span><span class="st"> </span>displ, <span class="dt">data =</span> mpg)</a></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="sum.html#cb216-1" aria-hidden="true"></a><span class="kw">plot</span>(hwy <span class="op">~</span><span class="st"> </span>displ, <span class="dt">data =</span> mpg)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-78-1.png" width="672" /></p>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" title="1"><span class="kw">plot</span>(hwy <span class="op">~</span><span class="st"> </span>displ, <span class="dt">data =</span> mpg,</a>
-<a class="sourceLine" id="cb217-2" title="2">     <span class="dt">xlab =</span> <span class="st">&quot;Cylindrée (en litres)&quot;</span>,</a>
-<a class="sourceLine" id="cb217-3" title="3">     <span class="dt">ylab =</span> <span class="st">&quot;Miles Par Gallon (Autoroute)&quot;</span>,</a>
-<a class="sourceLine" id="cb217-4" title="4">     <span class="dt">main =</span> <span class="st">&quot;MPG (Highway) vs Cylindrée&quot;</span>,</a>
-<a class="sourceLine" id="cb217-5" title="5">     <span class="dt">pch  =</span> <span class="dv">20</span>,</a>
-<a class="sourceLine" id="cb217-6" title="6">     <span class="dt">cex  =</span> <span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb217-7" title="7">     <span class="dt">col  =</span> <span class="st">&quot;dodgerblue&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="sum.html#cb217-1" aria-hidden="true"></a><span class="kw">plot</span>(hwy <span class="op">~</span><span class="st"> </span>displ, <span class="dt">data =</span> mpg,</span>
+<span id="cb217-2"><a href="sum.html#cb217-2" aria-hidden="true"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Cylindrée (en litres)&quot;</span>,</span>
+<span id="cb217-3"><a href="sum.html#cb217-3" aria-hidden="true"></a>     <span class="dt">ylab =</span> <span class="st">&quot;Miles Par Gallon (Autoroute)&quot;</span>,</span>
+<span id="cb217-4"><a href="sum.html#cb217-4" aria-hidden="true"></a>     <span class="dt">main =</span> <span class="st">&quot;MPG (Highway) vs Cylindrée&quot;</span>,</span>
+<span id="cb217-5"><a href="sum.html#cb217-5" aria-hidden="true"></a>     <span class="dt">pch  =</span> <span class="dv">20</span>,</span>
+<span id="cb217-6"><a href="sum.html#cb217-6" aria-hidden="true"></a>     <span class="dt">cex  =</span> <span class="dv">2</span>,</span>
+<span id="cb217-7"><a href="sum.html#cb217-7" aria-hidden="true"></a>     <span class="dt">col  =</span> <span class="st">&quot;dodgerblue&quot;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-79-1.png" width="672" /></p>
 </div>
-<div id="ggplot" class="section level3">
+<div id="ggplot" class="section level3" number="3.2.5">
 <h3><span class="header-section-number">3.2.5</span> <code>ggplot</code></h3>
 <p>Toutes les parcelles ci-dessus auraient également pu être générées en utilisant la fonction <code>ggplot</code> du paquet <code>ggplot2</code> déjà chargé. Vous avez le choix de la fonction que vous utilisez, mais parfois un graphique est plus facile à construire en base R,, parfois l’inverse.</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb218-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg,<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ,<span class="dt">y=</span>hwy)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="sum.html#cb218-1" aria-hidden="true"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg,<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ,<span class="dt">y=</span>hwy)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-80-1.png" width="672" /></p>
 <p>Il est impossible de décrire <code>ggplot</code> en termes simples, alors vous pouvez consulter [le site web du paquet] (<a href="http://ggplot2.tidyverse.org" class="uri">http://ggplot2.tidyverse.org</a>) qui fournit d’excellents conseils. Nous utiliserons de temps en temps ggplot, afin que vous puissiez vous familiariser avec lui. Montrons rapidement comment on peut personnaliser davantage ce premier graphique :</p>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ,<span class="dt">y=</span>hwy)) <span class="op">+</span><span class="st">   </span><span class="co"># ggplot() crée le graphe de base</span></a>
-<a class="sourceLine" id="cb219-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color=</span><span class="st">&quot;blue&quot;</span>,<span class="dt">size=</span><span class="dv">2</span>) <span class="op">+</span><span class="st">     </span><span class="co"># aspect des points</span></a>
-<a class="sourceLine" id="cb219-3" title="3"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">name=</span><span class="st">&quot;Miles Par Gallon (Autoroute)&quot;</span>) <span class="op">+</span><span class="st">  </span><span class="co"># nom de l&#39;axe des y</span></a>
-<a class="sourceLine" id="cb219-4" title="4"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">name=</span><span class="st">&quot;Cylindrée (in litres)&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># nom de l&#39;axe des x</span></a>
-<a class="sourceLine" id="cb219-5" title="5"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st">    </span><span class="co"># changement de thème couleur</span></a>
-<a class="sourceLine" id="cb219-6" title="6"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;MPG (Autoroute) vs Cylindrée&quot;</span>)   <span class="co"># Titre</span></a></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="sum.html#cb219-1" aria-hidden="true"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ,<span class="dt">y=</span>hwy)) <span class="op">+</span><span class="st">   </span><span class="co"># ggplot() crée le graphe de base</span></span>
+<span id="cb219-2"><a href="sum.html#cb219-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color=</span><span class="st">&quot;blue&quot;</span>,<span class="dt">size=</span><span class="dv">2</span>) <span class="op">+</span><span class="st">     </span><span class="co"># aspect des points</span></span>
+<span id="cb219-3"><a href="sum.html#cb219-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">name=</span><span class="st">&quot;Miles Par Gallon (Autoroute)&quot;</span>) <span class="op">+</span><span class="st">  </span><span class="co"># nom de l&#39;axe des y</span></span>
+<span id="cb219-4"><a href="sum.html#cb219-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">name=</span><span class="st">&quot;Cylindrée (in litres)&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># nom de l&#39;axe des x</span></span>
+<span id="cb219-5"><a href="sum.html#cb219-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st">    </span><span class="co"># changement de thème couleur</span></span>
+<span id="cb219-6"><a href="sum.html#cb219-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;MPG (Autoroute) vs Cylindrée&quot;</span>)   <span class="co"># Titre</span></span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-81-1.png" width="672" /></p>
 <p>Les graphiques précédents auraient peu être obtenus via <code>ggplot</code> de la façon suivante :</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data=</span>mpg,<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>cty)) <span class="op">+</span><span class="st"> </span><span class="co"># graphe de base</span></a>
-<a class="sourceLine" id="cb220-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="kw">seq</span>(<span class="dv">8</span>,<span class="dv">36</span>,<span class="dv">2</span>))) <span class="op">+</span><span class="st"> </span><span class="co"># ajout de l&#39;histogramme avec des points de coupure explicites</span></a>
-<a class="sourceLine" id="cb220-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Histogramme de mpg (cty)&quot;</span>,  <span class="dt">x =</span><span class="st">&quot;Miles Par Gallon (en ville)&quot;</span> , <span class="dt">y=</span><span class="st">&quot;Fréquence&quot;</span>) <span class="co"># labels</span></a></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="sum.html#cb220-1" aria-hidden="true"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>mpg,<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>cty)) <span class="op">+</span><span class="st"> </span><span class="co"># graphe de base</span></span>
+<span id="cb220-2"><a href="sum.html#cb220-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="kw">seq</span>(<span class="dv">8</span>,<span class="dv">36</span>,<span class="dv">2</span>))) <span class="op">+</span><span class="st"> </span><span class="co"># ajout de l&#39;histogramme avec des points de coupure explicites</span></span>
+<span id="cb220-3"><a href="sum.html#cb220-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Histogramme de mpg (cty)&quot;</span>,  <span class="dt">x =</span><span class="st">&quot;Miles Par Gallon (en ville)&quot;</span> , <span class="dt">y=</span><span class="st">&quot;Fréquence&quot;</span>) <span class="co"># labels</span></span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-82-1.png" width="672" /></p>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data=</span>mpg,<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>drv)) <span class="op">+</span><span class="st"> </span><span class="co"># graphe de base</span></a>
-<a class="sourceLine" id="cb221-2" title="2"><span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span><span class="co"># ajour des bâtons</span></a>
-<a class="sourceLine" id="cb221-3" title="3"><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;Traction&quot;</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;4&quot;</span>=<span class="st">&quot;4x4&quot;</span>,<span class="st">&quot;f&quot;</span>=<span class="st">&quot;avant&quot;</span>,<span class="st">&quot;r&quot;</span>=<span class="st">&quot;arrière&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="co"># lables des x</span></a>
-<a class="sourceLine" id="cb221-4" title="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Fréquence&quot;</span>, <span class="dt">title=</span><span class="st">&quot;Type de traction&quot;</span>) <span class="co"># autres labels</span></a></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="sum.html#cb221-1" aria-hidden="true"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>mpg,<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>drv)) <span class="op">+</span><span class="st"> </span><span class="co"># graphe de base</span></span>
+<span id="cb221-2"><a href="sum.html#cb221-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span><span class="co"># ajour des bâtons</span></span>
+<span id="cb221-3"><a href="sum.html#cb221-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;Traction&quot;</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;4&quot;</span>=<span class="st">&quot;4x4&quot;</span>,<span class="st">&quot;f&quot;</span>=<span class="st">&quot;avant&quot;</span>,<span class="st">&quot;r&quot;</span>=<span class="st">&quot;arrière&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="co"># lables des x</span></span>
+<span id="cb221-4"><a href="sum.html#cb221-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Fréquence&quot;</span>, <span class="dt">title=</span><span class="st">&quot;Type de traction&quot;</span>) <span class="co"># autres labels</span></span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-82-2.png" width="672" /></p>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data=</span>mpg,<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>drv,<span class="dt">y=</span>hwy)) <span class="op">+</span><span class="st"> </span><span class="co"># graphe de base</span></a>
-<a class="sourceLine" id="cb222-2" title="2"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="co"># ajout des boîtes à moustache</span></a>
-<a class="sourceLine" id="cb222-3" title="3"><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;Traction&quot;</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;4&quot;</span>=<span class="st">&quot;4x4&quot;</span>,<span class="st">&quot;f&quot;</span>=<span class="st">&quot;avant&quot;</span>,<span class="st">&quot;r&quot;</span>=<span class="st">&quot;arrière&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="co"># labels de x </span></a>
-<a class="sourceLine" id="cb222-4" title="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Consommation (mpg, autoroute&quot;</span>,<span class="dt">title=</span><span class="st">&quot;MPG (Highway) vs Traction&quot;</span>) <span class="co"># autres labels</span></a></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="sum.html#cb222-1" aria-hidden="true"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>mpg,<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>drv,<span class="dt">y=</span>hwy)) <span class="op">+</span><span class="st"> </span><span class="co"># graphe de base</span></span>
+<span id="cb222-2"><a href="sum.html#cb222-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="co"># ajout des boîtes à moustache</span></span>
+<span id="cb222-3"><a href="sum.html#cb222-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;Traction&quot;</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;4&quot;</span>=<span class="st">&quot;4x4&quot;</span>,<span class="st">&quot;f&quot;</span>=<span class="st">&quot;avant&quot;</span>,<span class="st">&quot;r&quot;</span>=<span class="st">&quot;arrière&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="co"># labels de x </span></span>
+<span id="cb222-4"><a href="sum.html#cb222-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Consommation (mpg, autoroute&quot;</span>,<span class="dt">title=</span><span class="st">&quot;MPG (Highway) vs Traction&quot;</span>) <span class="co"># autres labels</span></span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-82-3.png" width="672" /></p>
 </div>
 </div>
-<div id="summarize-two" class="section level2">
+<div id="summarize-two" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> Statistiques bivariées</h2>
 <p>Nous nous intéressons souvent à la façon dont deux variables sont liées l’une à l’autre. Les concepts fondamentaux sont ici la <em>covariance</em> et la <em>corrélation</em>. Générons des données sur “x” et “y” et traçons les relations entre ces deux variables :</p>
 <div class="figure" style="text-align: center"><span id="fig:x-y-corr"></span>
@@ -430,7 +459,7 @@ Figure 3.1: Quelle est la relation entre <span class="math inline">\(x\)</span> 
 <p>Étant donné que nous observons une valeur de <span class="math inline">\(x=2\)</span>, disons, pouvons-nous nous attendre à une valeur élevée ou faible de <span class="math inline">\(y\)</span>, en moyenne ? Quelque chose comme <span class="math inline">\(y=2\)</span> ou plutôt quelque chose comme <span class="math inline">\(y=-2\)</span> ?
 <br>
 La réponse à ce type de question peut être apportée en calculant la covariance des deux variables :</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" title="1"><span class="kw">cov</span>(x,y)  </a></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="sum.html#cb223-1" aria-hidden="true"></a><span class="kw">cov</span>(x,y)  </span></code></pre></div>
 <pre><code>## [1] 1.041195</code></pre>
 <p>Ici, cela donne un nombre positif, 1.04, indiquant que, lorsqu’une variable se situe au-dessus de sa moyenne, l’autre l’est aussi. En d’autres termes, cela indique une relation <strong>positive</strong>. Ce qui est moins clair, cependant, c’est la façon d’interpréter la valeur de 1.04. S’agit-il d’une association positive <em>forte</em> ou <em>faible</em> ?</p>
 <p>En fait, nous ne pouvons pas le dire. Cela s’explique par le fait que la covariance est mesurée dans les mêmes unités que les données, et que ces unités diffèrent souvent entre les deux variables. Il existe cependant une meilleure mesure à notre disposition, la <strong>corrélation</strong>, qui est obtenue en <em>standardisant</em> chaque variable. En <em>standardisant</em> une variable <span class="math inline">\(x\)</span> on veut dire diviser <span class="math inline">\(x\)</span> par son écart-type <span class="math inline">\(\sigma_x\)</span> :
@@ -442,12 +471,12 @@ z = \frac{x}{\sigma_x}
 r_{x,y} = \frac{cov(x,y)}{\sigma_x \sigma_y},
 \]</span></p>
 <p>et nous nous débarrassons du problème des unités. En <code>R</code>, vous pouvez taper</p>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" title="1"><span class="kw">cor</span>(x,y)</a></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="sum.html#cb225-1" aria-hidden="true"></a><span class="kw">cor</span>(x,y)</span></code></pre></div>
 <pre><code>## [1] 0.9142495</code></pre>
 <p>Maintenant, c’est mieux. Étant donné que la corrélation doit se situer dans <span class="math inline">\([-1,1]\)</span>, une valeur de 0.91 est indicative d’une relation positive assez forte pour les données de la figure <a href="sum.html#fig:x-y-corr">3.1</a></p>
 <p>Notez que le fait que <span class="math inline">\(x,y\)</span> soient tirés d’une <em>distribution continue</em> (ils sont distribués selon une loi normale bivariée) n’a aucune implication sur la covariance et la corrélation : Nous pouvons également calculer ces mesures pour des variables aléatoires discrètes.</p>
 </div>
-<div id="le-tidyverse" class="section level2">
+<div id="le-tidyverse" class="section level2" number="3.4">
 <h2><span class="header-section-number">3.4</span> Le <code>tidyverse</code></h2>
 <p><a href="http://hadley.nz">Hadley Wickham</a> est l’auteur des paquets R <code>ggplot2</code> et aussi de <code>dplyr</code> (et aussi d’une myriade d’autres). Avec <code>ggplot2</code>, il a introduit ce que l’on appelle la <em>grammaire des graphiques</em> (d’où <code>gg</code>) dans <code>R</code>. Une grammaire dans le sens où il y a des <strong>noms</strong> et des <strong>verbes</strong> et une <strong>syntaxe</strong>, c’est-à-dire des règles sur la façon dont les noms et les verbes doivent être mis ensemble pour construire une phrase compréhensible. Il a étendu l’idée de <em>grammaire</em> à divers autres paquets. Le paquet <code>tidyverse</code> est une collection de ces paquets.</p>
 <p>Les données <code>tidy</code> sont des données où :</p>
@@ -457,7 +486,7 @@ r_{x,y} = \frac{cov(x,y)}{\sigma_x \sigma_y},
 <li>Chaque valeur est une cellule</li>
 </ul>
 <p>On peut dire que c’est une feuille de calcul ordinaire. Et vous avez raison ! Cependant, la plupart du temps, les données nous arrivent <em>pas</em> en ordre, et nous devons d’abord les nettoyer, ou les “ranger”. Une fois qu’elles sont au format “tidy”, nous pouvons utiliser les outils <code>tidyverse</code> avec une grande efficacité pour analyser les données et ne plus nous soucier de savoir quel outil utiliser.</p>
-<div id="primers-de-rstudio.cloud" class="section level3">
+<div id="primers-de-rstudio.cloud" class="section level3" number="3.4.1">
 <h3><span class="header-section-number">3.4.1</span> Primers de rstudio.cloud</h3>
 <p>Le site <a href="https://rstudio.cloud/">rstudio.cloud</a> propose un ensemble de tutoriels (<em>primers</em>) interactifs de grande qualité basés sur le <code>tidyverse</code>. Après avoir crée un compte gratuit, rendez-vous sur leur page <a href="https://rstudio.cloud/learn/primers">Primers</a>. Vous y trouverez les tutoriels suivants :</p>
 <ol style="list-style-type: decimal">
@@ -469,17 +498,17 @@ r_{x,y} = \frac{cov(x,y)}{\sigma_x \sigma_y},
 <p>Les tutoriels <em>Iterate</em> et <em>Write functions</em> seront utiles pour des programmeurs débutants, mais pas forcément nécessaires immédiatement.</p>
 <p>Au long de nos enseignements, nous sezront amenés à utiliser des commandes du <code>tidyverse</code>, en particulier de <code>dplyr</code> et <code>ggplot2</code>. Nous vous conseillons fortement de vous familiariser avec ces outils en effectuant les tutoriaux.</p>
 </div>
-<div id="importer-des-données-.csv-de-façon-tidy" class="section level3">
+<div id="importer-des-données-.csv-de-façon-tidy" class="section level3" number="3.4.2">
 <h3><span class="header-section-number">3.4.2</span> Importer des données <code>.csv</code> de façon <em>tidy</em></h3>
 <p>Nous aurions pu utiliser la fonction <code>read_csv()</code> du paquet <code>readr</code> pour lire notre exemple de base de données du chapitre précédent. La fonction <code>readr</code> <code>read_csv()</code> a un certain nombre d’avantages par rapport à la fonction intégrée <code>read.csv</code>. Par exemple, elle est beaucoup plus rapide pour lire des données plus volumineuses. Elle utilise également le paquet <code>tibble</code> pour lire les données comme un <a href="https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html">tibble.</a> <strong>Un <code>tibble</code> est simplement un <code>data.frame</code> qui s’imprime avec une certaine logique.</strong> Remarquez dans la sortie ci-dessous que nous avons des informations supplémentaires telles que la dimension et le type de variable.</p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb227-1" title="1"><span class="kw">library</span>(readr)  <span class="co"># vous devez `install.packages(&quot;readr&quot;)` une seule fois</span></a>
-<a class="sourceLine" id="cb227-2" title="2">example_data_from_disk =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/example-data.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="sum.html#cb227-1" aria-hidden="true"></a><span class="kw">library</span>(readr)  <span class="co"># vous devez `install.packages(&quot;readr&quot;)` une seule fois</span></span>
+<span id="cb227-2"><a href="sum.html#cb227-2" aria-hidden="true"></a>example_data_from_disk =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/example-data.csv&quot;</span>)</span></code></pre></div>
 </div>
-<div id="les-data.frames-tidy-sont-des-tibbles" class="section level3">
+<div id="les-data.frames-tidy-sont-des-tibbles" class="section level3" number="3.4.3">
 <h3><span class="header-section-number">3.4.3</span> Les <code>data.frames</code> “tidy” sont des <code>tibbles</code></h3>
 <p>Importons quelques données du paquet <code>ggplot2</code> :</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" title="1"><span class="kw">data</span>(mpg,<span class="dt">package =</span> <span class="st">&quot;ggplot2&quot;</span>)  <span class="co"># on charge les données `mpg` depuis le paquet `ggplot2`</span></a>
-<a class="sourceLine" id="cb228-2" title="2"><span class="kw">head</span>(mpg, <span class="dt">n =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="sum.html#cb228-1" aria-hidden="true"></a><span class="kw">data</span>(mpg,<span class="dt">package =</span> <span class="st">&quot;ggplot2&quot;</span>)  <span class="co"># on charge les données `mpg` depuis le paquet `ggplot2`</span></span>
+<span id="cb228-2"><a href="sum.html#cb228-2" aria-hidden="true"></a><span class="kw">head</span>(mpg, <span class="dt">n =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 10 x 11
 ##    manufacturer model    displ  year   cyl trans   drv     cty   hwy fl    class
 ##    &lt;chr&gt;        &lt;chr&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
@@ -494,7 +523,7 @@ r_{x,y} = \frac{cov(x,y)}{\sigma_x \sigma_y},
 ##  9 audi         a4 quat…   1.8  1999     4 auto(l… 4        16    25 p     comp…
 ## 10 audi         a4 quat…   2    2008     4 manual… 4        20    28 p     comp…</code></pre>
 <p>La fonction <code>head()</code> affichera les <code>n</code> premières observations de la base de données, comme nous l’avions vu. La fonction <code>head()</code> était plus utile avant les tibbles. Remarquez que “mpg” est déjà un tibble, donc la sortie de “head” indique qu’il n’y a que 10 observations. Notez que cela s’applique à <code>head(mpg, n = 10)</code> et non à <code>mpg</code> lui-même. Notez également que les tibbles impriment un nombre limité de lignes et de colonnes par défaut. La dernière ligne de la sortie imprimée indique que les lignes et les colonnes ont été omises.</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" title="1">mpg</a></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="sum.html#cb230-1" aria-hidden="true"></a>mpg</span></code></pre></div>
 <pre><code>## # A tibble: 234 x 11
 ##    manufacturer model    displ  year   cyl trans   drv     cty   hwy fl    class
 ##    &lt;chr&gt;        &lt;chr&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
@@ -510,7 +539,7 @@ r_{x,y} = \frac{cov(x,y)}{\sigma_x \sigma_y},
 ## 10 audi         a4 quat…   2    2008     4 manual… 4        20    28 p     comp…
 ## # … with 224 more rows</code></pre>
 <p>Regardons également <code>str</code> afin de se familiariser avec le contenu de la base</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" title="1"><span class="kw">str</span>(mpg)</a></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="sum.html#cb232-1" aria-hidden="true"></a><span class="kw">str</span>(mpg)</span></code></pre></div>
 <pre><code>## tibble [234 × 11] (S3: tbl_df/tbl/data.frame)
 ##  $ manufacturer: chr [1:234] &quot;audi&quot; &quot;audi&quot; &quot;audi&quot; &quot;audi&quot; ...
 ##  $ model       : chr [1:234] &quot;a4&quot; &quot;a4&quot; &quot;a4&quot; &quot;a4&quot; ...
@@ -525,13 +554,13 @@ r_{x,y} = \frac{cov(x,y)}{\sigma_x \sigma_y},
 ##  $ class       : chr [1:234] &quot;compact&quot; &quot;compact&quot; &quot;compact&quot; &quot;compact&quot; ...</code></pre>
 <p>Dans cette base de données, une observation porte sur u modèle particulièr d’une voiture une année donnée, et les variables décrivent les attributs de la voiture, par exemple son rendement énergétique sur autoroute.</p>
 <p>Pour en savoir plus sur l’ensemble de données, nous utilisons l’opérateur <code>?</code> pour extraire la documentation des données.</p>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb234-1" title="1">?mpg</a></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="sum.html#cb234-1" aria-hidden="true"></a>?mpg</span></code></pre></div>
 <p>Travailler avec des tibbles est essentiellement la même chose que travailler avec des <code>data.frames</code> simples :</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb235-1" title="1"><span class="kw">names</span>(mpg)</a></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="sum.html#cb235-1" aria-hidden="true"></a><span class="kw">names</span>(mpg)</span></code></pre></div>
 <pre><code>##  [1] &quot;manufacturer&quot; &quot;model&quot;        &quot;displ&quot;        &quot;year&quot;         &quot;cyl&quot;         
 ##  [6] &quot;trans&quot;        &quot;drv&quot;          &quot;cty&quot;          &quot;hwy&quot;          &quot;fl&quot;          
 ## [11] &quot;class&quot;</code></pre>
-<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb237-1" title="1">mpg<span class="op">$</span>year</a></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="sum.html#cb237-1" aria-hidden="true"></a>mpg<span class="op">$</span>year</span></code></pre></div>
 <pre><code>##   [1] 1999 1999 2008 2008 1999 1999 2008 1999 1999 2008 2008 1999 1999 2008 2008
 ##  [16] 1999 2008 2008 2008 2008 2008 1999 2008 1999 1999 2008 2008 2008 2008 2008
 ##  [31] 1999 1999 1999 2008 1999 2008 2008 1999 1999 1999 1999 2008 2008 2008 1999
@@ -548,7 +577,7 @@ r_{x,y} = \frac{cov(x,y)}{\sigma_x \sigma_y},
 ## [196] 1999 2008 2008 1999 2008 1999 1999 2008 1999 1999 2008 2008 1999 1999 2008
 ## [211] 2008 1999 1999 1999 1999 2008 2008 2008 2008 1999 1999 1999 1999 1999 1999
 ## [226] 2008 2008 1999 1999 2008 2008 1999 1999 2008</code></pre>
-<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb239-1" title="1">mpg<span class="op">$</span>hwy</a></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="sum.html#cb239-1" aria-hidden="true"></a>mpg<span class="op">$</span>hwy</span></code></pre></div>
 <pre><code>##   [1] 29 29 31 30 26 26 27 26 25 28 27 25 25 25 25 24 25 23 20 15 20 17 17 26 23
 ##  [26] 26 25 24 19 14 15 17 27 30 26 29 26 24 24 22 22 24 24 17 22 21 23 23 19 18
 ##  [51] 17 17 19 19 12 17 15 17 17 12 17 16 18 15 16 12 17 17 16 12 15 16 17 15 17
@@ -560,8 +589,8 @@ r_{x,y} = \frac{cov(x,y)}{\sigma_x \sigma_y},
 ## [201] 20 20 22 17 19 18 20 29 26 29 29 24 44 29 26 29 29 29 29 23 24 44 41 29 26
 ## [226] 28 29 29 29 28 29 26 26 26</code></pre>
 <p>La sélection de sous-parties de la base est également similaire à la <code>data.frame</code>. Ici, nous trouvons des véhicules à faible consommation de carburant qui font plus de 35 miles par gallon et nous n’affichons que le “manufacturer”, le “model” et “year”.</p>
-<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb241-1" title="1"><span class="co"># mpg[condition ligne, condition colonne]</span></a>
-<a class="sourceLine" id="cb241-2" title="2">mpg[mpg<span class="op">$</span>hwy <span class="op">&gt;</span><span class="st"> </span><span class="dv">35</span>, <span class="kw">c</span>(<span class="st">&quot;manufacturer&quot;</span>, <span class="st">&quot;model&quot;</span>, <span class="st">&quot;year&quot;</span>)]</a></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="sum.html#cb241-1" aria-hidden="true"></a><span class="co"># mpg[condition ligne, condition colonne]</span></span>
+<span id="cb241-2"><a href="sum.html#cb241-2" aria-hidden="true"></a>mpg[mpg<span class="op">$</span>hwy <span class="op">&gt;</span><span class="st"> </span><span class="dv">35</span>, <span class="kw">c</span>(<span class="st">&quot;manufacturer&quot;</span>, <span class="st">&quot;model&quot;</span>, <span class="st">&quot;year&quot;</span>)]</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 3
 ##   manufacturer model       year
 ##   &lt;chr&gt;        &lt;chr&gt;      &lt;int&gt;
@@ -572,12 +601,12 @@ r_{x,y} = \frac{cov(x,y)}{\sigma_x \sigma_y},
 ## 5 volkswagen   new beetle  1999
 ## 6 volkswagen   new beetle  1999</code></pre>
 <p>Une alternative serait d’utiliser la fonction <code>subset()</code> qui a une syntaxe plus lisible.</p>
-<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb243-1" title="1"><span class="kw">subset</span>(mpg, <span class="dt">subset =</span> hwy <span class="op">&gt;</span><span class="st"> </span><span class="dv">35</span>, <span class="dt">select =</span> <span class="kw">c</span>(<span class="st">&quot;manufacturer&quot;</span>, <span class="st">&quot;model&quot;</span>, <span class="st">&quot;year&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="sum.html#cb243-1" aria-hidden="true"></a><span class="kw">subset</span>(mpg, <span class="dt">subset =</span> hwy <span class="op">&gt;</span><span class="st"> </span><span class="dv">35</span>, <span class="dt">select =</span> <span class="kw">c</span>(<span class="st">&quot;manufacturer&quot;</span>, <span class="st">&quot;model&quot;</span>, <span class="st">&quot;year&quot;</span>))</span></code></pre></div>
 <p>Enfin, et de façon plus <em>tidy</em>, nous pourrions utiliser les fonctions <code>filter</code> et <code>select</code> du paquet <code>dplyr</code> qui introduit l’opérateur <em>pipe</em> <code>f(x) %&gt;% g(z)</code> du paquet <code>magrittr</code>. Cet opérateur prend la sortie de la première commande, par exemple <code>y = f(x)</code>, et la passe <em>en tant que premier argument</em> à la fonction suivante, c’est-à-dire que nous obtiendrions <code>g(y,z)</code> ici.^[Un <em>pipe</em> est un concept du monde Unix, où il signifie prendre la sortie d’une commande, et la passer à une autre commande. De cette façon, on peut construire une <em>pipeline</em> de commandes. Pour plus d’informations sur l’opérateur de pipe dans <code>R</code>, vous pourriez être intéressé [par ce tutoriel] (<a href="https://www.datacamp.com/community/tutorials/pipe-r-tutorial" class="uri">https://www.datacamp.com/community/tutorials/pipe-r-tutorial</a>).</p>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb244-1" title="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb244-2" title="2">mpg <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb244-3" title="3"><span class="st">  </span><span class="kw">filter</span>(hwy <span class="op">&gt;</span><span class="st"> </span><span class="dv">35</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb244-4" title="4"><span class="st">  </span><span class="kw">select</span>(manufacturer, model, year)</a></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="sum.html#cb244-1" aria-hidden="true"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb244-2"><a href="sum.html#cb244-2" aria-hidden="true"></a>mpg <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb244-3"><a href="sum.html#cb244-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">filter</span>(hwy <span class="op">&gt;</span><span class="st"> </span><span class="dv">35</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb244-4"><a href="sum.html#cb244-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">select</span>(manufacturer, model, year)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 3
 ##   manufacturer model       year
 ##   &lt;chr&gt;        &lt;chr&gt;      &lt;int&gt;
@@ -588,8 +617,8 @@ r_{x,y} = \frac{cov(x,y)}{\sigma_x \sigma_y},
 ## 5 volkswagen   new beetle  1999
 ## 6 volkswagen   new beetle  1999</code></pre>
 <p>Notez que la syntaxe ci-dessus est équivalente à la commande suivante sans pipe (qui est beaucoup plus difficile à lire !):</p>
-<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb246-1" title="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb246-2" title="2"><span class="kw">select</span>(<span class="kw">filter</span>(mpg, hwy <span class="op">&gt;</span><span class="st"> </span><span class="dv">35</span>), manufacturer, model, year)</a></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="sum.html#cb246-1" aria-hidden="true"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb246-2"><a href="sum.html#cb246-2" aria-hidden="true"></a><span class="kw">select</span>(<span class="kw">filter</span>(mpg, hwy <span class="op">&gt;</span><span class="st"> </span><span class="dv">35</span>), manufacturer, model, year)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 3
 ##   manufacturer model       year
 ##   &lt;chr&gt;        &lt;chr&gt;      &lt;int&gt;
@@ -600,7 +629,7 @@ r_{x,y} = \frac{cov(x,y)}{\sigma_x \sigma_y},
 ## 5 volkswagen   new beetle  1999
 ## 6 volkswagen   new beetle  1999</code></pre>
 <p>Ces trois approches produisent les mêmes résultats. La méthode que vous utiliserez dépendra largement de la situation donnée ainsi que de vos préférences.</p>
-<div id="exercice-1" class="section level4">
+<div id="exercice-1-1" class="section level4" number="3.4.3.1">
 <h4><span class="header-section-number">3.4.3.1</span> Exercice 1</h4>
 <ol style="list-style-type: decimal">
 <li>Assurez-vous que l’ensemble de données <code>mpg</code> est chargé en tapant <code>data(mpg)</code> (et <code>library(ggplot2)</code> si ce n’est pas le cas !) Utilisez la fonction <code>table</code> pour savoir combien de voitures ont été construites par <em>mercury</em> ?</li>

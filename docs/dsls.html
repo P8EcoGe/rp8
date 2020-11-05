@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>7 Variables instrumentales et doubles moindres carrés | R à Paris 8</title>
+  <meta name="description" content="7 Variables instrumentales et doubles moindres carrés | R à Paris 8" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="7 Variables instrumentales et doubles moindres carrés | R à Paris 8" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="7 Variables instrumentales et doubles moindres carrés | R à Paris 8" />
+  
+  
+  
+
+
+
+<meta name="date" content="2020-11-05" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="hetero.html"/>
+
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Préface</a></li>
+<li class="chapter" data-level="2" data-path="R-intro.html"><a href="R-intro.html"><i class="fa fa-check"></i><b>2</b> Introduction à <code>R</code></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="R-intro.html"><a href="R-intro.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="R-intro.html"><a href="R-intro.html#démarrer-r-et-r-studio"><i class="fa fa-check"></i><b>2.2</b> Démarrer R et R Studio</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="R-intro.html"><a href="R-intro.html#un-premier-glossaire"><i class="fa fa-check"></i><b>2.2.1</b> Un premier glossaire</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="R-intro.html"><a href="R-intro.html#calculs-de-base"><i class="fa fa-check"></i><b>2.3</b> Calculs de base</a></li>
+<li class="chapter" data-level="2.4" data-path="R-intro.html"><a href="R-intro.html#obtenir-de-laide"><i class="fa fa-check"></i><b>2.4</b> Obtenir de l’aide</a></li>
+<li class="chapter" data-level="2.5" data-path="R-intro.html"><a href="R-intro.html#installation-de-packages"><i class="fa fa-check"></i><b>2.5</b> Installation de packages</a></li>
+<li class="chapter" data-level="2.6" data-path="R-intro.html"><a href="R-intro.html#code-output"><i class="fa fa-check"></i><b>2.6</b> <code>Code</code> et sortie dans ce document</a></li>
+<li class="chapter" data-level="2.7" data-path="R-intro.html"><a href="R-intro.html#data-types"><i class="fa fa-check"></i><b>2.7</b> Types de données</a></li>
+<li class="chapter" data-level="2.8" data-path="R-intro.html"><a href="R-intro.html#structures-de-données"><i class="fa fa-check"></i><b>2.8</b> Structures de données</a>
+<ul>
+<li class="chapter" data-level="2.8.1" data-path="R-intro.html"><a href="R-intro.html#vecteurs"><i class="fa fa-check"></i><b>2.8.1</b> Vecteurs</a></li>
+<li class="chapter" data-level="2.8.2" data-path="R-intro.html"><a href="R-intro.html#opérateurs-logiques"><i class="fa fa-check"></i><b>2.8.2</b> Opérateurs logiques</a></li>
+<li class="chapter" data-level="2.8.3" data-path="R-intro.html"><a href="R-intro.html#matrices"><i class="fa fa-check"></i><b>2.8.3</b> Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="2.9" data-path="R-intro.html"><a href="R-intro.html#dataframes"><i class="fa fa-check"></i><b>2.9</b> Data Frames</a>
+<ul>
+<li class="chapter" data-level="2.9.1" data-path="R-intro.html"><a href="R-intro.html#travailler-sur-des-data.frames"><i class="fa fa-check"></i><b>2.9.1</b> Travailler sur des <code>data.frames</code></a></li>
+</ul></li>
+<li class="chapter" data-level="2.10" data-path="R-intro.html"><a href="R-intro.html#les-bases-de-la-programmation-en-r"><i class="fa fa-check"></i><b>2.10</b> Les bases de la programmation en <code>R</code></a>
+<ul>
+<li class="chapter" data-level="2.10.1" data-path="R-intro.html"><a href="R-intro.html#variables"><i class="fa fa-check"></i><b>2.10.1</b> Variables</a></li>
+<li class="chapter" data-level="2.10.2" data-path="R-intro.html"><a href="R-intro.html#contrôle-du-flux-conditions-si-alors"><i class="fa fa-check"></i><b>2.10.2</b> Contrôle du flux, conditions “si, alors”</a></li>
+<li class="chapter" data-level="2.10.3" data-path="R-intro.html"><a href="R-intro.html#boucles"><i class="fa fa-check"></i><b>2.10.3</b> Boucles</a></li>
+<li class="chapter" data-level="2.10.4" data-path="R-intro.html"><a href="R-intro.html#fonctions"><i class="fa fa-check"></i><b>2.10.4</b> Fonctions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="sum.html"><a href="sum.html"><i class="fa fa-check"></i><b>3</b> Travailler avec les données</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="sum.html"><a href="sum.html#statistiques-descriptives"><i class="fa fa-check"></i><b>3.1</b> Statistiques descriptives</a>
+<ul>
+<li class="chapter" data-level="" data-path="sum.html"><a href="sum.html#tendance-centrale"><i class="fa fa-check"></i>Tendance centrale</a></li>
+<li class="chapter" data-level="" data-path="sum.html"><a href="sum.html#étendue"><i class="fa fa-check"></i>Étendue</a></li>
+<li class="chapter" data-level="" data-path="sum.html"><a href="sum.html#variable-catégorielles"><i class="fa fa-check"></i>Variable catégorielles</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="sum.html"><a href="sum.html#graphiques"><i class="fa fa-check"></i><b>3.2</b> Graphiques</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="sum.html"><a href="sum.html#histograms"><i class="fa fa-check"></i><b>3.2.1</b> Histograms</a></li>
+<li class="chapter" data-level="3.2.2" data-path="sum.html"><a href="sum.html#diagrammes-en-bâtons"><i class="fa fa-check"></i><b>3.2.2</b> Diagrammes en bâtons</a></li>
+<li class="chapter" data-level="3.2.3" data-path="sum.html"><a href="sum.html#boîtes-à-moustaches"><i class="fa fa-check"></i><b>3.2.3</b> Boîtes à moustaches</a></li>
+<li class="chapter" data-level="3.2.4" data-path="sum.html"><a href="sum.html#nuages-de-points"><i class="fa fa-check"></i><b>3.2.4</b> Nuages de points</a></li>
+<li class="chapter" data-level="3.2.5" data-path="sum.html"><a href="sum.html#ggplot"><i class="fa fa-check"></i><b>3.2.5</b> <code>ggplot</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="sum.html"><a href="sum.html#summarize-two"><i class="fa fa-check"></i><b>3.3</b> Statistiques bivariées</a></li>
+<li class="chapter" data-level="3.4" data-path="sum.html"><a href="sum.html#le-tidyverse"><i class="fa fa-check"></i><b>3.4</b> Le <code>tidyverse</code></a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="sum.html"><a href="sum.html#primers-de-rstudio.cloud"><i class="fa fa-check"></i><b>3.4.1</b> Primers de rstudio.cloud</a></li>
+<li class="chapter" data-level="3.4.2" data-path="sum.html"><a href="sum.html#importer-des-données-.csv-de-façon-tidy"><i class="fa fa-check"></i><b>3.4.2</b> Importer des données <code>.csv</code> de façon <em>tidy</em></a></li>
+<li class="chapter" data-level="3.4.3" data-path="sum.html"><a href="sum.html#les-data.frames-tidy-sont-des-tibbles"><i class="fa fa-check"></i><b>3.4.3</b> Les <code>data.frames</code> “tidy” sont des <code>tibbles</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="mcarlo.html"><a href="mcarlo.html"><i class="fa fa-check"></i><b>4</b> Simulations de Monte-Carlo</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="mcarlo.html"><a href="mcarlo.html#un-premier-exemple"><i class="fa fa-check"></i><b>4.1</b> Un premier exemple</a></li>
+<li class="chapter" data-level="4.2" data-path="mcarlo.html"><a href="mcarlo.html#généralisation-le-package-montecarlo"><i class="fa fa-check"></i><b>4.2</b> Généralisation : le package MonteCarlo</a></li>
+<li class="chapter" data-level="4.3" data-path="mcarlo.html"><a href="mcarlo.html#avec-une-régression-par-mco"><i class="fa fa-check"></i><b>4.3</b> Avec une régression par MCO</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="MCO.html"><a href="MCO.html"><i class="fa fa-check"></i><b>5</b> La régression linéaire par MCO</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="MCO.html"><a href="MCO.html#la-commande-de-base-lm-et-summary"><i class="fa fa-check"></i><b>5.1</b> La commande de base : <code>lm()</code> et <code>summary()</code></a></li>
+<li class="chapter" data-level="5.2" data-path="MCO.html"><a href="MCO.html#extraire-des-éléments-du-modèle"><i class="fa fa-check"></i><b>5.2</b> Extraire des éléments du modèle</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="MCO.html"><a href="MCO.html#données-du-modèles"><i class="fa fa-check"></i><b>5.2.1</b> Données du modèles</a></li>
+<li class="chapter" data-level="5.2.2" data-path="MCO.html"><a href="MCO.html#manipulation-plus-avancée"><i class="fa fa-check"></i><b>5.2.2</b> Manipulation plus avancée</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="MCO.html"><a href="MCO.html#graphiques-danalyse-des-résidus"><i class="fa fa-check"></i><b>5.3</b> Graphiques d’analyse des résidus</a></li>
+<li class="chapter" data-level="5.4" data-path="MCO.html"><a href="MCO.html#analyse-de-la-variance"><i class="fa fa-check"></i><b>5.4</b> Analyse de la variance</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="MCO.html"><a href="MCO.html#r2-et-hatsigma"><i class="fa fa-check"></i><b>5.4.1</b> <span class="math inline">\(R^2\)</span> et <span class="math inline">\(\hat\sigma\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="MCO.html"><a href="MCO.html#retour-sur-summary"><i class="fa fa-check"></i><b>5.5</b> Retour sur <code>summary()</code></a></li>
+<li class="chapter" data-level="5.6" data-path="MCO.html"><a href="MCO.html#les-mco-à-la-main"><i class="fa fa-check"></i><b>5.6</b> Les MCO à la main</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="hetero.html"><a href="hetero.html"><i class="fa fa-check"></i><b>6</b> Traitement de l’hétéroscédasticité</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="hetero.html"><a href="hetero.html#introduction-1"><i class="fa fa-check"></i><b>6.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.2" data-path="hetero.html"><a href="hetero.html#détection-de-lhétéroscédasticité"><i class="fa fa-check"></i><b>6.2</b> Détection de l’hétéroscédasticité</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="hetero.html"><a href="hetero.html#analyse-graphique-des-résidus"><i class="fa fa-check"></i><b>6.2.1</b> Analyse graphique des résidus</a></li>
+<li class="chapter" data-level="6.2.2" data-path="hetero.html"><a href="hetero.html#test-de-breusch-pagan"><i class="fa fa-check"></i><b>6.2.2</b> Test de Breusch-Pagan</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="hetero.html"><a href="hetero.html#correction-de-white"><i class="fa fa-check"></i><b>6.3</b> Correction de White</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="hetero.html"><a href="hetero.html#les-paquets-lmtest-et-sandwich"><i class="fa fa-check"></i><b>6.3.1</b> Les paquets <code>lmtest</code> et <code>sandwich</code></a></li>
+<li class="chapter" data-level="6.3.2" data-path="hetero.html"><a href="hetero.html#les-paquets-lmtest-et-car"><i class="fa fa-check"></i><b>6.3.2</b> Les paquets <code>lmtest</code> et <code>car</code></a></li>
+<li class="chapter" data-level="6.3.3" data-path="hetero.html"><a href="hetero.html#le-paquet-estimatr"><i class="fa fa-check"></i><b>6.3.3</b> Le paquet <code>estimatr</code></a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="hetero.html"><a href="hetero.html#mcqg-par-pondération"><i class="fa fa-check"></i><b>6.4</b> MCQG par pondération</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="dsls.html"><a href="dsls.html"><i class="fa fa-check"></i><b>7</b> Variables instrumentales et doubles moindres carrés</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="dsls.html"><a href="dsls.html#introduction-2"><i class="fa fa-check"></i><b>7.1</b> Introduction</a></li>
+<li class="chapter" data-level="7.2" data-path="dsls.html"><a href="dsls.html#la-méthode-des-variables-instrumentalesdoubles-moindres-carrés"><i class="fa fa-check"></i><b>7.2</b> La méthode des variables instrumentales/doubles moindres carrés</a></li>
+<li class="chapter" data-level="7.3" data-path="dsls.html"><a href="dsls.html#implémentation-sous-r-la-commande-ivreg"><i class="fa fa-check"></i><b>7.3</b> Implémentation sous <code>R</code> : la commande <code>ivreg</code></a></li>
+<li class="chapter" data-level="7.4" data-path="dsls.html"><a href="dsls.html#tests-de-diagnostics"><i class="fa fa-check"></i><b>7.4</b> Tests de diagnostics</a></li>
+<li class="chapter" data-level="7.5" data-path="dsls.html"><a href="dsls.html#sls-à-la-main"><i class="fa fa-check"></i><b>7.5</b> 2SLS à la main</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R à Paris 8</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="dsls" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Variables instrumentales et doubles moindres carrés</h1>
+<div id="introduction-2" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> Introduction</h2>
+<p>Une hypothèse centrale des MCO dans le modèle <span class="math inline">\(y=X\beta+\epsilon\)</span> est celle de l’exogénéité des variables explicatives : <span class="math inline">\(E(\boldsymbol{\epsilon}|\boldsymbol{X})=\boldsymbol{0}\)</span>. Cette hypothèse assure que l’estimateur des MCO est sans biais, et que l’on peut donc l’interpréter comme l’effet causal de la variable explicative sur <span class="math inline">\(y\)</span>.</p>
+<p>Si cette hypothèse n’est pas valide, alors l’estimateur des MCO est biaisé, et son interprétation ne peut plus être causale.</p>
+<p>Un solution potentielle à ce problème d’endogénéité est d’utiliser des variables externes au modèles, dites <em>variables instrumentales</em> afin de “filtrer” l’endogénéité des variables problématique et de ne conserver que la partie qui est non corrélée aux termes d’erreur <span class="math inline">\(\epsilon\)</span>.</p>
+<p>Pour être valide, les variables instrumentales <span class="math inline">\(Z\)</span> doivent respecter deux conditions :</p>
+<ol style="list-style-type: decimal">
+<li><p>Une condition d’orthogonalité qui stipule qu’elles sont non corrélées aux termes d’erreur : <span class="math inline">\(\mathrm{plim} Z&#39;\epsilon=0\)</span></p></li>
+<li><p>Une condition de pertinence (ou de rang) qui stiplule qu’elles sont corrélées aux variables explicatives <span class="math inline">\(X\)</span> (exogènes comme endogènes) : <span class="math inline">\(\mathrm{plim} \frac{1}{n}Z&#39;X =Q\)</span> où <span class="math inline">\(Q\)</span> est une matrice inversible.</p></li>
+</ol>
+<p>Intuitivement, une variable instrumentale ne doit pas avoir d’influence directe sur <span class="math inline">\(y\)</span>, sauf via son effet sur la variable explicative endogène.</p>
+</div>
+<div id="la-méthode-des-variables-instrumentalesdoubles-moindres-carrés" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> La méthode des variables instrumentales/doubles moindres carrés</h2>
+<p>Supposons un modèle de la forme <span class="math inline">\(y=X\beta + \epsilon\)</span> où <span class="math inline">\(X\)</span> peut se décomposer en <span class="math inline">\(X=[D \quad G]\)</span> où <span class="math inline">\(D\)</span> contient des variables explicatives exogènes, et <span class="math inline">\(G\)</span> des variables explicatives endogènes. Soit <span class="math inline">\(I\)</span> une matrice contenant les instruments externes. Notons <span class="math inline">\(Z =[X\quad I]\)</span> la matrice contenant les explicatives exogène et les instruments externes. Le modèle sera dit “juste identifié” si le nombre de variables dans <span class="math inline">\(I\)</span> est égal au nombre de variables dans <span class="math inline">\(G\)</span> (le nombre d’instruments externe est égal au nombre de variables explicatives endogènes). Il sera dit “sur-identifié” si le nombre de variables dans <span class="math inline">\(I\)</span> est supérieur au nombre de variables dans <span class="math inline">\(G\)</span> (le nombre d’instruments externe est supérieur au nombre de variables explicatives endogènes). Il est possible de tester la validité des instruments dans un modèle sur identifié, mais pas dans un modèle juste identifié.</p>
+<p>Afin de “purger” les variables explicatives endogène de leur corrélation avec le terme d’erreur, on effectue la régressions la régression des variables explicatives <span class="math inline">\(X\)</span> sur <span class="math inline">\(Z\)</span> les instruments externes <strong>et</strong> les explicatives exogènes. On en dire ensuite les valeurs prédites <span class="math inline">\(\hat X\)</span>. Les variables dans <span class="math inline">\(\hat X\)</span> sont orthogonales aux termes d’erreur <span class="math inline">\(\epsilon\)</span> car elles sont des combinaisons linéaires de variables indépendantes des termes d’erreur par hypothèse (que ça soit les explicatives exogènes ou les instruments externes) ; et leurs corrélation avec <span class="math inline">\(X\)</span> est maximisée par la procédure de régression. Les variables <span class="math inline">\(\hat X\)</span> sont donc des versions “filtrées” de <span class="math inline">\(X\)</span>, où on a retiré toutle la partie corrélée avec <span class="math inline">\(\epsilon\)</span></p>
+<p>En remplaçant ensuite <span class="math inline">\(X\)</span> par <span class="math inline">\(\hat X\)</span> dans le modèle d’intérêt, on obtient des coefficients non biaisés. La matrice de variance-covariance doit par contre être calculée avec une formule adaptée, celle issue des MCO ne prenant pas en compte l’étape d’instrumentation.</p>
+</div>
+<div id="implémentation-sous-r-la-commande-ivreg" class="section level2" number="7.3">
+<h2><span class="header-section-number">7.3</span> Implémentation sous <code>R</code> : la commande <code>ivreg</code></h2>
+<p>En pratique on va utiliser la commande <code>ivreg()</code> issue du paquet <code>AER</code> ou du paquet <code>ivreg</code></p>
+<p>On commence par importer des données</p>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="dsls.html#cb409-1" aria-hidden="true"></a><span class="kw">library</span>(readr) <span class="co"># Pour importer des données</span></span>
+<span id="cb409-2"><a href="dsls.html#cb409-2" aria-hidden="true"></a></span>
+<span id="cb409-3"><a href="dsls.html#cb409-3" aria-hidden="true"></a>educwages &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/ATerracol/P8Econ/master/data/educwages.csv&quot;</span>)</span></code></pre></div>
+<p>Cette base contient 1000 observations, et 5 variables :</p>
+<ul>
+<li>wages : salaire</li>
+<li>union : affiliation à un syndicat</li>
+<li>education : niveau d’éducation</li>
+<li>meducation : niveau d’éducation de la mère (mother’s education)</li>
+<li>feducation : niveau d’éducation du père (father’s education)</li>
+</ul>
+<p>Le but est d’estimer l’effet causal de l’éducation sur le salaire, en contrôlant pour l’appartenance syndicale</p>
+<p>On commence par un modèle naïf en régressant le niveau de salaire sur le niveau d’éducation et l’appartenance syndicale</p>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="dsls.html#cb410-1" aria-hidden="true"></a>modele_naif &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>educwages, wages <span class="op">~</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span>union)</span>
+<span id="cb410-2"><a href="dsls.html#cb410-2" aria-hidden="true"></a><span class="kw">summary</span>(modele_naif)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = wages ~ education + union, data = educwages)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.6095 -0.6447  0.0160  0.6294  3.2218 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 27.73773    0.23517  117.95   &lt;2e-16 ***
+## education    1.14516    0.01439   79.57   &lt;2e-16 ***
+## unionYes     1.96288    0.06023   32.59   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9514 on 997 degrees of freedom
+## Multiple R-squared:  0.878,  Adjusted R-squared:  0.8778 
+## F-statistic:  3588 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>On pense que le niveau d’éducation est sans doute endogène dans ce modèle. Il est en effet sans doute corrélé à des caractéristiques inobservées qui influencent le salaire (et qui sont donc dans le terme d’erreur) : capacité de travail, intelligence, etc.</p>
+<p>On veut donc corriger l’endogénéité par la techniques des variables instrumentales/2SLS. Les instruments externes potentiels sont les niveaux éducation des parents (meducation et feducation)</p>
+<p>Idée :</p>
+<ol style="list-style-type: decimal">
+<li>Hypothèse de pertinence (hypothèse de rang) : L’éducation des parents est corrélée à l’éducation des enfants (via une meilleure connaissance du système scolaire, une aide aux devoirs, etc.)</li>
+<li>Hypothèse d’orthogonalité : l’éducation des parents ne joue pas directement sur le niveau de salaire des enfants (on exclut la possibilité de faire jouer le “piston” pour que ses enfants obtiennent un meilleur poste et donc un meilleur salaire)</li>
+</ol>
+<p>On effectue donc la régression 2SLS à l’aide la commande <code>ivreg()</code> issu du paquet <code>AER</code></p>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="dsls.html#cb412-1" aria-hidden="true"></a><span class="kw">library</span>(AER)</span>
+<span id="cb412-2"><a href="dsls.html#cb412-2" aria-hidden="true"></a><span class="co"># commande ivreg</span></span>
+<span id="cb412-3"><a href="dsls.html#cb412-3" aria-hidden="true"></a><span class="co"># syntaxe : ivreg(y ~ les variables dans X | variables dans Z)</span></span>
+<span id="cb412-4"><a href="dsls.html#cb412-4" aria-hidden="true"></a><span class="co"># ivreg(y ~ liste des explicatives, exogènes et endogène | liste des explicatives exogènes et des instruments externes)</span></span>
+<span id="cb412-5"><a href="dsls.html#cb412-5" aria-hidden="true"></a></span>
+<span id="cb412-6"><a href="dsls.html#cb412-6" aria-hidden="true"></a>modele_iv &lt;-<span class="st"> </span><span class="kw">ivreg</span>(<span class="dt">data=</span>educwages, wages <span class="op">~</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span>union <span class="op">|</span><span class="st"> </span>union <span class="op">+</span><span class="st"> </span>meducation <span class="op">+</span><span class="st"> </span>feducation) </span>
+<span id="cb412-7"><a href="dsls.html#cb412-7" aria-hidden="true"></a><span class="co"># NB : modèle sur-identifié : 1 explicative endogène (education) et 2 instruments externes (meducation et feducation)</span></span>
+<span id="cb412-8"><a href="dsls.html#cb412-8" aria-hidden="true"></a><span class="kw">summary</span>(modele_iv)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## ivreg(formula = wages ~ education + union | union + meducation + 
+##     feducation, data = educwages)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -3.686710 -0.698687 -0.004686  0.724659  3.413646 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 30.55263    0.28867  105.84   &lt;2e-16 ***
+## education    0.97005    0.01774   54.70   &lt;2e-16 ***
+## unionYes     1.93018    0.06457   29.89   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.02 on 997 degrees of freedom
+## Multiple R-Squared: 0.8599,  Adjusted R-squared: 0.8596 
+## Wald test:  1864 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>On constate une baisse sensible de l’effet estimé de l’éducation par rapport à l’estimation “naïve” par MCO</p>
+</div>
+<div id="tests-de-diagnostics" class="section level2" number="7.4">
+<h2><span class="header-section-number">7.4</span> Tests de diagnostics</h2>
+<p>Plusieurs tests de disgnostic sont disponibles après <code>ivreg()</code> (présence d’instruments faibles, test d’endogénéité, test de suridentification). On les obtient avec l’option <code>diagnostics=TRUE</code> du <code>summary()</code> du modèle issu de <code>ivreg()</code></p>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="dsls.html#cb414-1" aria-hidden="true"></a><span class="kw">summary</span>(modele_iv, <span class="dt">diagnostics =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## ivreg(formula = wages ~ education + union | union + meducation + 
+##     feducation, data = educwages)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -3.686710 -0.698687 -0.004686  0.724659  3.413646 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 30.55263    0.28867  105.84   &lt;2e-16 ***
+## education    0.97005    0.01774   54.70   &lt;2e-16 ***
+## unionYes     1.93018    0.06457   29.89   &lt;2e-16 ***
+## 
+## Diagnostic tests:
+##                  df1 df2 statistic p-value    
+## Weak instruments   2 996  1544.878  &lt;2e-16 ***
+## Wu-Hausman         1 996   850.772  &lt;2e-16 ***
+## Sargan             1  NA     0.127   0.721    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.02 on 997 degrees of freedom
+## Multiple R-Squared: 0.8599,  Adjusted R-squared: 0.8596 
+## Wald test:  1864 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Les tests présentés sont les suivants :</p>
+<ul>
+<li>Weak instruments : test d’instruments faibles. <span class="math inline">\(H0\)</span> : les instruments sont faibles (on veut <span class="math inline">\(F&gt;10\)</span>)</li>
+<li>Wu-Hausman : test d’endogénéité : <span class="math inline">\(H0\)</span> : mon explicative est exogène (inutile d’instrumenter)</li>
+<li>Sargan : test de suridentification : <span class="math inline">\(H0\)</span> mes instruments sont exogènes</li>
+</ul>
+</div>
+<div id="sls-à-la-main" class="section level2" number="7.5">
+<h2><span class="header-section-number">7.5</span> 2SLS à la main</h2>
+<p>On peut effectuer les doubles moindres carrés “à la main” afin de vérifier notre compréhension de la procédure, et également dans le but d’examiner la régression de première étape</p>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="dsls.html#cb416-1" aria-hidden="true"></a><span class="co">#Première étape : régresser l&#39;explicative endogène sur les explicatives exogènes et les instruments externes</span></span>
+<span id="cb416-2"><a href="dsls.html#cb416-2" aria-hidden="true"></a>first_stage &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>educwages, education <span class="op">~</span><span class="st"> </span>union <span class="op">+</span><span class="st"> </span>meducation <span class="op">+</span><span class="st"> </span>feducation )</span>
+<span id="cb416-3"><a href="dsls.html#cb416-3" aria-hidden="true"></a><span class="kw">summary</span>(first_stage)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = education ~ union + meducation + feducation, data = educwages)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.3555 -0.7034  0.0306  0.7075  3.4211 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  3.43385    0.23202  14.800   &lt;2e-16 ***
+## unionYes    -0.08712    0.06544  -1.331    0.183    
+## meducation   0.48411    0.01254  38.603   &lt;2e-16 ***
+## feducation   0.48669    0.01262  38.577   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.034 on 996 degrees of freedom
+## Multiple R-squared:  0.7567, Adjusted R-squared:  0.756 
+## F-statistic:  1033 on 3 and 996 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="dsls.html#cb418-1" aria-hidden="true"></a><span class="co"># On calcule l&#39;endogène prédite, on l&#39;intègre à la base de donnée</span></span>
+<span id="cb418-2"><a href="dsls.html#cb418-2" aria-hidden="true"></a>educwages<span class="op">$</span>educ_chapeau &lt;-<span class="st"> </span>first_stage<span class="op">$</span>fitted.values</span>
+<span id="cb418-3"><a href="dsls.html#cb418-3" aria-hidden="true"></a><span class="co"># seconde étape : remplace education par education prédite dans le modèle principal</span></span>
+<span id="cb418-4"><a href="dsls.html#cb418-4" aria-hidden="true"></a>second_stage &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>educwages, wages <span class="op">~</span><span class="st"> </span>educ_chapeau <span class="op">+</span><span class="st"> </span>union)</span>
+<span id="cb418-5"><a href="dsls.html#cb418-5" aria-hidden="true"></a><span class="kw">summary</span>(second_stage)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = wages ~ educ_chapeau + union, data = educwages)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.6102 -1.2353 -0.0281  1.2688  6.7323 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   30.5526     0.5323   57.40   &lt;2e-16 ***
+## educ_chapeau   0.9700     0.0327   29.66   &lt;2e-16 ***
+## unionYes       1.9302     0.1191   16.21   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.88 on 997 degrees of freedom
+## Multiple R-squared:  0.5237, Adjusted R-squared:  0.5228 
+## F-statistic: 548.1 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="dsls.html#cb420-1" aria-hidden="true"></a><span class="co"># On compare avec ivreg</span></span>
+<span id="cb420-2"><a href="dsls.html#cb420-2" aria-hidden="true"></a><span class="kw">summary</span>(modele_iv)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## ivreg(formula = wages ~ education + union | union + meducation + 
+##     feducation, data = educwages)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -3.686710 -0.698687 -0.004686  0.724659  3.413646 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 30.55263    0.28867  105.84   &lt;2e-16 ***
+## education    0.97005    0.01774   54.70   &lt;2e-16 ***
+## unionYes     1.93018    0.06457   29.89   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.02 on 997 degrees of freedom
+## Multiple R-Squared: 0.8599,  Adjusted R-squared: 0.8596 
+## Wald test:  1864 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>On constate que les coefficients estimés “à la main” sont identiques aux coefficients issus de <code>ivreg()</code>. Les écart-types sont par contre différents, tout comme les statistiques de tests, les p-values etc. L’inférence correcte doit se faire à partir des calculs fournis par <code>ivreg()</code></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="hetero.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
