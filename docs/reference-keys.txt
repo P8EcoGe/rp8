@@ -72,3 +72,9 @@ la-méthode-des-variables-instrumentalesdoubles-moindres-carrés
 implémentation-sous-r-la-commande-ivreg
 tests-de-diagnostics
 sls-à-la-main
+panel
+introduction-3
+le-modèle-à-effets-fixes
+le-modèle-à-effets-aléatoires
+le-test-dhausman
+implémentation-sous-r

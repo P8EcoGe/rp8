@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>7 Variables instrumentales et doubles moindres carrés | R à Paris 8</title>
-  <meta name="description" content="7 Variables instrumentales et doubles moindres carrés | R à Paris 8" />
+  <title>8 Donées de panel | R à Paris 8</title>
+  <meta name="description" content="8 Donées de panel | R à Paris 8" />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="7 Variables instrumentales et doubles moindres carrés | R à Paris 8" />
+  <meta property="og:title" content="8 Donées de panel | R à Paris 8" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="7 Variables instrumentales et doubles moindres carrés | R à Paris 8" />
+  <meta name="twitter:title" content="8 Donées de panel | R à Paris 8" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="hetero.html"/>
-<link rel="next" href="panel.html"/>
+<link rel="prev" href="dsls.html"/>
+
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -258,212 +258,119 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="dsls" class="section level1" number="7">
-<h1><span class="header-section-number">7</span> Variables instrumentales et doubles moindres carrés</h1>
-<div id="introduction-2" class="section level2" number="7.1">
-<h2><span class="header-section-number">7.1</span> Introduction</h2>
-<p>Une hypothèse centrale des MCO dans le modèle <span class="math inline">\(y=X\beta+\epsilon\)</span> est celle de l’exogénéité des variables explicatives : <span class="math inline">\(E(\boldsymbol{\epsilon}|\boldsymbol{X})=\boldsymbol{0}\)</span>. Cette hypothèse assure que l’estimateur des MCO est sans biais, et que l’on peut donc l’interpréter comme l’effet causal de la variable explicative sur <span class="math inline">\(y\)</span>.</p>
-<p>Si cette hypothèse n’est pas valide, alors l’estimateur des MCO est biaisé, et son interprétation ne peut plus être causale.</p>
-<p>Un solution potentielle à ce problème d’endogénéité est d’utiliser des variables externes au modèles, dites <em>variables instrumentales</em> afin de “filtrer” l’endogénéité des variables problématique et de ne conserver que la partie qui est non corrélée aux termes d’erreur <span class="math inline">\(\epsilon\)</span>.</p>
-<p>Pour être valide, les variables instrumentales <span class="math inline">\(Z\)</span> doivent respecter deux conditions :</p>
-<ol style="list-style-type: decimal">
-<li><p>Une condition d’orthogonalité qui stipule qu’elles sont non corrélées aux termes d’erreur : <span class="math inline">\(\mathrm{plim} Z&#39;\epsilon=0\)</span></p></li>
-<li><p>Une condition de pertinence (ou de rang) qui stiplule qu’elles sont corrélées aux variables explicatives <span class="math inline">\(X\)</span> (exogènes comme endogènes) : <span class="math inline">\(\mathrm{plim} \frac{1}{n}Z&#39;X =Q\)</span> où <span class="math inline">\(Q\)</span> est une matrice inversible.</p></li>
-</ol>
-<p>Intuitivement, une variable instrumentale ne doit pas avoir d’influence directe sur <span class="math inline">\(y\)</span>, sauf via son effet sur la variable explicative endogène.</p>
+<div id="panel" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> Donées de panel</h1>
+<div id="introduction-3" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> Introduction</h2>
+<p>Dans les chapitres précédents, les données étaient implicitement des données <em>en coupe</em>, c’est-à-dire que chaque observation correspondant à un individu statistiques <em>i</em> différent. Les modèles étaient du type <span class="math inline">\(y_i=\beta_0+\beta_1 x_{1i}+\dots+\beta_K x_{Ki}+\epsilon_i\)</span>.</p>
+<p>Il arrive frequemment que nous disposions de <em>données de panel</em> où l’on observe un groupe d’individus (indicées par <span class="math inline">\(i=1\dots n\)</span>) au travers de plusieurs périodes (indicées par <span class="math inline">\(t=1\dots T\)</span>). Le modèle s’écrit alors <span class="math inline">\(y_it=\beta_0+\beta_1x_{1it}+\dots+\beta_Kx_{Kit}+\alpha_i+\epsilon_{it}\)</span> où <span class="math inline">\(\alpha_i\)</span> est un <em>effet individuel</em> propre à l’individu <span class="math inline">\(i\)</span>, et supposé constant au travers des <span class="math inline">\(T\)</span> périodes d’observations, et où <span class="math inline">\(\epsilon_{it}\)</span></p>
+<p>Le terme d’erreur <span class="math inline">\(\epsilon_{it}\)</span> sera considéré comme un terme d’erreur statndard des MCO : il respecte l’hypothèse d’exogénéité stricte ; il est également non autocorrélé, et homoscédastique.
+La différence entre les divers estimateurs utilisables sur données de panel reposent sur les hypothèses que l’on fera sur l’effet individuel <span class="math inline">\(\alpha_i\)</span>.</p>
+<p>Si on considère que l’effet individuel <span class="math inline">\(\alpha_i\)</span> est non corrélé aux variables explicatives <span class="math inline">\(x_1\dots x_K\)</span>, alors on va implémenter un <strong>modèle à effets aléatoires</strong>
+Si par contre on pense que l’effet individuel <span class="math inline">\(\alpha_i\)</span> est potentiellement corrélé à au moins une variable explicative <span class="math inline">\(x_k\)</span>, alors on va implémenter un <strong>modèle à effets fixes</strong>
+Le <strong>Test d’Hausman</strong> permet de trancher entre les deux modèles</p>
 </div>
-<div id="la-méthode-des-variables-instrumentalesdoubles-moindres-carrés" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> La méthode des variables instrumentales/doubles moindres carrés</h2>
-<p>Supposons un modèle de la forme <span class="math inline">\(y=X\beta + \epsilon\)</span> où <span class="math inline">\(X\)</span> peut se décomposer en <span class="math inline">\(X=[D \quad G]\)</span> où <span class="math inline">\(D\)</span> contient des variables explicatives exogènes, et <span class="math inline">\(G\)</span> des variables explicatives endogènes. Soit <span class="math inline">\(I\)</span> une matrice contenant les instruments externes. Notons <span class="math inline">\(Z =[X\quad I]\)</span> la matrice contenant les explicatives exogène et les instruments externes. Le modèle sera dit “juste identifié” si le nombre de variables dans <span class="math inline">\(I\)</span> est égal au nombre de variables dans <span class="math inline">\(G\)</span> (le nombre d’instruments externe est égal au nombre de variables explicatives endogènes). Il sera dit “sur-identifié” si le nombre de variables dans <span class="math inline">\(I\)</span> est supérieur au nombre de variables dans <span class="math inline">\(G\)</span> (le nombre d’instruments externe est supérieur au nombre de variables explicatives endogènes). Il est possible de tester la validité des instruments dans un modèle sur identifié, mais pas dans un modèle juste identifié.</p>
-<p>Afin de “purger” les variables explicatives endogène de leur corrélation avec le terme d’erreur, on effectue la régressions la régression des variables explicatives <span class="math inline">\(X\)</span> sur <span class="math inline">\(Z\)</span> les instruments externes <strong>et</strong> les explicatives exogènes. On en dire ensuite les valeurs prédites <span class="math inline">\(\hat X\)</span>. Les variables dans <span class="math inline">\(\hat X\)</span> sont orthogonales aux termes d’erreur <span class="math inline">\(\epsilon\)</span> car elles sont des combinaisons linéaires de variables indépendantes des termes d’erreur par hypothèse (que ça soit les explicatives exogènes ou les instruments externes) ; et leurs corrélation avec <span class="math inline">\(X\)</span> est maximisée par la procédure de régression. Les variables <span class="math inline">\(\hat X\)</span> sont donc des versions “filtrées” de <span class="math inline">\(X\)</span>, où on a retiré toutle la partie corrélée avec <span class="math inline">\(\epsilon\)</span></p>
-<p>En remplaçant ensuite <span class="math inline">\(X\)</span> par <span class="math inline">\(\hat X\)</span> dans le modèle d’intérêt, on obtient des coefficients non biaisés. La matrice de variance-covariance doit par contre être calculée avec une formule adaptée, celle issue des MCO ne prenant pas en compte l’étape d’instrumentation.</p>
+<div id="le-modèle-à-effets-fixes" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> Le modèle à effets fixes</h2>
+<p>Dans le modèle à effets fixes, on considère que l’effet individuel <span class="math inline">\(\alpha_i\)</span> est potentiellement corrélé aux variables explicatives du modèle. Comme <span class="math inline">\(\alpha_i\)</span> est inobservé, on fait donc face à un bias de variable omises si on estime le modèles par MCO (ou MCG, voir la section sur le modèle à effets aléatoires). Comme <span class="math inline">\(\alpha_i\)</span> est supposé être constant au travers des <span class="math inline">\(T\)</span> observations de l’individu <span class="math inline">\(i\)</span>, une solution serait d’inclure dans les variables explicatives <span class="math inline">\(n\)</span> variables indicatrices <span class="math inline">\(I_i\)</span>, chacune valant 1 pour les <span class="math inline">\(T\)</span> observations de l’individu <span class="math inline">\(i\)</span>, et 0 sinon. C’est l’estimateur dit “LSDV” (Least Squares Dummy Variables). En principe celà résoud le biais de variable omise, et donc permet d’estimer sans biais les coefficients des variables explicatuves d’intérêt. En pratique, néanmoins, l’estimateur LSDV imposerait d’inclure un très grand nombre de variables explicatives dans le modèle (une variable par individu), ce qui le rend difficilement implémentable.</p>
+<p>Une solution équivalente à l’estimateur LSDV est l’estimateur dit “within”. Cet estimateur utilise un résultat dit “Théorème de Frish-Waugh-Lowell” (cf cours de L3). Ce théorème nous permet d’estimer le modèle à effets fixes sans avoir à introduire les variables indicatrices. L’estimateur within consiste à appliquer les MCO sur <em>données transformées</em> où chaque variable est prise en différence par rapport à sa moyenne individuelle. En posant <span class="math inline">\(\tilde y_{it}=y_{it}-\bar y_i\)</span> et <span class="math inline">\(\tilde x_{kit}=x_{kit}-\bar x_{ki}\)</span>, l’estimateur within applique les MCO au modèle <span class="math inline">\(\tilde y_{it} = \beta_O + \beta_1 \tilde x_{1it}+\dots+\beta_K\tilde x_{Kit}+\epsilon_{it}\)</span>.</p>
+<p>Le modèle à effet fixe permet l’estimation des <span class="math inline">\(\hat\beta\)</span> en présence d’un effet individuel corrélé aux variables explicatives. Son principal défaut est qu’il interdit l’estimation des paramètres associés aux variables explicatives fices dans le temps (car dans ce cas <span class="math inline">\(\tilde x_{kit}=0\)</span>)</p>
 </div>
-<div id="implémentation-sous-r-la-commande-ivreg" class="section level2" number="7.3">
-<h2><span class="header-section-number">7.3</span> Implémentation sous <code>R</code> : la commande <code>ivreg</code></h2>
-<p>En pratique on va utiliser la commande <code>ivreg()</code> issue du paquet <code>AER</code> ou du paquet <code>ivreg</code></p>
-<p>On commence par importer des données</p>
-<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="dsls.html#cb408-1" aria-hidden="true"></a><span class="kw">library</span>(readr) <span class="co"># Pour importer des données</span></span>
-<span id="cb408-2"><a href="dsls.html#cb408-2" aria-hidden="true"></a></span>
-<span id="cb408-3"><a href="dsls.html#cb408-3" aria-hidden="true"></a>educwages &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/ATerracol/P8Econ/master/data/educwages.csv&quot;</span>)</span></code></pre></div>
-<p>Cette base contient 1000 observations, et 5 variables :</p>
-<ul>
-<li>wages : salaire</li>
-<li>union : affiliation à un syndicat</li>
-<li>education : niveau d’éducation</li>
-<li>meducation : niveau d’éducation de la mère (mother’s education)</li>
-<li>feducation : niveau d’éducation du père (father’s education)</li>
-</ul>
-<p>Le but est d’estimer l’effet causal de l’éducation sur le salaire, en contrôlant pour l’appartenance syndicale</p>
-<p>On commence par un modèle naïf en régressant le niveau de salaire sur le niveau d’éducation et l’appartenance syndicale</p>
-<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="dsls.html#cb409-1" aria-hidden="true"></a>modele_naif &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>educwages, wages <span class="op">~</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span>union)</span>
-<span id="cb409-2"><a href="dsls.html#cb409-2" aria-hidden="true"></a><span class="kw">summary</span>(modele_naif)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = wages ~ education + union, data = educwages)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.6095 -0.6447  0.0160  0.6294  3.2218 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 27.73773    0.23517  117.95   &lt;2e-16 ***
-## education    1.14516    0.01439   79.57   &lt;2e-16 ***
-## unionYes     1.96288    0.06023   32.59   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 0.9514 on 997 degrees of freedom
-## Multiple R-squared:  0.878,  Adjusted R-squared:  0.8778 
-## F-statistic:  3588 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>On pense que le niveau d’éducation est sans doute endogène dans ce modèle. Il est en effet sans doute corrélé à des caractéristiques inobservées qui influencent le salaire (et qui sont donc dans le terme d’erreur) : capacité de travail, intelligence, etc.</p>
-<p>On veut donc corriger l’endogénéité par la techniques des variables instrumentales/2SLS. Les instruments externes potentiels sont les niveaux éducation des parents (meducation et feducation)</p>
-<p>Idée :</p>
-<ol style="list-style-type: decimal">
-<li>Hypothèse de pertinence (hypothèse de rang) : L’éducation des parents est corrélée à l’éducation des enfants (via une meilleure connaissance du système scolaire, une aide aux devoirs, etc.)</li>
-<li>Hypothèse d’orthogonalité : l’éducation des parents ne joue pas directement sur le niveau de salaire des enfants (on exclut la possibilité de faire jouer le “piston” pour que ses enfants obtiennent un meilleur poste et donc un meilleur salaire)</li>
-</ol>
-<p>On effectue donc la régression 2SLS à l’aide la commande <code>ivreg()</code> issu du paquet <code>AER</code></p>
-<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="dsls.html#cb411-1" aria-hidden="true"></a><span class="kw">library</span>(AER)</span>
-<span id="cb411-2"><a href="dsls.html#cb411-2" aria-hidden="true"></a><span class="co"># commande ivreg</span></span>
-<span id="cb411-3"><a href="dsls.html#cb411-3" aria-hidden="true"></a><span class="co"># syntaxe : ivreg(y ~ les variables dans X | variables dans Z)</span></span>
-<span id="cb411-4"><a href="dsls.html#cb411-4" aria-hidden="true"></a><span class="co"># ivreg(y ~ liste des explicatives, exogènes et endogène | liste des explicatives exogènes et des instruments externes)</span></span>
-<span id="cb411-5"><a href="dsls.html#cb411-5" aria-hidden="true"></a></span>
-<span id="cb411-6"><a href="dsls.html#cb411-6" aria-hidden="true"></a>modele_iv &lt;-<span class="st"> </span><span class="kw">ivreg</span>(<span class="dt">data=</span>educwages, wages <span class="op">~</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span>union <span class="op">|</span><span class="st"> </span>union <span class="op">+</span><span class="st"> </span>meducation <span class="op">+</span><span class="st"> </span>feducation) </span>
-<span id="cb411-7"><a href="dsls.html#cb411-7" aria-hidden="true"></a><span class="co"># NB : modèle sur-identifié : 1 explicative endogène (education) et 2 instruments externes (meducation et feducation)</span></span>
-<span id="cb411-8"><a href="dsls.html#cb411-8" aria-hidden="true"></a><span class="kw">summary</span>(modele_iv)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## ivreg(formula = wages ~ education + union | union + meducation + 
-##     feducation, data = educwages)
-## 
-## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -3.686710 -0.698687 -0.004686  0.724659  3.413646 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 30.55263    0.28867  105.84   &lt;2e-16 ***
-## education    0.97005    0.01774   54.70   &lt;2e-16 ***
-## unionYes     1.93018    0.06457   29.89   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 1.02 on 997 degrees of freedom
-## Multiple R-Squared: 0.8599,  Adjusted R-squared: 0.8596 
-## Wald test:  1864 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>On constate une baisse sensible de l’effet estimé de l’éducation par rapport à l’estimation “naïve” par MCO</p>
+<div id="le-modèle-à-effets-aléatoires" class="section level2" number="8.3">
+<h2><span class="header-section-number">8.3</span> Le modèle à effets aléatoires</h2>
+<p>Dans le modèle à effets aléatoires, on suppose que l’effet individuel <span class="math inline">\(\alpha_i\)</span> est non corrélé avec les variables explicatives du modèle. C’est une hypothèse forte qui, si elle n’est pas exacte, fera que nos <span class="math inline">\(\hat\beta\)</span> seront biaisés. Si cette hypothèse est exacte, il sera possible d’estimer sans biais les <span class="math inline">\(\hat\beta\)</span>, y compris pour les variables fixes dans le temps (au contraire de l’estimateur witihn). On peut alors ré-écrire le modèle comme <span class="math inline">\(y_it=\beta_0+\beta_1x_{1it}+\dots+\beta_Kx_{Kit}+\alpha+u_{i}+\epsilon_{it}\)</span> où <span class="math inline">\(u_i\)</span> est un terme d’erreur individuel non corrélé aux variables explicatives, et également non corrélé à <span class="math inline">\(\epsilon_it\)</span>.
+Le modèle à effets aléatoire utilise l’estimateur des Moindres Carrés Quasi Généralisés, car la présence du terme <span class="math inline">\(u_i\)</span> induit une forme d’autocorrélation entre les observations d’un même individu.</p>
 </div>
-<div id="tests-de-diagnostics" class="section level2" number="7.4">
-<h2><span class="header-section-number">7.4</span> Tests de diagnostics</h2>
-<p>Plusieurs tests de disgnostic sont disponibles après <code>ivreg()</code> (présence d’instruments faibles, test d’endogénéité, test de suridentification). On les obtient avec l’option <code>diagnostics=TRUE</code> du <code>summary()</code> du modèle issu de <code>ivreg()</code></p>
-<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="dsls.html#cb413-1" aria-hidden="true"></a><span class="kw">summary</span>(modele_iv, <span class="dt">diagnostics =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## ivreg(formula = wages ~ education + union | union + meducation + 
-##     feducation, data = educwages)
-## 
-## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -3.686710 -0.698687 -0.004686  0.724659  3.413646 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 30.55263    0.28867  105.84   &lt;2e-16 ***
-## education    0.97005    0.01774   54.70   &lt;2e-16 ***
-## unionYes     1.93018    0.06457   29.89   &lt;2e-16 ***
-## 
-## Diagnostic tests:
-##                  df1 df2 statistic p-value    
-## Weak instruments   2 996  1544.878  &lt;2e-16 ***
-## Wu-Hausman         1 996   850.772  &lt;2e-16 ***
-## Sargan             1  NA     0.127   0.721    
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 1.02 on 997 degrees of freedom
-## Multiple R-Squared: 0.8599,  Adjusted R-squared: 0.8596 
-## Wald test:  1864 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>Les tests présentés sont les suivants :</p>
-<ul>
-<li>Weak instruments : test d’instruments faibles. <span class="math inline">\(H0\)</span> : les instruments sont faibles (on veut <span class="math inline">\(F&gt;10\)</span>)</li>
-<li>Wu-Hausman : test d’endogénéité : <span class="math inline">\(H0\)</span> : mon explicative est exogène (inutile d’instrumenter)</li>
-<li>Sargan : test de suridentification : <span class="math inline">\(H0\)</span> mes instruments sont exogènes</li>
-</ul>
+<div id="le-test-dhausman" class="section level2" number="8.4">
+<h2><span class="header-section-number">8.4</span> Le test d’Hausman</h2>
+<p>Afin de déterminer si l’hypothèse sous-jacente du modèle à effets aléatoires (la non corrélation entre l’effet individuel et les variables explicative) est valide, on peut implémenter le test d’Hausman.
+Ce test se base sur l’idée que si l’hypothèse de non corrélation entre <span class="math inline">\(\alpha_i\)</span> et les <span class="math inline">\(x_k\)</span> est correcte, alos l’estimateur à effet fixe et l’estimateur à effet aléatoire devraient fournir des <span class="math inline">\(\hat\beta\)</span> semblables (is sont tous les deux sans biais sous <span class="math inline">\(H0\)</span>, mais l’estimateur à effet aléatoire sera efficace). Par contre, si <span class="math inline">\(H0\)</span> est fausse, alors ils devraient donner des <span class="math inline">\(\hat\beta\)</span> différents car l’estimateur à effet aléatoire serait alors biaisé ; tandis que l’estimateur à effet fixe reste sans biais.
+La statistique du test d’Hausman se base donc sur une mesure de la différence entre les deux vecteurs de paramètres estimés.</p>
 </div>
-<div id="sls-à-la-main" class="section level2" number="7.5">
-<h2><span class="header-section-number">7.5</span> 2SLS à la main</h2>
-<p>On peut effectuer les doubles moindres carrés “à la main” afin de vérifier notre compréhension de la procédure, et également dans le but d’examiner la régression de première étape</p>
-<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="dsls.html#cb415-1" aria-hidden="true"></a><span class="co">#Première étape : régresser l&#39;explicative endogène sur les explicatives exogènes et les instruments externes</span></span>
-<span id="cb415-2"><a href="dsls.html#cb415-2" aria-hidden="true"></a>first_stage &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>educwages, education <span class="op">~</span><span class="st"> </span>union <span class="op">+</span><span class="st"> </span>meducation <span class="op">+</span><span class="st"> </span>feducation )</span>
-<span id="cb415-3"><a href="dsls.html#cb415-3" aria-hidden="true"></a><span class="kw">summary</span>(first_stage)</span></code></pre></div>
-<pre><code>## 
+<div id="implémentation-sous-r" class="section level2" number="8.5">
+<h2><span class="header-section-number">8.5</span> Implémentation sous <code>R</code></h2>
+<p>Il existe plusieurs paquets permettant l’estimation sur données de panel sous <code>R</code>. On utilisera ici le paquet <code>plm</code> (Panel Linear Models) qui se spécialise, comme son nom l’indique, sur l’estimation des modèles linéaires sur données de Panel.</p>
+<p>Commençons par importer des données</p>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="panel.html#cb421-1" aria-hidden="true"></a><span class="kw">library</span>(readr) <span class="co"># Pour importer des données</span></span>
+<span id="cb421-2"><a href="panel.html#cb421-2" aria-hidden="true"></a></span>
+<span id="cb421-3"><a href="panel.html#cb421-3" aria-hidden="true"></a>panel &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/ATerracol/P8Econ/master/data/panel101.csv&quot;</span>)</span></code></pre></div>
+<p>La base de données contient 400 observations, correspondant à 20 pays (variable country) observés sur 20 années (variable year) par pays. On y observe également les variables x1, x2 variables au cours du temps pour un pays donné ; et la variable x3 fixe au cours du temps pour un pays donné. La base contient également la variable y, qu’on va utiliser comme variable à expliquer, les x constituant les variables explicatives.</p>
+<p>Afin d’indiquer à <code>plm</code> quelles sont les variables permettant d’identifier les individus et les périodes, on va utilier la commande <code>pdata.frame</code> :</p>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="panel.html#cb422-1" aria-hidden="true"></a><span class="kw">library</span>(plm) <span class="co"># On commence par charger le paquet plm</span></span>
+<span id="cb422-2"><a href="panel.html#cb422-2" aria-hidden="true"></a></span>
+<span id="cb422-3"><a href="panel.html#cb422-3" aria-hidden="true"></a><span class="co"># On crée un nouveau data.frame à l&#39;aide de la commande pdata.frame, en indiquant les variables indiquant l&#39;identifiant d&#39;invididu et de période</span></span>
+<span id="cb422-4"><a href="panel.html#cb422-4" aria-hidden="true"></a>panelb &lt;-<span class="st"> </span><span class="kw">pdata.frame</span>(panel, <span class="dt">index=</span><span class="kw">c</span>(<span class="st">&quot;country&quot;</span>,<span class="st">&quot;year&quot;</span>)) </span></code></pre></div>
+<p>On peut ensuite estimer les modèles à effet fixess ou aléatoire en spécifiant l’option <code>model=</code> au sein de la command <code>plm</code></p>
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="panel.html#cb423-1" aria-hidden="true"></a>fixed &lt;-<span class="kw">plm</span>(<span class="dt">data=</span>panelb, y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3, <span class="dt">model=</span><span class="st">&quot;within&quot;</span>)</span>
+<span id="cb423-2"><a href="panel.html#cb423-2" aria-hidden="true"></a>random &lt;-<span class="kw">plm</span>(<span class="dt">data=</span>panelb, y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3, <span class="dt">model=</span><span class="st">&quot;random&quot;</span>)</span>
+<span id="cb423-3"><a href="panel.html#cb423-3" aria-hidden="true"></a><span class="co"># On les compare</span></span>
+<span id="cb423-4"><a href="panel.html#cb423-4" aria-hidden="true"></a><span class="kw">summary</span>(fixed)</span></code></pre></div>
+<pre><code>## Oneway (individual) effect Within Model
+## 
 ## Call:
-## lm(formula = education ~ union + meducation + feducation, data = educwages)
+## plm(formula = y ~ x1 + x2 + x3, data = panelb, model = &quot;within&quot;)
+## 
+## Balanced Panel: n = 20, T = 20, N = 400
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.3555 -0.7034  0.0306  0.7075  3.4211 
+##      Min.   1st Qu.    Median   3rd Qu.      Max. 
+## -3.276772 -0.643815  0.029442  0.628518  3.002143 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  3.43385    0.23202  14.800   &lt;2e-16 ***
-## unionYes    -0.08712    0.06544  -1.331    0.183    
-## meducation   0.48411    0.01254  38.603   &lt;2e-16 ***
-## feducation   0.48669    0.01262  38.577   &lt;2e-16 ***
+##    Estimate Std. Error t-value  Pr(&gt;|t|)    
+## x1 0.991473   0.102664  9.6575 &lt; 2.2e-16 ***
+## x2 0.970439   0.053748 18.0552 &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 1.034 on 996 degrees of freedom
-## Multiple R-squared:  0.7567, Adjusted R-squared:  0.756 
-## F-statistic:  1033 on 3 and 996 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="dsls.html#cb417-1" aria-hidden="true"></a><span class="co"># On calcule l&#39;endogène prédite, on l&#39;intègre à la base de donnée</span></span>
-<span id="cb417-2"><a href="dsls.html#cb417-2" aria-hidden="true"></a>educwages<span class="op">$</span>educ_chapeau &lt;-<span class="st"> </span>first_stage<span class="op">$</span>fitted.values</span>
-<span id="cb417-3"><a href="dsls.html#cb417-3" aria-hidden="true"></a><span class="co"># seconde étape : remplace education par education prédite dans le modèle principal</span></span>
-<span id="cb417-4"><a href="dsls.html#cb417-4" aria-hidden="true"></a>second_stage &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data=</span>educwages, wages <span class="op">~</span><span class="st"> </span>educ_chapeau <span class="op">+</span><span class="st"> </span>union)</span>
-<span id="cb417-5"><a href="dsls.html#cb417-5" aria-hidden="true"></a><span class="kw">summary</span>(second_stage)</span></code></pre></div>
-<pre><code>## 
+## Total Sum of Squares:    826.76
+## Residual Sum of Squares: 385.74
+## R-Squared:      0.53343
+## Adj. R-Squared: 0.50751
+## F-statistic: 216.083 on 2 and 378 DF, p-value: &lt; 2.22e-16</code></pre>
+<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="panel.html#cb425-1" aria-hidden="true"></a><span class="kw">summary</span>(random)</span></code></pre></div>
+<pre><code>## Oneway (individual) effect Random Effect Model 
+##    (Swamy-Arora&#39;s transformation)
+## 
 ## Call:
-## lm(formula = wages ~ educ_chapeau + union, data = educwages)
+## plm(formula = y ~ x1 + x2 + x3, data = panelb, model = &quot;random&quot;)
+## 
+## Balanced Panel: n = 20, T = 20, N = 400
+## 
+## Effects:
+##                 var std.dev share
+## idiosyncratic 1.020   1.010 0.325
+## individual    2.122   1.457 0.675
+## theta: 0.8468
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -5.6102 -1.2353 -0.0281  1.2688  6.7323 
+##      Min.   1st Qu.    Median   3rd Qu.      Max. 
+## -3.042938 -0.701596  0.033314  0.649309  3.512979 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)   30.5526     0.5323   57.40   &lt;2e-16 ***
-## educ_chapeau   0.9700     0.0327   29.66   &lt;2e-16 ***
-## unionYes       1.9302     0.1191   16.21   &lt;2e-16 ***
+##             Estimate Std. Error z-value Pr(&gt;|z|)    
+## (Intercept) 0.744259   0.339807  2.1902  0.02851 *  
+## x1          0.861133   0.098770  8.7186  &lt; 2e-16 ***
+## x2          0.977088   0.054659 17.8761  &lt; 2e-16 ***
+## x3          3.429725   1.720292  1.9937  0.04619 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 1.88 on 997 degrees of freedom
-## Multiple R-squared:  0.5237, Adjusted R-squared:  0.5228 
-## F-statistic: 548.1 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="dsls.html#cb419-1" aria-hidden="true"></a><span class="co"># On compare avec ivreg</span></span>
-<span id="cb419-2"><a href="dsls.html#cb419-2" aria-hidden="true"></a><span class="kw">summary</span>(modele_iv)</span></code></pre></div>
+## Total Sum of Squares:    851.65
+## Residual Sum of Squares: 418.66
+## R-Squared:      0.50841
+## Adj. R-Squared: 0.50468
+## Chisq: 409.544 on 3 DF, p-value: &lt; 2.22e-16</code></pre>
+<p>On constate que le modèle à effets fixes ne fournit pas de valeur <span class="math inline">\(\hat\beta\)</span> pour la variable <span class="math inline">\(x_3\)</span> (qui est fixe dans le temps), ni pour la constante (pour des raisons de normalisations, afin d’éviter la colinéarité parfaite avec les effets individuels). En revanche, comme expliqué dans les sections ci-dessus, le modèle à effets aléatoire permet d’estimer les paramètres de toutes les variables, y compris de celles qui sont fixes dans le temps.</p>
+<p>Si le modèle à effets aléatoires semble attrayant car il permet d’estimer les paramètres de toutes les variables, il reste toutefois dépendant de l’hypothèse d’indépendance entre les effets individuels <span class="math inline">\(\alpha_i\)</span> et les variables explicatives du modèle. Si cette hypothèse n’est pas vérifiée, alors les paramètres du modèle à effet aléatoire seront biaisés. Afin de tester cette hypothèse de non corrélation, et trancher entre un modèle à effets aléatoire et un modèle à effets fixes, on peut utiliser un test d’Hausmann, à l’aide de la commande <code>phtest</code> incluse dans le paquet <code>plm</code> :</p>
+<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="panel.html#cb427-1" aria-hidden="true"></a><span class="kw">phtest</span>(fixed,random)</span></code></pre></div>
 <pre><code>## 
-## Call:
-## ivreg(formula = wages ~ education + union | union + meducation + 
-##     feducation, data = educwages)
+##  Hausman Test
 ## 
-## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -3.686710 -0.698687 -0.004686  0.724659  3.413646 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 30.55263    0.28867  105.84   &lt;2e-16 ***
-## education    0.97005    0.01774   54.70   &lt;2e-16 ***
-## unionYes     1.93018    0.06457   29.89   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 1.02 on 997 degrees of freedom
-## Multiple R-Squared: 0.8599,  Adjusted R-squared: 0.8596 
-## Wald test:  1864 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>On constate que les coefficients estimés “à la main” sont identiques aux coefficients issus de <code>ivreg()</code>. Les écart-types sont par contre différents, tout comme les statistiques de tests, les p-values etc. L’inférence correcte doit se faire à partir des calculs fournis par <code>ivreg()</code></p>
+## data:  y ~ x1 + x2 + x3
+## chisq = 21.648, df = 2, p-value = 1.992e-05
+## alternative hypothesis: one model is inconsistent</code></pre>
+<p>La p-value nous indique que l’on rejette l’hypothèse nulle de non corréllation entre les effets individuels et les variables explicatives au seuil de 1 %. On en conclut donc que le modèle à effets aléatoire est biaisé et inadéquat dans notre situation, et on choisit de se baser sur les résultats du modèle à effets fixes.</p>
 
 </div>
 </div>
@@ -472,8 +379,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="hetero.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="panel.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="dsls.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
