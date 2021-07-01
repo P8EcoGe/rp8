@@ -1,0 +1,75 @@
+# Donées de panel {#panel}
+
+## Introduction
+
+Dans les chapitres précédents, les données étaient implicitement des données *en coupe*, c'est-à-dire que chaque observation correspondant à un individu statistiques *i* différent. Les modèles étaient du type $y_i=\beta_0+\beta_1 x_{1i}+\dots+\beta_K x_{Ki}+\epsilon_i$.
+
+Il arrive frequemment que nous disposions de *données de panel* où l'on observe un groupe d'individus (indicées par $i=1\dots n$) au travers de plusieurs périodes (indicées par $t=1\dots T$). Le modèle s'écrit alors $y_it=\beta_0+\beta_1x_{1it}+\dots+\beta_Kx_{Kit}+\alpha_i+\epsilon_{it}$ où $\alpha_i$ est un *effet individuel* propre à l'individu $i$, et supposé constant au travers des $T$ périodes d'observations, et où $\epsilon_{it}$ 
+
+Le terme d'erreur $\epsilon_{it}$ sera considéré comme un terme d'erreur statndard des MCO : il respecte l'hypothèse d'exogénéité stricte ; il est également non autocorrélé, et homoscédastique.
+La différence entre les divers estimateurs utilisables sur données de panel reposent sur les hypothèses que l'on fera sur l'effet individuel $\alpha_i$.
+
+Si on considère que l'effet individuel $\alpha_i$ est non corrélé aux variables explicatives $x_1\dots x_K$, alors on va implémenter un **modèle à effets aléatoires**
+Si par contre on pense que l'effet individuel $\alpha_i$ est potentiellement corrélé à au moins une variable explicative $x_k$, alors on va implémenter un **modèle à effets fixes**
+Le **Test d'Hausman** permet de trancher entre les deux modèles
+
+## Le modèle à effets fixes
+
+Dans le modèle à effets fixes, on considère que l'effet individuel $\alpha_i$ est potentiellement corrélé aux variables explicatives du modèle. Comme $\alpha_i$ est inobservé, on fait donc face à un bias de variable omises si on estime le modèles par MCO (ou MCG, voir la section sur le modèle à effets aléatoires). Comme $\alpha_i$ est supposé être constant au travers des $T$ observations de l'individu $i$, une solution serait d'inclure dans les variables explicatives $n$ variables indicatrices $I_i$, chacune valant 1 pour les $T$ observations de l'individu $i$, et 0 sinon. C'est l'estimateur dit "LSDV" (Least Squares Dummy Variables). En principe celà résoud le biais de variable omise, et donc permet d'estimer sans biais les coefficients des variables explicatuves d'intérêt. En pratique, néanmoins, l'estimateur LSDV imposerait d'inclure un très grand nombre de variables explicatives dans le modèle (une variable par individu), ce qui le rend difficilement implémentable.
+
+Une solution équivalente à l'estimateur LSDV est l'estimateur dit "within". Cet estimateur utilise un résultat dit "Théorème de Frish-Waugh-Lowell" (cf cours de L3). Ce théorème nous permet d'estimer le modèle à effets fixes sans avoir à introduire les variables indicatrices. L'estimateur within consiste à appliquer les MCO sur *données transformées* où chaque variable est prise en différence par rapport à sa moyenne individuelle. En posant $\tilde y_{it}=y_{it}-\bar y_i$ et $\tilde x_{kit}=x_{kit}-\bar x_{ki}$, l'estimateur within applique les MCO au modèle $\tilde y_{it} = \beta_O + \beta_1 \tilde x_{1it}+\dots+\beta_K\tilde x_{Kit}+\epsilon_{it}$.
+
+Le modèle à effet fixe permet l'estimation des $\hat\beta$ en présence d'un effet individuel corrélé aux variables explicatives. Son principal défaut est qu'il interdit l'estimation des paramètres associés aux variables explicatives fices dans le temps (car dans ce cas $\tilde x_{kit}=0$)
+
+## Le modèle à effets aléatoires
+
+Dans le modèle à effets aléatoires, on suppose que l'effet individuel $\alpha_i$ est non corrélé avec les variables explicatives du modèle. C'est une hypothèse forte qui, si elle n'est pas exacte, fera que nos $\hat\beta$ seront biaisés. Si cette hypothèse est exacte, il sera possible d'estimer sans biais les $\hat\beta$, y compris pour les variables fixes dans le temps (au contraire de l'estimateur witihn). On peut alors ré-écrire le modèle comme $y_it=\beta_0+\beta_1x_{1it}+\dots+\beta_Kx_{Kit}+\alpha+u_{i}+\epsilon_{it}$ où $u_i$ est un terme d'erreur individuel non corrélé aux variables explicatives, et également non corrélé à $\epsilon_it$. 
+Le modèle à effets aléatoire utilise l'estimateur des Moindres Carrés Quasi Généralisés, car la présence du terme $u_i$ induit une forme d'autocorrélation entre les observations d'un même individu. 
+
+## Le test d'Hausman
+
+Afin de déterminer si l'hypothèse sous-jacente du modèle à effets aléatoires (la non corrélation entre l'effet individuel et les variables explicative) est valide, on peut implémenter le test d'Hausman.
+Ce test se base sur l'idée que si l'hypothèse de non corrélation entre $\alpha_i$ et les $x_k$ est correcte, alos l'estimateur à effet fixe et l'estimateur à effet aléatoire devraient fournir des $\hat\beta$ semblables (is sont tous les deux sans biais sous $H0$, mais l'estimateur à effet aléatoire sera efficace). Par contre, si $H0$ est fausse, alors ils devraient donner des $\hat\beta$ différents car l'estimateur à effet aléatoire serait alors biaisé ; tandis que l'estimateur à effet fixe reste sans biais.
+La statistique du test d'Hausman se base donc sur une mesure de la différence entre les deux vecteurs de paramètres estimés.  
+
+## Implémentation sous `R`
+
+Il existe plusieurs paquets permettant l'estimation sur données de panel sous `R`. On utilisera ici le paquet `plm` (Panel Linear Models) qui se spécialise, comme son nom l'indique, sur l'estimation des modèles linéaires sur données de Panel.
+
+Commençons par importer des données 
+
+```{r message = FALSE}
+library(readr) # Pour importer des données
+
+panel <- read_csv("https://raw.githubusercontent.com/ATerracol/P8Econ/master/data/panel101.csv")
+```
+La base de données contient 400 observations, correspondant à 20 pays (variable country) observés sur 20 années (variable year) par pays. On y observe également les variables x1, x2 variables au cours du temps pour un pays donné ; et la variable x3 fixe au cours du temps pour un pays donné. La base contient également la variable y, qu'on va utiliser comme variable à expliquer, les x constituant les variables explicatives.
+
+Afin d'indiquer à `plm` quelles sont les variables permettant d'identifier les individus et les périodes, on va utilier la commande `pdata.frame` : 
+
+```{r message = FALSE}
+library(plm) # On commence par charger le paquet plm
+
+# On crée un nouveau data.frame à l'aide de la commande pdata.frame, en indiquant les variables indiquant l'identifiant d'invididu et de période
+panelb <- pdata.frame(panel, index=c("country","year")) 
+```
+
+On peut ensuite estimer les modèles à effet fixess ou aléatoire en spécifiant l'option `model=` au sein de la command `plm`
+
+```{r message = FALSE}
+fixed <-plm(data=panelb, y ~ x1 + x2 + x3, model="within")
+random <-plm(data=panelb, y ~ x1 + x2 + x3, model="random")
+# On les compare
+summary(fixed)
+summary(random)
+```
+
+On constate que le modèle à effets fixes ne fournit pas de valeur $\hat\beta$ pour la variable $x_3$ (qui est fixe dans le temps), ni pour la constante (pour des raisons de normalisations, afin d'éviter la colinéarité parfaite avec les effets individuels). En revanche, comme expliqué dans les sections ci-dessus, le modèle à effets aléatoire permet d'estimer les paramètres de toutes les variables, y compris de celles qui sont fixes dans le temps.
+
+Si le modèle à effets aléatoires semble attrayant car il permet d'estimer les paramètres de toutes les variables, il reste toutefois dépendant de l'hypothèse d'indépendance entre les effets individuels $\alpha_i$ et les variables explicatives du modèle. Si cette hypothèse n'est pas vérifiée, alors les paramètres du modèle à effet aléatoire seront biaisés. Afin de tester cette hypothèse de non corrélation, et trancher entre un modèle à effets aléatoire et un modèle à effets fixes, on peut utiliser un test d'Hausmann, à l'aide de la commande `phtest` incluse dans le paquet `plm` : 
+
+```{r message=FALSE}
+phtest(fixed,random)
+```
+
+La p-value nous indique que l'on rejette l'hypothèse nulle de non corréllation entre les effets individuels et les variables explicatives au seuil de 1 %. On en conclut donc que le modèle à effets aléatoire est biaisé et inadéquat dans notre situation, et on choisit de se baser sur les résultats du modèle à effets fixes. 
