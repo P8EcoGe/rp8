@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>7 Donées de panel | R à Paris 8</title>
-  <meta name="description" content="7 Donées de panel | R à Paris 8" />
+  <title>Préface | R à Paris 8</title>
+  <meta name="description" content="Préface | R à Paris 8" />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="7 Donées de panel | R à Paris 8" />
+  <meta property="og:title" content="Préface | R à Paris 8" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="7 Donées de panel | R à Paris 8" />
+  <meta name="twitter:title" content="Préface | R à Paris 8" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="dsls.html"/>
-
+<link rel="prev" href="index.html"/>
+<link rel="next" href="R-intro.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -132,11 +132,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Préface</a>
-<ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#à-propos"><i class="fa fa-check"></i>À propos</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#objectifs-et-utilisation"><i class="fa fa-check"></i>Objectifs et utilisation</a></li>
-</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>À propos</a></li>
+<li class="chapter" data-level="" data-path="préface.html"><a href="préface.html"><i class="fa fa-check"></i>Préface</a></li>
 <li class="chapter" data-level="1" data-path="R-intro.html"><a href="R-intro.html"><i class="fa fa-check"></i><b>1</b> Introduction à <code>R</code></a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="R-intro.html"><a href="R-intro.html#introduction"><i class="fa fa-check"></i><b>1.1</b> Introduction</a></li>
@@ -262,129 +259,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="panel" class="section level1" number="7">
-<h1><span class="header-section-number">7</span> Donées de panel</h1>
-<div id="introduction-3" class="section level2" number="7.1">
-<h2><span class="header-section-number">7.1</span> Introduction</h2>
-<p>Dans les chapitres précédents, les données étaient implicitement des données <em>en coupe</em>, c’est-à-dire que chaque observation correspondant à un individu statistiques <em>i</em> différent. Les modèles étaient du type <span class="math inline">\(y_i=\beta_0+\beta_1 x_{1i}+\dots+\beta_K x_{Ki}+\epsilon_i\)</span>.</p>
-<p>Il arrive frequemment que nous disposions de <em>données de panel</em> où l’on observe un groupe d’individus (indicées par <span class="math inline">\(i=1\dots n\)</span>) au travers de plusieurs périodes (indicées par <span class="math inline">\(t=1\dots T\)</span>). Le modèle s’écrit alors <span class="math inline">\(y_it=\beta_0+\beta_1x_{1it}+\dots+\beta_Kx_{Kit}+\alpha_i+\epsilon_{it}\)</span> où <span class="math inline">\(\alpha_i\)</span> est un <em>effet individuel</em> propre à l’individu <span class="math inline">\(i\)</span>, et supposé constant au travers des <span class="math inline">\(T\)</span> périodes d’observations, et où <span class="math inline">\(\epsilon_{it}\)</span></p>
-<p>Le terme d’erreur <span class="math inline">\(\epsilon_{it}\)</span> sera considéré comme un terme d’erreur statndard des MCO : il respecte l’hypothèse d’exogénéité stricte ; il est également non autocorrélé, et homoscédastique.
-La différence entre les divers estimateurs utilisables sur données de panel reposent sur les hypothèses que l’on fera sur l’effet individuel <span class="math inline">\(\alpha_i\)</span>.</p>
-<p>Si on considère que l’effet individuel <span class="math inline">\(\alpha_i\)</span> est non corrélé aux variables explicatives <span class="math inline">\(x_1\dots x_K\)</span>, alors on va implémenter un <strong>modèle à effets aléatoires</strong>
-Si par contre on pense que l’effet individuel <span class="math inline">\(\alpha_i\)</span> est potentiellement corrélé à au moins une variable explicative <span class="math inline">\(x_k\)</span>, alors on va implémenter un <strong>modèle à effets fixes</strong>
-Le <strong>Test d’Hausman</strong> permet de trancher entre les deux modèles</p>
-</div>
-<div id="le-modèle-à-effets-fixes" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Le modèle à effets fixes</h2>
-<p>Dans le modèle à effets fixes, on considère que l’effet individuel <span class="math inline">\(\alpha_i\)</span> est potentiellement corrélé aux variables explicatives du modèle. Comme <span class="math inline">\(\alpha_i\)</span> est inobservé, on fait donc face à un bias de variable omises si on estime le modèles par MCO (ou MCG, voir la section sur le modèle à effets aléatoires). Comme <span class="math inline">\(\alpha_i\)</span> est supposé être constant au travers des <span class="math inline">\(T\)</span> observations de l’individu <span class="math inline">\(i\)</span>, une solution serait d’inclure dans les variables explicatives <span class="math inline">\(n\)</span> variables indicatrices <span class="math inline">\(I_i\)</span>, chacune valant 1 pour les <span class="math inline">\(T\)</span> observations de l’individu <span class="math inline">\(i\)</span>, et 0 sinon. C’est l’estimateur dit “LSDV” (Least Squares Dummy Variables). En principe celà résoud le biais de variable omise, et donc permet d’estimer sans biais les coefficients des variables explicatuves d’intérêt. En pratique, néanmoins, l’estimateur LSDV imposerait d’inclure un très grand nombre de variables explicatives dans le modèle (une variable par individu), ce qui le rend difficilement implémentable.</p>
-<p>Une solution équivalente à l’estimateur LSDV est l’estimateur dit “within”. Cet estimateur utilise un résultat dit “Théorème de Frish-Waugh-Lowell” (cf cours de L3). Ce théorème nous permet d’estimer le modèle à effets fixes sans avoir à introduire les variables indicatrices. L’estimateur within consiste à appliquer les MCO sur <em>données transformées</em> où chaque variable est prise en différence par rapport à sa moyenne individuelle. En posant <span class="math inline">\(\tilde y_{it}=y_{it}-\bar y_i\)</span> et <span class="math inline">\(\tilde x_{kit}=x_{kit}-\bar x_{ki}\)</span>, l’estimateur within applique les MCO au modèle <span class="math inline">\(\tilde y_{it} = \beta_O + \beta_1 \tilde x_{1it}+\dots+\beta_K\tilde x_{Kit}+\epsilon_{it}\)</span>.</p>
-<p>Le modèle à effet fixe permet l’estimation des <span class="math inline">\(\hat\beta\)</span> en présence d’un effet individuel corrélé aux variables explicatives. Son principal défaut est qu’il interdit l’estimation des paramètres associés aux variables explicatives fices dans le temps (car dans ce cas <span class="math inline">\(\tilde x_{kit}=0\)</span>)</p>
-</div>
-<div id="le-modèle-à-effets-aléatoires" class="section level2" number="7.3">
-<h2><span class="header-section-number">7.3</span> Le modèle à effets aléatoires</h2>
-<p>Dans le modèle à effets aléatoires, on suppose que l’effet individuel <span class="math inline">\(\alpha_i\)</span> est non corrélé avec les variables explicatives du modèle. C’est une hypothèse forte qui, si elle n’est pas exacte, fera que nos <span class="math inline">\(\hat\beta\)</span> seront biaisés. Si cette hypothèse est exacte, il sera possible d’estimer sans biais les <span class="math inline">\(\hat\beta\)</span>, y compris pour les variables fixes dans le temps (au contraire de l’estimateur witihn). On peut alors ré-écrire le modèle comme <span class="math inline">\(y_it=\beta_0+\beta_1x_{1it}+\dots+\beta_Kx_{Kit}+\alpha+u_{i}+\epsilon_{it}\)</span> où <span class="math inline">\(u_i\)</span> est un terme d’erreur individuel non corrélé aux variables explicatives, et également non corrélé à <span class="math inline">\(\epsilon_it\)</span>.
-Le modèle à effets aléatoire utilise l’estimateur des Moindres Carrés Quasi Généralisés, car la présence du terme <span class="math inline">\(u_i\)</span> induit une forme d’autocorrélation entre les observations d’un même individu.</p>
-</div>
-<div id="le-test-dhausman" class="section level2" number="7.4">
-<h2><span class="header-section-number">7.4</span> Le test d’Hausman</h2>
-<p>Afin de déterminer si l’hypothèse sous-jacente du modèle à effets aléatoires (la non corrélation entre l’effet individuel et les variables explicative) est valide, on peut implémenter le test d’Hausman.
-Ce test se base sur l’idée que si l’hypothèse de non corrélation entre <span class="math inline">\(\alpha_i\)</span> et les <span class="math inline">\(x_k\)</span> est correcte, alos l’estimateur à effet fixe et l’estimateur à effet aléatoire devraient fournir des <span class="math inline">\(\hat\beta\)</span> semblables (is sont tous les deux sans biais sous <span class="math inline">\(H0\)</span>, mais l’estimateur à effet aléatoire sera efficace). Par contre, si <span class="math inline">\(H0\)</span> est fausse, alors ils devraient donner des <span class="math inline">\(\hat\beta\)</span> différents car l’estimateur à effet aléatoire serait alors biaisé ; tandis que l’estimateur à effet fixe reste sans biais.
-La statistique du test d’Hausman se base donc sur une mesure de la différence entre les deux vecteurs de paramètres estimés.</p>
-</div>
-<div id="implémentation-sous-r" class="section level2" number="7.5">
-<h2><span class="header-section-number">7.5</span> Implémentation sous <code>R</code></h2>
-<p>Il existe plusieurs paquets permettant l’estimation sur données de panel sous <code>R</code>. On utilisera ici le paquet <code>plm</code> (Panel Linear Models) qui se spécialise, comme son nom l’indique, sur l’estimation des modèles linéaires sur données de Panel.</p>
-<p>Commençons par importer des données</p>
-<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="panel.html#cb421-1" aria-hidden="true"></a><span class="kw">library</span>(readr) <span class="co"># Pour importer des données</span></span>
-<span id="cb421-2"><a href="panel.html#cb421-2" aria-hidden="true"></a></span>
-<span id="cb421-3"><a href="panel.html#cb421-3" aria-hidden="true"></a>panel &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/ATerracol/P8Econ/master/data/panel101.csv&quot;</span>)</span></code></pre></div>
-<p>La base de données contient 400 observations, correspondant à 20 pays (variable country) observés sur 20 années (variable year) par pays. On y observe également les variables x1, x2 variables au cours du temps pour un pays donné ; et la variable x3 fixe au cours du temps pour un pays donné. La base contient également la variable y, qu’on va utiliser comme variable à expliquer, les x constituant les variables explicatives.</p>
-<p>Afin d’indiquer à <code>plm</code> quelles sont les variables permettant d’identifier les individus et les périodes, on va utilier la commande <code>pdata.frame</code> :</p>
-<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="panel.html#cb422-1" aria-hidden="true"></a><span class="kw">library</span>(plm) <span class="co"># On commence par charger le paquet plm</span></span>
-<span id="cb422-2"><a href="panel.html#cb422-2" aria-hidden="true"></a></span>
-<span id="cb422-3"><a href="panel.html#cb422-3" aria-hidden="true"></a><span class="co"># On crée un nouveau data.frame à l&#39;aide de la commande pdata.frame, en indiquant les variables indiquant l&#39;identifiant d&#39;invididu et de période</span></span>
-<span id="cb422-4"><a href="panel.html#cb422-4" aria-hidden="true"></a>panelb &lt;-<span class="st"> </span><span class="kw">pdata.frame</span>(panel, <span class="dt">index=</span><span class="kw">c</span>(<span class="st">&quot;country&quot;</span>,<span class="st">&quot;year&quot;</span>)) </span></code></pre></div>
-<p>On peut ensuite estimer les modèles à effet fixess ou aléatoire en spécifiant l’option <code>model=</code> au sein de la command <code>plm</code></p>
-<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="panel.html#cb423-1" aria-hidden="true"></a>fixed &lt;-<span class="kw">plm</span>(<span class="dt">data=</span>panelb, y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3, <span class="dt">model=</span><span class="st">&quot;within&quot;</span>)</span>
-<span id="cb423-2"><a href="panel.html#cb423-2" aria-hidden="true"></a>random &lt;-<span class="kw">plm</span>(<span class="dt">data=</span>panelb, y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3, <span class="dt">model=</span><span class="st">&quot;random&quot;</span>)</span>
-<span id="cb423-3"><a href="panel.html#cb423-3" aria-hidden="true"></a><span class="co"># On les compare</span></span>
-<span id="cb423-4"><a href="panel.html#cb423-4" aria-hidden="true"></a><span class="kw">summary</span>(fixed)</span></code></pre></div>
-<pre><code>## Oneway (individual) effect Within Model
-## 
-## Call:
-## plm(formula = y ~ x1 + x2 + x3, data = panelb, model = &quot;within&quot;)
-## 
-## Balanced Panel: n = 20, T = 20, N = 400
-## 
-## Residuals:
-##      Min.   1st Qu.    Median   3rd Qu.      Max. 
-## -3.276772 -0.643815  0.029442  0.628518  3.002143 
-## 
-## Coefficients:
-##    Estimate Std. Error t-value  Pr(&gt;|t|)    
-## x1 0.991473   0.102664  9.6575 &lt; 2.2e-16 ***
-## x2 0.970439   0.053748 18.0552 &lt; 2.2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Total Sum of Squares:    826.76
-## Residual Sum of Squares: 385.74
-## R-Squared:      0.53343
-## Adj. R-Squared: 0.50751
-## F-statistic: 216.083 on 2 and 378 DF, p-value: &lt; 2.22e-16</code></pre>
-<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="panel.html#cb425-1" aria-hidden="true"></a><span class="kw">summary</span>(random)</span></code></pre></div>
-<pre><code>## Oneway (individual) effect Random Effect Model 
-##    (Swamy-Arora&#39;s transformation)
-## 
-## Call:
-## plm(formula = y ~ x1 + x2 + x3, data = panelb, model = &quot;random&quot;)
-## 
-## Balanced Panel: n = 20, T = 20, N = 400
-## 
-## Effects:
-##                 var std.dev share
-## idiosyncratic 1.020   1.010 0.325
-## individual    2.122   1.457 0.675
-## theta: 0.8468
-## 
-## Residuals:
-##      Min.   1st Qu.    Median   3rd Qu.      Max. 
-## -3.042938 -0.701596  0.033314  0.649309  3.512979 
-## 
-## Coefficients:
-##             Estimate Std. Error z-value Pr(&gt;|z|)    
-## (Intercept) 0.744259   0.339807  2.1902  0.02851 *  
-## x1          0.861133   0.098770  8.7186  &lt; 2e-16 ***
-## x2          0.977088   0.054659 17.8761  &lt; 2e-16 ***
-## x3          3.429725   1.720292  1.9937  0.04619 *  
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Total Sum of Squares:    851.65
-## Residual Sum of Squares: 418.66
-## R-Squared:      0.50841
-## Adj. R-Squared: 0.50468
-## Chisq: 409.544 on 3 DF, p-value: &lt; 2.22e-16</code></pre>
-<p>On constate que le modèle à effets fixes ne fournit pas de valeur <span class="math inline">\(\hat\beta\)</span> pour la variable <span class="math inline">\(x_3\)</span> (qui est fixe dans le temps), ni pour la constante (pour des raisons de normalisations, afin d’éviter la colinéarité parfaite avec les effets individuels). En revanche, comme expliqué dans les sections ci-dessus, le modèle à effets aléatoire permet d’estimer les paramètres de toutes les variables, y compris de celles qui sont fixes dans le temps.</p>
-<p>Si le modèle à effets aléatoires semble attrayant car il permet d’estimer les paramètres de toutes les variables, il reste toutefois dépendant de l’hypothèse d’indépendance entre les effets individuels <span class="math inline">\(\alpha_i\)</span> et les variables explicatives du modèle. Si cette hypothèse n’est pas vérifiée, alors les paramètres du modèle à effet aléatoire seront biaisés. Afin de tester cette hypothèse de non corrélation, et trancher entre un modèle à effets aléatoire et un modèle à effets fixes, on peut utiliser un test d’Hausmann, à l’aide de la commande <code>phtest</code> incluse dans le paquet <code>plm</code> :</p>
-<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="panel.html#cb427-1" aria-hidden="true"></a><span class="kw">phtest</span>(fixed,random)</span></code></pre></div>
-<pre><code>## 
-##  Hausman Test
-## 
-## data:  y ~ x1 + x2 + x3
-## chisq = 21.648, df = 2, p-value = 1.992e-05
-## alternative hypothesis: one model is inconsistent</code></pre>
-<p>La p-value nous indique que l’on rejette l’hypothèse nulle de non corréllation entre les effets individuels et les variables explicatives au seuil de 1 %. On en conclut donc que le modèle à effets aléatoire est biaisé et inadéquat dans notre situation, et on choisit de se baser sur les résultats du modèle à effets fixes.</p>
+<div id="préface" class="section level1 unnumbered" number="">
+<h1>Préface</h1>
+<p>Ce document est à destination des étudiants de L3, M1 et M2 en économie à l’Université Paris 8. Il a pour objectif de rassembler un ensemble de ressources vous permettant de maîtriser les éléments de base du laguage <code>R</code> utilisé dans vos enseignements de statistique et d’économétrie tout au long de la L3, du M1 et du M2 MBFA. Vos enseignants vous indiqueront les chapitres pertinents pour chaque matière concernée.
+Ce document n’a pas pour vocation de remplacer le cours théorique de statistique ou d’économétrie que votre enseignant dispense en cours. Il vise juste à rassembler des éléments permettant de les implémenter sous <code>R</code>.</p>
+<p>Vous pouvez naviguer entre les chapitres à partir de la table des matières à la gauche de la fenêtre de votre navigateur. Sur mobile la navigation peut se faire via les <span class="math inline">\(\equiv\)</span> en haut de votre écran.</p>
 
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="dsls.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="R-intro.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

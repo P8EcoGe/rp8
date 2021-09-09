@@ -1,7 +1,6 @@
 fig:logo
 fig:console
 fig:x-y-corr
-préface
 R-intro
 introduction
 démarrer-r-et-r-studio
