@@ -45,7 +45,7 @@ RStudio dispose d'un grand nombre de raccourcis clavier utiles. Une liste de ceu
 - Sous Windows ou linux: `Alt` + `Shift` + `K`
 - Sous Mac:  `Option` + `Shift` + `K`
 
-L'équipe de `R Studio` a développé [un certain nombre de "cheatsheets"] (https://www.rstudio.com/resources/cheatsheets/) pour travailler à la fois avec `R` et `R Studio`. Cette fiche particulière pour la base `R`] (http://www.rstudio.com/wp-content/uploads/2016/05/base-r.pdf) résume un grand nombre des concepts de ce document.
+L'équipe de `R Studio` a développé [un certain nombre de "cheatsheets"] (https://www.rstudio.com/resources/cheatsheets/) pour travailler à la fois avec `R` et `R Studio`. Cette fiche sur la base `R` (http://www.rstudio.com/wp-content/uploads/2016/05/base-r.pdf) résume un grand nombre des concepts de ce document.
 
 ### Un premier glossaire
 
